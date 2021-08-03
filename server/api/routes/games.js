@@ -21,4 +21,13 @@ router.get('/api/games/:gameId', async (req, res, next) => {
   }
 })
 
+router.post('/api/games/create', async (req, res, next) => {
+  try{
+    const newGame = Game.create(req.body);
+    res.send(newGame);
+  } catch (error) {
+    next(error);
+  }
+})
+
 module.exports = router;
