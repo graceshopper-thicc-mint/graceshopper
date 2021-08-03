@@ -15,7 +15,7 @@ class AllGames extends React.Component {
         {this.props.allGames.map((game) => (
           <div key={game.id}>
             <Link to={`games/${game.id}`}>
-              <p>{game.title}</p>
+              <p>{game.name}</p>
               <img src={game.imageUrl} />
             </Link>
             <small>{`$${game.price}`}</small>
@@ -28,8 +28,9 @@ class AllGames extends React.Component {
 
 //mapStateToProps
 const mapStateToProps = state => {
+  console.log('state: ', state);
   return {
-    allGames: state.games.games
+    allGames: state.games.allGames
   }
 }
 //mapDispatchToProps
