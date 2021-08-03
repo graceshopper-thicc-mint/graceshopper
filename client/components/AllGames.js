@@ -9,16 +9,21 @@ class AllGames extends React.Component {
   }
 
   render() {
-    console.log('At AllGames, this.props:', this.props);
     return (
       <div id="games-container">
         {this.props.allGames.map((game) => (
-          <div key={game.id}>
-            <Link to={`games/${game.id}`}>
-              <p>{game.name}</p>
+          <div key={game.id} className="game">
+            <Link to={`games/${game.id}`}>       
               <img src={game.imageUrl} />
+              <div className="section">
+                <p>{game.name}</p>
+                <p>{`$${game.price}`}</p>
+              </div>
             </Link>
-            <small>{`$${game.price}`}</small>
+            <button value={game.id}>
+              Add To Cart
+              <i class ="fas fa-cart-plus"></i>
+            </button>
           </div>
         ))}
       </div>
@@ -36,7 +41,7 @@ const mapStateToProps = state => {
 //mapDispatchToProps
 const mapDispatchToProps = dispatch => {
   return {
-    loadAllGames: () => { 
+    loadAllGames: () => {
       dispatch(fetchAllGames());
     }
   }

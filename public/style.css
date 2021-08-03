@@ -19,3 +19,27 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#games-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 20px;
+}
+
+.game img {
+  height: 200px;
+  width: 250px;
+}
+
+.section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between
+}
