@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 
 class AllGames extends React.Component {
   componentDidMount() {
-    //this.props.loadAllGames
+    this.props.loadAllGames()
   }
 
   render() {
