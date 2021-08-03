@@ -1,6 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
+import { fetchAllGames } from "../store/games"
 
 class AllGames extends React.Component {
   componentDidMount() {
@@ -8,6 +9,7 @@ class AllGames extends React.Component {
   }
 
   render() {
+    console.log('At AllGames, this.props:', this.props);
     return (
       <div id="games-container">
         {this.props.allGames.map((game) => (
@@ -25,15 +27,17 @@ class AllGames extends React.Component {
 }
 
 //mapStateToProps
-mapStateToProps = state => {
+const mapStateToProps = state => {
   return {
-    allGames:
+    allGames: state.games.games
   }
 }
 //mapDispatchToProps
-mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
-    loadAllGames: () =>
+    loadAllGames: () => { 
+      dispatch(fetchAllGames());
+    }
   }
 }
 
