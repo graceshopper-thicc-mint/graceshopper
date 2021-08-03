@@ -54,9 +54,9 @@ export const fetchSingleGame = (gameId) => {
 export default function(state = initialState, action) {
   switch (action.type) {
     case SET_ALL_GAMES:
-      return { ...state, games: action.games };
+      return { ...state, allGames: action.games };
     case SET_SINGLE_GAME:
-      return { ...state, game: action.game };
+      return { ...state, singleGame: action.game };
     default:
       return state;
   }
