@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const db = require("./database");
+const db = require("../db");
 
 const Game = db.define("game", {
   name: {
@@ -11,7 +11,10 @@ const Game = db.define("game", {
   },
   price: {
     type: Sequelize.FLOAT,
-    defaultValue: null,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    }
   },
   genre: {
     type: Sequelize.STRING,
@@ -26,7 +29,7 @@ const Game = db.define("game", {
     allowNull: false,
   },
   imageUrl: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     defaultValue: "https://bit.ly/2VqAWZp",
   },
   platform: {

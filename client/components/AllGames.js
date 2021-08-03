@@ -9,12 +9,13 @@ class AllGames extends React.Component {
   }
 
   render() {
+    console.log('At AllGames, this.props:', this.props);
     return (
       <div id="games-container">
         {this.props.allGames.map((game) => (
           <div key={game.id}>
             <Link to={`games/${game.id}`}>
-              <p>{game.title}</p>
+              <p>{game.name}</p>
               <img src={game.imageUrl} />
             </Link>
             <small>{`$${game.price}`}</small>
@@ -26,13 +27,14 @@ class AllGames extends React.Component {
 }
 
 //mapStateToProps
-mapStateToProps = state => {
+const mapStateToProps = state => {
+  console.log('state: ', state);
   return {
-    allGames: state.games.games
+    allGames: state.games.allGames
   }
 }
 //mapDispatchToProps
-mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     loadAllGames: () => { 
       dispatch(fetchAllGames());
