@@ -10,7 +10,7 @@ const Game = db.define("game", {
     },
   },
   price: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
     defaultValue: null,
   },
   genre: {
