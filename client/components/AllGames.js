@@ -9,6 +9,7 @@ class AllGames extends React.Component {
   }
 
   render() {
+    console.log('At AllGames, this.props:', this.props);
     return (
       <div id="games-container">
         {this.props.allGames.map((game) => (
@@ -26,13 +27,13 @@ class AllGames extends React.Component {
 }
 
 //mapStateToProps
-mapStateToProps = state => {
+const mapStateToProps = state => {
   return {
     allGames: state.games.games
   }
 }
 //mapDispatchToProps
-mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     loadAllGames: () => { 
       dispatch(fetchAllGames());
