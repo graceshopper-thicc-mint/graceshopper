@@ -14,6 +14,8 @@ class SingleGame extends React.Component {
     return (
       <div id="single-game">
         <h1>{game.name}</h1>
+        <p>Platforms: {game.platform}</p>
+        <p>Genre: {game.genre}</p>
         <p>Publisher: {game.publisher}</p>
         <p>Release Date: {game.releaseDate}</p>
         <p>ESRB Rating: {game.maturityRating}</p>
