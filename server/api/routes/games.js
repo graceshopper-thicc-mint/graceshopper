@@ -12,6 +12,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// GET /api/games/:gameId
 router.get('/:gameId', async (req, res, next) => {
   try {
     const game = await Game.findByPk(req.params.gameId);
@@ -21,6 +22,7 @@ router.get('/:gameId', async (req, res, next) => {
   }
 })
 
+// POST /api/games/create
 router.post('/create', async (req, res, next) => {
   try{
     const newGame = await Game.create(req.body);
