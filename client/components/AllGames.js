@@ -11,6 +11,8 @@ class AllGames extends React.Component {
 
 
   render() {
+    const { addToCart } = this.props;
+
     return (
       <div id="games-container">
         {this.props.allGames.map((game) => (
@@ -22,7 +24,7 @@ class AllGames extends React.Component {
                 <p>{`$${game.price}`}</p>
               </div>
             </Link>
-            <button value={game.id} onClick={() => this.props.addToCart()}>
+            <button value={game.id} onClick={() => addToCart()}>
               Add To Cart
               <i class ="fas fa-cart-plus"></i>
             </button>
@@ -46,7 +48,7 @@ const mapDispatchToProps = dispatch => {
     loadAllGames: () => {
       dispatch(fetchAllGames());
     },
-    addToCart: () => dispatch(addToCart),
+    addToCart: () => dispatch(addToCart()),
   }
 }
 

@@ -76,59 +76,70 @@ const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 const LOAD_CURRENT_ITEM = "LOAD_CURRENT_ITEM";
 
 // Action Creators
-const _addToCart = (item) => {
+const _addToCart = (game) => {
   return {
     type: ADD_TO_CART,
-    item
+    game
   };
 };
 
-const _adjustItemQty = (item, qty) => {
+const _adjustItemQty = (game, qty) => {
   return {
     type: ADJUST_ITEM_QTY,
-    item,
+    game,
     qty
   };
 };
 
-const _removeFromCart = (item) => {
+const _removeFromCart = (game) => {
   return {
     type: REMOVE_FROM_CART,
-    item
+    game
   };
 };
 
-const _loadCurrentItem = (item) => {
+const _loadCurrentItem = (game) => {
   return {
     type: LOAD_CURRENT_ITEM,
-    item
+    game
   };
 };
 
 // Thunks
-export const addToCart = (game) => {
+export const addToCart = (game, user) => { //params: game, user
   return async (dispatch) => {
-    dispatch(_addToCart(game));
+    //Get user's cart /api/users/:userId/cart
+
+    //Update the user's cart state with the new game
+    dispatch(_addToCart(gameToAdd));
   } 
-} 
+}
+
+export const adjustItemQty = (game, qty) => {
+  return async (dispatch) => {
+    dispatch(_adjustItemQty(game, qty));
+  }
+}
 
 
 const cartReducer = (state = initialState, action) => {
   switch(action.type) {
     case ADD_TO_CART: {
-      const itemIds = state.map((game) => {
+      const gameIds = state.map((game) => {
         return game.id;
       });
       
-      if(itemIds.indexOf(action.item.id)) {
-        action.item.itemQuantity++;
+      if(gameIds.indexOf(action.game.id) !== -1) {
+        action.game.itemQuantity++;
         return [ ...state ];
       } else {
-        return [ ...state, action.item ];
+        return [ ...state, action.game ];
       }      
     }
-    case ADJUST_ITEM_QTY:
-      return [];
+    case ADJUST_ITEM_QTY: {
+      action.game.itemQuantity - action.qty;
+      return [ ...state ];
+    }
     case REMOVE_FROM_CART:
       return [];
     case LOAD_CURRENT_ITEM:
