@@ -5,6 +5,7 @@ import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import {me} from './store'
 import AllGames from './components/AllGames';
+import SingleGame from "./components/SingleGame"
 /**
  * COMPONENT
  */
@@ -21,14 +22,16 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
-            <Route path="/games" component={AllGames} />
+            <Route exact path="/games" component={AllGames} />
+            <Route path="/games/:gameId" component={SingleGame} />
             <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
             {/* <Route path="/games" component={AllGames} /> */}
             <Route path='/' exact component={ Login } />
-            <Route path="/games" component={AllGames} />
+            <Route exact path="/games" component={AllGames} />
+            <Route path="/games/:gameId" component={SingleGame} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
           </Switch>
