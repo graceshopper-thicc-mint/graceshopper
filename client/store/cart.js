@@ -1,6 +1,7 @@
 
 const initialState =  [
   {
+    id: 1,
     name: "Totally Accurate Battlegrounds",
     price: 0,
     genre: "Indie",
@@ -8,9 +9,11 @@ const initialState =  [
     publisher: "Landfall",
     imageUrl: "https://cdn.akamai.steamstatic.com/steam/apps/823130/header.jpg?t=1620818743",
     description: "Battle Royal like you've never seen it before. Start the match skydiving face-first into a building and end the game by beating your opponents in a guns-blazing game of the floor is lava.",
-    releaseDate: '2018-06-05'
+    releaseDate: '2018-06-05',
+    itemQuantity: 1
   },
   {
+    id: 2,
     name: "Grounded",
     price: 29.99,
     genre: "Survival",
@@ -19,9 +22,11 @@ const initialState =  [
     imageUrl: "https://cdn.akamai.steamstatic.com/steam/apps/962130/header.jpg?t=1627580479",
     platform: "PC, Xbox",
     description: "The world is a vast, beautiful and dangerous place – especially when you have been shrunk to the size of an ant. Explore, build and survive together in this first person, multiplayer, survival-adventure. Can you thrive alongside the hordes of giant insects, fighting to survive the perils of the backyard?",
-    releaseDate: '2020-07-28'
+    releaseDate: '2020-07-28',
+    itemQuantity: 1
   },
   {
+    id: 3,
     name: "Hades",
     price: 24.99,
     genre: "Roguelike",
@@ -30,9 +35,38 @@ const initialState =  [
     imageUrl: "https://cdn.akamai.steamstatic.com/steam/apps/1145360/header.jpg?t=1624463563",
     platform: "PC, PS4, PS5, Xbox",
     description: "Hades is a god-like rogue-like dungeon crawler that combines the best aspects of Supergiant's critically acclaimed titles, including the fast-paced action of Bastion, the rich atmosphere and depth of Transistor, and the character-driven storytelling of Pyre.",
-    releaseDate: '2020-09-17'
+    releaseDate: '2020-09-17',
+    itemQuantity: 1
   },
-],
+]
+
+const gameToAdd = {
+    id: 4,
+    name: "The Outer Worlds",
+    price: 59.99,
+    genre: "Action, RPG",
+    maturityRating: "M",
+    publisher: "Private Division",
+    imageUrl: "https://cdn.akamai.steamstatic.com/steam/apps/578650/header.jpg?t=1616004214",
+    platform: "PS4, Xbox, Nintendo Switch, PC",
+    description: "Lost in transit while on a colonist ship bound for the furthest edge of the galaxy, you awake decades later only to find yourself in the midst of a deep conspiracy threatening to destroy the Halcyon colony. As you explore the furthest reaches of space and encounter various factions, all vying for power, the character you decide to become will determine how this player-driven story unfolds. In the corporate equation for the colony, you are the unplanned variable.",
+    releaseDate: '2020-10-23',
+    itemQuantity: 1
+}
+
+const gameThatExists = {
+    id: 2,
+    name: "Grounded",
+    price: 29.99,
+    genre: "Survival",
+    maturityRating: "E",
+    publisher: "Xbox Game Studios",
+    imageUrl: "https://cdn.akamai.steamstatic.com/steam/apps/962130/header.jpg?t=1627580479",
+    platform: "PC, Xbox",
+    description: "The world is a vast, beautiful and dangerous place – especially when you have been shrunk to the size of an ant. Explore, build and survive together in this first person, multiplayer, survival-adventure. Can you thrive alongside the hordes of giant insects, fighting to survive the perils of the backyard?",
+    releaseDate: '2020-07-28',
+    itemQuantity: 1
+}
 
 
 // Action Types
@@ -42,31 +76,29 @@ const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 const LOAD_CURRENT_ITEM = "LOAD_CURRENT_ITEM";
 
 // Action Creators
-const addToCart = (itemId) => {
+const _addToCart = (item) => {
   return {
     type: ADD_TO_CART,
-    itemId
+    item
   };
 };
 
-const adjustItemQty = (itemId, qty) => {
+const _adjustItemQty = (item, qty) => {
   return {
     type: ADJUST_ITEM_QTY,
-    payload: {
-      itemId,
-      qty
-    }
+    item,
+    qty
   };
 };
 
-const removeFromCart = (itemId) => {
+const _removeFromCart = (item) => {
   return {
     type: REMOVE_FROM_CART,
-    itemId
+    item
   };
 };
 
-const loadCurrentItem = (item) => {
+const _loadCurrentItem = (item) => {
   return {
     type: LOAD_CURRENT_ITEM,
     item
@@ -74,12 +106,27 @@ const loadCurrentItem = (item) => {
 };
 
 // Thunks
+export const addToCart = (game) => {
+  return async (dispatch) => {
+    dispatch(_addToCart(game));
+  } 
+} 
 
 
-const cartReducer = (state = initialState, action) {
-  switch(action) {
-    case ADD_TO_CART:
-      return [ ...state, action.itemId ];
+const cartReducer = (state = initialState, action) => {
+  switch(action.type) {
+    case ADD_TO_CART: {
+      const itemIds = state.map((game) => {
+        return game.id;
+      });
+      
+      if(itemIds.indexOf(action.item.id)) {
+        action.item.itemQuantity++;
+        return [ ...state ];
+      } else {
+        return [ ...state, action.item ];
+      }      
+    }
     case ADJUST_ITEM_QTY:
       return [];
     case REMOVE_FROM_CART:
