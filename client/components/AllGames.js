@@ -22,7 +22,7 @@ class AllGames extends React.Component {
             </Link>
             <button value={game.id}>
               Add To Cart
-              <i class ="fas fa-cart-plus"></i>
+              <i className="fas fa-cart-plus"></i>
             </button>
           </div>
         ))}
