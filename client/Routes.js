@@ -28,7 +28,7 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
-            {/* <Route path="/games" component={AllGames} /> */}
+            <Route path="/games" component={AllGames} />
             <Route path='/' exact component={ Login } />
             <Route exact path="/games" component={AllGames} />
             <Route path="/games/:gameId" component={SingleGame} />
