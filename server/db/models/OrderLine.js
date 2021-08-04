@@ -8,10 +8,7 @@ const OrderLine = db.define("orderLine", {
     validate: {
       min: 1,
     },
-  },
-  itemPrice: {
-    type: Sequelize.FLOAT,
-  },
+  }
 });
 
 module.exports = OrderLine;

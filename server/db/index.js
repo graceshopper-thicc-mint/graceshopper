@@ -8,15 +8,15 @@ const OrderLine = require("./models/OrderLine");
 const Cart = require("./models/Cart");
 
 //associations could go here!
-// OrderLine.hasOne(Game);
-// Game.belongsToMany(OrderLine, { through: "OrderLineGame" });
 //manytomany for cart to game, game to cart
-Game.belongsToMany(Cart, { through: "OrderLine" });
-Cart.belongsToMany(Game, { through: "OrderLine" });
+Game.belongsToMany(Cart, { through: OrderLine});
+Cart.belongsToMany(Game, { through: OrderLine});
+
 module.exports = {
   db,
   models: {
     User,
     Game,
+    Cart
   },
 };
