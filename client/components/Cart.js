@@ -9,38 +9,39 @@ const Cart = ({ cart }) => {
   const [totalGames, setTotalGames] = useState(0);
 
   useEffect(() => {
+    console.log(cart);
     let games = 0;
     let price = 0;
     cart.forEach((game) => {
-      games += game.qty;
-      price += game.qty * game.price;
+      games += game.itemQuantity;
+      price += game.itemQuantity * game.price;
     });
 
     setTotalGames(games);
     setTotalPrice(price);
   }, [cart, totalPrice, totalGames, setTotalPrice, setTotalGames]);
 
-  const setCart = (cart) => {
-    window.localStorage.setItem('cart', JSON.stringify(cart));
-  }
+  // const setCart = (cart) => {
+  //   window.localStorage.setItem('cart', JSON.stringify(cart));
+  // }
 
-  const getCart = (cart) => {
-    if(cart.length > 0) {
-      cart = JSON.parse(window.localStorage.getItem('cart'));
-    }
-  }
+  // const getCart = (cart) => {
+  //   if(cart.length > 0) {
+  //     //cart = JSON.parse(window.localStorage.getItem('cart'));
+  //   }
+  // }
 
   return (
     <div>
       <h3>Cart</h3>
       <div>
-        {getCart()}
+        {/* {getCart()} */}
         {cart.map((game) => {
           return (
             <CartSingleItem key={game.id} game={game} /> 
           );
         })}
-        {setCart(cart)}
+        {/* {setCart(cart)} */}
       </div>
       <div>
         <h4>Cart Summary</h4>

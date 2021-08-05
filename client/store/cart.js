@@ -80,6 +80,7 @@ const cartReducer = (state = [], action) => {
         action.game.itemQuantity++;
         return [ ...state ];
       } else {
+        action.game.itemQuantity = 1;
         return [ ...state, action.game ];
       }      
     }
