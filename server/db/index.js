@@ -4,6 +4,7 @@ const db = require("./db");
 
 const User = require("./models/User");
 const Game = require("./models/Game");
+const Cart = require("./models/Cart");
 const CartLine = require("./models/CartLine");
 const BillingInfo = require("./models/BillingInfo");
 const Invoice = require("./models/Invoice");
@@ -39,6 +40,7 @@ module.exports = {
   models: {
     User,
     Game,
+    Cart,
     CartLine,
     Invoice,
     InvoiceLine,
