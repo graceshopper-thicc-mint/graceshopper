@@ -11,7 +11,7 @@ const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
     setQty(event.target.value);
     adjustItemQty(game, event.target.value);
     // event.target.name //new value after increment
-    
+
   }
 
   return (
