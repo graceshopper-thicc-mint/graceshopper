@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
 
+// change name to metadata
 const BillingInfo = db.define("billinginfo", {
   phoneNumber: {
     type: Sequelize.STRING,
@@ -30,6 +31,6 @@ const BillingInfo = db.define("billinginfo", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-})
+});
 
 module.exports = BillingInfo;
