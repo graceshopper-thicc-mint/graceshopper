@@ -32,14 +32,14 @@ InvoiceLine.belongsTo(Game);
 BillingInfo.hasOne(Invoice);
 Invoice.belongsTo(BillingInfo);
 
-// Game.belongsToMany(Invoice, { through: InvoiceLine});
-// Invoice.belongsToMany(Game, { through: InvoiceLine});
 module.exports = {
   db,
   models: {
     User,
     Game,
     CartLine,
+    Invoice,
+    InvoiceLine,
     BillingInfo
   },
 };
