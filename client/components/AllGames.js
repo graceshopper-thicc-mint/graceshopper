@@ -26,7 +26,7 @@ class AllGames extends React.Component {
             </Link>
             <button value={game.id} onClick={() => addToCart()}>
               Add To Cart
-              <i class ="fas fa-cart-plus"></i>
+              <i className="fas fa-cart-plus"></i>
             </button>
           </div>
         ))}

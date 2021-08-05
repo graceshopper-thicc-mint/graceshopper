@@ -18,6 +18,9 @@ Cart.belongsToMany(Game, { through: CartLine});
 Invoice.hasOne(BillingInfo);
 BillingInfo.belongsTo(Invoice);
 
+Cart.hasMany(CartLine)
+CartLine.belongsTo(Cart)
+
 User.hasOne(Cart);
 Cart.belongsTo(User);
 
@@ -36,6 +39,7 @@ module.exports = {
     User,
     Game,
     Cart,
-    BillingInfo
+    BillingInfo,
+    CartLine
   },
 };
