@@ -15,7 +15,7 @@ const games = [
 
   {
     name: "Grounded",
-    price: 29.99,
+    price: 2999,
     genre: "Survival",
     maturityRating: "E",
     publisher: "Xbox Game Studios",
@@ -29,7 +29,7 @@ const games = [
 
   {
     name: "Hades",
-    price: 24.99,
+    price: 2499,
     genre: "Roguelike",
     maturityRating: "E",
     publisher: "Supergiant Games",
@@ -43,7 +43,7 @@ const games = [
 
   {
     name: "The Outer Worlds",
-    price: 59.99,
+    price: 5999,
     genre: "Action, RPG",
     maturityRating: "M",
     publisher: "Private Division",
@@ -57,7 +57,7 @@ const games = [
 
   {
     name: "It Takes Two",
-    price: 39.99,
+    price: 3999,
     genre: "Co-op, Adventure",
     maturityRating: "E",
     publisher: "Electronic Arts",
@@ -71,7 +71,7 @@ const games = [
 
   {
     name: "Spyro: Reignited Trilogy",
-    price: 33.49,
+    price: 3349,
     genre: "Adventure",
     maturityRating: "E",
     publisher: "Activision",
@@ -87,7 +87,7 @@ const games = [
     name: "Overcooked",
     description:
       "Overcooked is a chaotic couch co-op cooking game for one to four players. Working as a team, you and your fellow chefs must prepare, cook and serve up a variety of tasty orders before the baying customers storm out in a huff.",
-    price: 16.99,
+    price: 1699,
     imageUrl:
       "https://cdn.akamai.steamstatic.com/steam/apps/448510/capsule_616x353.jpg?t=1594197612",
     genre: "Indie, Action",
@@ -100,7 +100,7 @@ const games = [
     name: "Overcooked! 2",
     description:
       "Overcooked returns with a brand-new helping of chaotic cooking action! Journey back to the Onion Kingdom and assemble your team of chefs in classic couch co-op or online play for up to four players. Hold onto your aprons… it’s time to save the world again!",
-    price: 24.99,
+    price: 2499,
     imageUrl:
       "https://www.team17.com/wp-content/uploads/2020/08/Overcooked2-Desktop-Tile2.jpg",
     genre: "Indie, Action",
@@ -113,7 +113,7 @@ const games = [
     name: "Mario Kart 8 deluxe",
     description:
       "Hit the road with the definitive version of Mario Kart 8 and play anytime, anywhere! Race your friends or battle them in a revised battle mode on new and returning battle courses. Play locally in up to 4-player multiplayer in 1080p while playing in TV Mode. Every track from the Wii U version, including DLC, makes a glorious return. Plus, the Inklings appear as all-new guest characters, along with returning favorites, such as King Boo, Dry Bones, and Bowser Jr.!",
-    price: 48.99,
+    price: 4899,
     imageUrl:
       "https://images.nintendolife.com/802713810685c/mario-kart-8-deluxe-cover.cover_large.jpg",
     genre: "Sports, Racing",
@@ -126,7 +126,7 @@ const games = [
     name: "Animal Crossing: New Horizons",
     description:
       "Escape to a deserted island and create your own paradise as you explore, create, and customize in the Animal Crossing: New Horizons game. Your island getaway has a wealth of natural resources that can be used to craft everything from tools to creature comforts. You can hunt down insects at the crack of dawn, decorate your paradise throughout the day, or enjoy sunset on the beach while fishing in the ocean. The time of day and season match real life, so each day on your island is a chance to check in and find new surprises all year round.",
-    price: 59.99,
+    price: 5999,
     imageUrl:
       "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/5723/5723316_sd.jpg",
     genre: "Social simulation",
@@ -137,7 +137,7 @@ const games = [
 
   {
     name: "Back 4 Blood",
-    price: 59.99,
+    price: 5999,
     genre: "First-person shooter, Survival, horror",
     maturityRating: "M",
     publisher: "Turtle Rock Studios",
@@ -151,7 +151,7 @@ const games = [
 
   {
     name: "Enter the Gungeon",
-    price: 14.99,
+    price: 1499,
     genre: "Action, Adventure, Indie",
     maturityRating: "T",
     publisher: "Devolver Studios",
@@ -165,7 +165,7 @@ const games = [
 
   {
     name: "Guilty Gear Strive",
-    price: 59.99,
+    price: 5999,
     genre: "Action, Fighting",
     maturityRating: "T",
     publisher: "Arc System Works",
@@ -179,7 +179,7 @@ const games = [
 
   {
     name: "DeadCells",
-    price: 24.99,
+    price: 2499,
     genre: "Action, Indie",
     maturityRating: "T",
     publisher: "Motion Twin",
@@ -193,7 +193,7 @@ const games = [
 
   {
     name: "Okami",
-    price: 19.99,
+    price: 1999,
     genre: "Adventure",
     maturityRating: "T",
     publisher: "Capcom CO.",
@@ -207,7 +207,7 @@ const games = [
 
   {
     name: "Chernobylite",
-    price: 29.99,
+    price: 2999,
     genre:
       "RPG, Survival, Horror, Post-apocalyptic, Sci-fi, Action, Adventure, Indie, Simulation",
     maturityRating: "M",
@@ -222,7 +222,7 @@ const games = [
 
   {
     name: "Exodus Borealis",
-    price: 14.99,
+    price: 1499,
     genre: "Strategy, Building, Tower Defense, City Builder",
     maturityRating: "E",
     publisher: "Smug Marmot Studios",
@@ -236,7 +236,7 @@ const games = [
 
   {
     name: "Ratchet & Clank: Rift Apart",
-    price: 69.99,
+    price: 6999,
     genre: "Action",
     maturityRating: "E",
     publisher: "Sony Interactive Entertainment",
@@ -250,7 +250,7 @@ const games = [
 
   {
     name: "SCARLET NEXUS",
-    price: 59.99,
+    price: 5999,
     genre: "Action, Adventure‬, Role playing, Anime",
     maturityRating: "T",
     publisher: "BANDAI NAMCO Entertainment America Inc.‬",
@@ -264,7 +264,7 @@ const games = [
 
   {
     name: "Death's Door",
-    price: 19.99,
+    price: 1999,
     genre: "Action, Adventure‬, RPG, Action RPG, Indie",
     maturityRating: "E",
     publisher: "Devolver Digital‬",

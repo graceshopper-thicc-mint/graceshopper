@@ -11,7 +11,7 @@ const Game = db.define("game", {
     defaultValue: "TBA",
   },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
       notEmpty: true,
