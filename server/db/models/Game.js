@@ -10,7 +10,7 @@ const Game = db.define("game", {
     },
   },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
       notEmpty: true,
