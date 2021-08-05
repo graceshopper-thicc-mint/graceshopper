@@ -24,9 +24,9 @@ class AllGames extends React.Component {
                 <p>{`$${game.price}`}</p>
               </div>
             </Link>
-            <button value={game.id} onClick={() => addToCart()}>
+            <button value={game.id} onClick={() => addToCart(game)}>
               Add To Cart
-              <i class ="fas fa-cart-plus"></i>
+              <i className="fas fa-cart-plus"></i>
             </button>
           </div>
         ))}
@@ -48,7 +48,7 @@ const mapDispatchToProps = dispatch => {
     loadAllGames: () => {
       dispatch(fetchAllGames());
     },
-    addToCart: () => dispatch(addToCart()),
+    addToCart: (game) => dispatch(addToCart(game)),
   }
 }
 

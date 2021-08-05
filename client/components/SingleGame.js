@@ -23,7 +23,7 @@ class SingleGame extends React.Component {
         <p>{`$${game.price}`}</p>
         <button value={game.id}>
           Add To Cart
-          <i class ="fas fa-cart-plus"></i>
+          <i className="fas fa-cart-plus"></i>
         </button>
         <p>Overview:</p>
         <p>{game.description}</p>
