@@ -38,7 +38,7 @@ const Cart = ({ cart }) => {
         {/* {getCart()} */}
         {cart.map((game) => {
           return (
-            <CartSingleItem key={game.id} game={game} /> 
+            <CartSingleItem key={game.id} game={game} />
           );
         })}
         {/* {setCart(cart)} */}
@@ -47,6 +47,7 @@ const Cart = ({ cart }) => {
         <h4>Cart Summary</h4>
         <p>Total Games: {totalGames} games</p>
         <p>Total Price: $ {totalPrice}</p>
+        <button type="submit">Checkout</button>
       </div>
     </div>
   );
