@@ -53,6 +53,12 @@ export const adjustItemQty = (game, qty) => {
   }
 }
 
+export const removeFromCart = (game) => {
+  return async (dispatch) => {
+    dispatch(_removeFromCart(game));
+  }
+}
+
 /*
 if(Object.prototype.hasOwnProperty.call(window.localStorage, 'token')) {
         
@@ -60,7 +66,7 @@ if(Object.prototype.hasOwnProperty.call(window.localStorage, 'token')) {
 */
 export const saveCart = (user, cart) => {
   return async (dispatch) => {
-    await axios
+    //await axios
   }
 }
 
@@ -68,9 +74,7 @@ export const saveCart = (user, cart) => {
 const cartReducer = (state = [], action) => {
   switch(action.type) {
     case ADD_TO_CART: {
-      const gameIds = state.map((game) => {
-        return game.id;
-      });
+      const gameIds = state.map((game) => game.id);
       
       if(gameIds.indexOf(action.game.id) !== -1) {
         action.game.itemQuantity++;
@@ -84,7 +88,9 @@ const cartReducer = (state = [], action) => {
       return [ ...state ];
     }
     case REMOVE_FROM_CART:
-      return [];
+      return [ ...state, state.filter((game) => (
+        game.id !== action.game.id
+      ))];
     case SAVE_CART: {
       
 

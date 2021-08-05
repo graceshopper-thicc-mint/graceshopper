@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { adjustItemQty } from '../store/cart';
 
-const CartSingleItem = ({ game, adjustItemQty }) => {
+const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
   const [qty, setQty] = useState(game.itemQuantity);
 
   function handleChange(event) {
@@ -21,6 +21,7 @@ const CartSingleItem = ({ game, adjustItemQty }) => {
       <form>
         <input type="number" id="game-qty" name="game-qty" min="0" value={qty} onChange={handleChange} />
       </form>
+      <button onClick={() => removeFromCart(game)}><i className="fa fa-trash" aria-hidden="true"></i></button>
       <div>
         <img className="in-cart-game-img" src={game.imageUrl} />
       </div>
@@ -30,7 +31,8 @@ const CartSingleItem = ({ game, adjustItemQty }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    adjustItemQty: (game, qty) => dispatch(adjustItemQty(game, qty)), 
+    adjustItemQty: (game, qty) => dispatch(adjustItemQty(game, qty)),
+    removeFromCart: (game) => dispatch(removeFromCart(game)),
   }
 }
 
