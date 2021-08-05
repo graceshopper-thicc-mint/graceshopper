@@ -7,6 +7,7 @@ import {me} from './store'
 import AllGames from './components/AllGames';
 import Cart from './components/Cart';
 import SingleGame from "./components/SingleGame"
+import OrderConfirmation from "./components/OrderConfirmation"
 
 /**
  * COMPONENT
@@ -27,6 +28,7 @@ class Routes extends Component {
             <Route path="/cart" component={Cart}/>
             <Route exact path="/games" component={AllGames} />
             <Route path="/games/:gameId" component={SingleGame} />
+            <Route path="/users/:userId/confirmation" component={OrderConfirmation} />
             <Redirect to="/home" />
           </Switch>
         ) : (
