@@ -4,8 +4,11 @@ const {
   db,
   models: { User, Game },
 } = require("../server/db");
+const Invoice = require("../server/db/models/Invoice");
+const InvoiceLine = require("../server/db/models/InvoiceLine");
 const games = require("./games");
-
+const invoiceLines = require("./invoiceLines");
+const invoices = require("./invoices");
 /**
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
@@ -19,7 +22,7 @@ async function seed() {
     User.create({
       username: "cody",
       password: "123",
-      isAdmin: true,
+      isAdmin: false,
       email: "cody@gmail.com",
     }),
     User.create({
@@ -37,8 +40,44 @@ async function seed() {
     User.create({
       username: "michael",
       password: "123",
-      isAdmin: false,
+      isAdmin: true,
       email: "michaelorman61@gmail.com",
+    }),
+    User.create({
+      username: "haram",
+      password: "123",
+      isAdmin: true,
+      email: "harammchang@gmail.com",
+    }),
+    User.create({
+      username: "jason",
+      password: "123",
+      isAdmin: true,
+      email: "jt.nguyen14311@gmail.com",
+    }),
+    User.create({
+      username: "ben",
+      password: "123",
+      isAdmin: true,
+      email: "tweakss@gmail.com",
+    }),
+    User.create({
+      username: "sean",
+      password: "123",
+      isAdmin: false,
+      email: "sean@gmail.com",
+    }),
+    User.create({
+      username: "jeff",
+      password: "123",
+      isAdmin: false,
+      email: "jeff@gmail.com",
+    }),
+    User.create({
+      username: "lucy",
+      password: "123",
+      isAdmin: false,
+      email: "lucy@gmail.com",
     }),
   ]);
 
@@ -47,6 +86,18 @@ async function seed() {
       return Game.create(game);
     })
   );
+
+  const createdInvoices = await Promise.all(
+    invoices.map((invoice) => {
+      return Invoice.create(invoice);
+    })
+  )
+
+  const createInvoiceLines = await Promise.all(
+    invoiceLines.map((invoiceLine) => {
+      return InvoiceLine.create(invoiceLine);
+    })
+  )
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
