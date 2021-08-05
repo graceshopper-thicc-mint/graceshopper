@@ -7,7 +7,7 @@ const InvoiceLine = db.define("invoiceline", {
     defaultValue: 1,
     validate: {
       min: 1,
-    }, //add hook to remove if under 1    /   keeping unit price
+    }, // add hook to remove if under 1    /   keeping unit price
   },
 });
 

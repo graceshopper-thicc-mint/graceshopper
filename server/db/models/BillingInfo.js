@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
 
-//change name to metadata
+// change name to metadata
 const BillingInfo = db.define("billinginfo", {
   phoneNumber: {
     type: Sequelize.STRING,

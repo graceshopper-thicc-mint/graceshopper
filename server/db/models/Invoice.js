@@ -4,7 +4,7 @@ const db = require("../db");
 const Invoice = db.define("invoice", {
   confirmationNumber: {
     type: Sequelize.INTEGER,
-    //validate
+    // validate
   },
   datePurchased: {
     type: Sequelize.DATE,
