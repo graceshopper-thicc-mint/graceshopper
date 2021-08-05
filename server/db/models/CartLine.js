@@ -8,7 +8,7 @@ const CartLine = db.define("cartline", {
     validate: {
       min: 1,
     },
-  }
+  },
 });
 
 module.exports = CartLine;
