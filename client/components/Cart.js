@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CartSingleItem from './CartSingleItem';
 
-const Cart = ({ cart, adjustItemQty}) => {
+const Cart = ({ cart }) => {
   console.log("At Cart, this.props:");
 
   
@@ -25,10 +25,9 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    adjustItemQty: (game, qty) => dispatch(adjustItemQty(game, qty)),
-  }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connect(mapStateToProps, null)(Cart);

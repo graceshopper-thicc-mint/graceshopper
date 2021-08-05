@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { adjustItemQty } from '../store/cart';
 
-const CartSingleItem = ({ game }) => {
+const CartSingleItem = ({ game, adjustItemQty }) => {
   const [qty, setQty] = useState(game.itemQuantity);
 
   function handleChange(event) {
@@ -29,7 +29,9 @@ const CartSingleItem = ({ game }) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-
+  return {
+    adjustItemQty: (game, qty) => dispatch(adjustItemQty(game, qty)), 
+  }
 }
 
 export default connect(null, mapDispatchToProps)(CartSingleItem);
