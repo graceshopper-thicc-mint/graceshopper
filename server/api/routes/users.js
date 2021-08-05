@@ -25,14 +25,12 @@ router.get("/:userId/cart", async (req, res, next) => {
       where: {
         id: userId
       },
-      include: [
-        {
-          model: Cart,
-        }
-      ]
+      include: {
+        model: Cart,
+        include: { model: CartLine }
+      }
     })
-    console.log(user)
-    res.send(user)
+    res.send(user.cart.cartlines)
   } catch (error) {
     next(error)
   }

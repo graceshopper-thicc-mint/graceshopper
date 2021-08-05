@@ -39,6 +39,7 @@ module.exports = {
     User,
     Game,
     Cart,
-    BillingInfo
+    BillingInfo,
+    CartLine
   },
 };
