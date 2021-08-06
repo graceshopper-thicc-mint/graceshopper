@@ -8,25 +8,29 @@ const Game = db.define("game", {
     validate: {
       notEmpty: true,
     },
+    defaultValue: "TBA",
   },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
       notEmpty: true,
-    }
+    },
+    defaultValue: 0,
   },
   genre: {
     type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: "",
+    defaultValue: "PC",
   },
   maturityRating: {
     type: Sequelize.STRING,
+    defaultValue: "E",
   },
   publisher: {
     type: Sequelize.STRING,
     allowNull: false,
+    defaultValue: "TBA",
   },
   imageUrl: {
     type: Sequelize.TEXT,
@@ -35,18 +39,19 @@ const Game = db.define("game", {
   platform: {
     type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: "",
+    defaultValue: "TBA",
   },
   description: {
     type: Sequelize.TEXT,
     allowNull: false,
-    defaultValue: "",
+    defaultValue: "TBA",
   },
   releaseDate: {
     type: Sequelize.DATEONLY,
     validate: {
       isDate: true,
     },
+    defaultValue: Sequelize.NOW,
   },
 });
 

@@ -4,12 +4,10 @@ import { connect } from 'react-redux';
 import CartSingleItem from './CartSingleItem';
 
 const Cart = ({ cart }) => {
-  // console.log("At Cart, this.props:", cart);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
 
   useEffect(() => {
-    // console.log('useEffect, cart:', cart);
     let games = 0;
     let price = 0;
     cart.forEach((game) => {
@@ -35,6 +33,10 @@ const Cart = ({ cart }) => {
   //   }
   // }
 
+  // what happens when you click checkout
+  function handleClick (e) {
+
+  }
   return (
     <div>
       <h3>Cart</h3>
@@ -42,7 +44,7 @@ const Cart = ({ cart }) => {
         {/* {getCart()} */}
         {cart.map((game) => {
           return (
-            <CartSingleItem key={game.id} game={game} /> 
+            <CartSingleItem key={game.id} game={game} />
           );
         })}
         {/* {setCart(cart)} */}
@@ -51,6 +53,7 @@ const Cart = ({ cart }) => {
         <h4>Cart Summary</h4>
         <p>Total Games: {totalGames} games</p>
         <p>Total Price: $ {totalPrice}</p>
+        <button type="submit" onClick={handleClick} value={cart}>Checkout</button>
       </div>
     </div>
   );
