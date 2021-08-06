@@ -101,3 +101,22 @@ router.post("/:userId", async (req, res, next) => {
     next(error)
   }
 })
+
+// UPDATES INVOICE INSTANCE WITH DATEPURCHASED AND CONFIRMATIONNUMBER
+
+//PUT /api/users/:userId/:invoiceId
+router.put("/:userId/:invoiceId", async (req, res, next) => {
+  try {
+    const invoiceId = req.params.invoiceId;
+
+    const invoiceToUpdate = await Invoice.findOne({
+      where: {
+        id: invoiceId
+      }
+    })
+
+    res.send(await invoiceToUpdate.update(req.body));
+  } catch (error) {
+    next(error);
+  }
+})
