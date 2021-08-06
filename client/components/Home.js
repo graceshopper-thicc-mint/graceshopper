@@ -4,8 +4,7 @@ import {connect} from 'react-redux'
 /**
  * COMPONENT
  */
-export const Home = props => {
-  const {username} = props
+export const Home = ({username, fetchCart}) => {
 
   return (
     <div>
@@ -18,6 +17,7 @@ export const Home = props => {
  * CONTAINER
  */
 const mapState = state => {
+  console.log('at home state: ', state);
   return {
     username: state.auth.username
   }

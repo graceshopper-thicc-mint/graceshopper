@@ -35,7 +35,12 @@ const setSingleGame = (game) => {
 export const fetchAllGames = () => {
   return async (dispatch) => {
     const { data: games } = await axios.get('/api/games');
-    const action = setAllGames(games);
+    // Convert game price from cents to dollars
+    let editedGamesPrice = games.map((game) => {
+      game.price = game.price/100;
+      return game;
+    });
+    const action = setAllGames(editedGamesPrice);
     dispatch(action);
   }
 }

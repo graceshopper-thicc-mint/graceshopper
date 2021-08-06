@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { adjustItemQty, removeFromCart } from '../store/cart';
+import { localStorage } from '../store/cart';
 
 const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
   const [qty, setQty] = useState(game.itemQuantity);
@@ -14,9 +15,11 @@ const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
   return (
     <div key={game.id} className="in-cart-game">
       <p>{game.name}</p>
-      <p>{game.price}</p>
+      <p>$ {game.price}</p>
       <form>
-        <input type="number" id="game-qty" name="game-qty" min="0" value={qty} onChange={handleChange} />
+        <input type="number" id="game-qty" name="game-qty" min="0" value={
+          localStorage.getItem(game.id) ? localStorage.getItem(game.id) : qty
+        } onChange={handleChange} />
       </form>
       <button onClick={() => removeFromCart(game)}><i className="fa fa-trash" aria-hidden="true"></i></button>
       <div>

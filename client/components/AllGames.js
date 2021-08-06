@@ -2,20 +2,19 @@ import React from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import { fetchAllGames } from "../store/games"
-import { addToCart } from '../store/cart';
+import { addToCart, fetchCart } from '../store/cart';
 
 class AllGames extends React.Component {
   componentDidMount() {
     this.props.loadAllGames()
   }
 
-
   render() {
-    const { addToCart } = this.props;
+    const { addToCart, allGames } = this.props;
 
     return (
       <div id="games-container">
-        {this.props.allGames.map((game) => (
+        {allGames.map((game) => (
           <div key={game.id} className="game">
             <Link to={`games/${game.id}`}>       
               <img src={game.imageUrl} />
@@ -49,6 +48,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchAllGames());
     },
     addToCart: (game) => dispatch(addToCart(game)),
+    fetchToCart: () => dispatch(fetchToCart())
   }
 }
 

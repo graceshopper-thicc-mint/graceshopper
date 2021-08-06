@@ -2,12 +2,25 @@ import { getConfirmation } from 'history/DOMUtils';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import CartSingleItem from './CartSingleItem';
+import { fetchCart } from '../store/cart';
 
-const Cart = ({ cart }) => {
+const Cart = ({ cart, fetchCart }) => {
+  // this.state
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
 
+  // ComponentDidMount
   useEffect(() => {
+    fetchCart();
+  }, []);
+
+  // If you want to use ComponentDidUnmount, make an explicit
+  // return within useEffect with a non-empty array component
+  
+  // ComponentDidUpdate and this.setState
+  useEffect(() => {
+    console.log('cart before: ', cart);
+    console.log('cart after: ', cart);
     let games = 0;
     let price = 0;
     cart.forEach((game) => {
@@ -23,31 +36,20 @@ const Cart = ({ cart }) => {
     return Number(Math.round(value + 'e' + decimal) + 'e-' + decimal);
   }
 
-  // const setCart = (cart) => {
-  //   window.localStorage.setItem('cart', JSON.stringify(cart));
-  // }
-
-  // const getCart = (cart) => {
-  //   if(cart.length > 0) {
-  //     //cart = JSON.parse(window.localStorage.getItem('cart'));
-  //   }
-  // }
-
   // what happens when you click checkout
   function handleClick (e) {
 
   }
+
   return (
     <div>
       <h3>Cart</h3>
       <div>
-        {/* {getCart()} */}
         {cart.map((game) => {
           return (
             <CartSingleItem key={game.id} game={game} />
           );
         })}
-        {/* {setCart(cart)} */}
       </div>
       <div>
         <h4>Cart Summary</h4>
@@ -65,9 +67,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//   }
-// }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchCart: () => dispatch(fetchCart())
+  }
+}
 
-export default connect(mapStateToProps, null)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

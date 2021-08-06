@@ -1,8 +1,9 @@
 import axios from 'axios';
 import atob from 'atob';
 
+export const localStorage = window.localStorage;
 
-const parseJwt = (token) => {
+export const parseJwt = (token) => {
   try {
     return JSON.parse(atob(token.split('.')[1]));
   } catch (e) {
@@ -57,19 +58,21 @@ const _removeFromCart = (game) => {
 // Thunks
 export const addToCart = (game, user) => { //params: game, user
   return async (dispatch) => {
-    //Get user's cart /api/users/:userId/cart
-    const userId = (parseJwt(window.localStorage.token)).id;
-    console.log('addToCart, usedId:', userId);
+    //console.log('addToCart, usedId:', userId);
     //Update the user's cart state with the new game
     dispatch(_addToCart(game));
-    if(Object.prototype.hasOwnProperty.call(window.localStorage, 'token')) {
+    if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
+      const userId = (parseJwt(localStorage.token)).id;
+      let { data } = await axios.get(`/api/users/${userId}`);
+      console.log('invoiceId inside addtocart: ', data.id);
       await axios.post(`/api/users/${userId}/cart`, {
-        userId: userId,
         gameId: game.id,
-        itemQuantity: game.itemQuantity
+        itemQuantity: game.itemQuantity,
+        unitPrice: game.price*100,
+        invoiceId: data.id,
       });
     }
-    window.localStorage.setItem(game.id, game.itemQuantity);
+    localStorage.setItem(game.id, game.itemQuantity);
   } 
 }
 
@@ -77,37 +80,45 @@ export const adjustItemQty = (game, qty) => {
   return async (dispatch) => {
     //
     dispatch(_adjustItemQty(game, qty));
-    window.localStorage.setItem(game.id, qty);
+    localStorage.setItem(game.id, qty);
   }
 }
 
 export const removeFromCart = (game) => {
   return async (dispatch) => {
     dispatch(_removeFromCart(game));
+    localStorage.removeItem(game.id);
   }
 }
 
-export const fetchCart = (user) => {
+export const fetchCart = () => {
   return async (dispatch) => {
-    if(user) {
+    if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
       //Get the user's cart items
-      await axios.get('')
-    } else {
-      const localStorage = window.localStorage;
-      for(const key in localStorage) {
-        if(key.length === 1) {
-          const game = await axios.get(`/api/games/${key}`);
-          dispatch(_addToCart(game));
-        }
-      }
+      const userId = (parseJwt(localStorage.token)).id;
+      let cartItems = await axios.get(`/api/users/${userId}/cart`);
+      console.log(cartItems);
     }
-    
+    // If logged in, append guest cart to user's cart
+    // If not logged in, display guest cart
     /*
     1. Loop through window.localStorage
     2. In each iteration you would call the database using the gameId
     and get the game for that gameId...
     3. and Dispatch addToCart(game)
     */
+    
+    for(const key in localStorage) {
+      if(key.length === 1) {
+        const { data } = await axios.get(`/api/games/${key}`);
+        let game = data;
+        game.price = game.price/100;
+        dispatch(_addToCart(game));
+        //game.itemQuantity = localStorage.getItem(game.id);
+      }
+    }
+    
+    
   }
 }
 /*

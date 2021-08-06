@@ -45,7 +45,7 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
-    }
+    },
     //Put post games thunk here?
   }
 }
