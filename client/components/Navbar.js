@@ -5,14 +5,17 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>FS-App-Template</h1>
+    <h1>
+      T H I C C - M I N T
+      <img id="logo" src="thicc-mint.jpeg" />
+    </h1>
     <nav>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
           <Link to="/home">Home</Link>
           <Link to="/games">SHOP</Link>
-          <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i></Link>
+          <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i>(numberofitemshere - should get updated automatically)</Link>
           <a href="#" onClick={handleClick}>
             Logout
           </a>
@@ -26,7 +29,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i></Link>
         </div>
       )}
-      
+
     </nav>
     <hr />
   </div>
@@ -45,7 +48,7 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
-    }
+    },
     //Put post games thunk here?
   }
 }

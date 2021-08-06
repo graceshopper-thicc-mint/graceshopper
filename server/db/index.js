@@ -4,6 +4,7 @@ const db = require("./db");
 
 const User = require("./models/User");
 const Game = require("./models/Game");
+
 const BillingInfo = require("./models/BillingInfo");
 const Invoice = require("./models/Invoice");
 const InvoiceLine = require("./models/InvoiceLine");

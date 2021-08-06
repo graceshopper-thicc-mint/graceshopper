@@ -9,8 +9,8 @@ const InvoiceLine = db.define("invoiceline", {
       min: 1,
     }, // add hook to remove if under 1    /   keeping unit price
   },
-  unitPrice : {
-    type: Sequelize.INTEGER
+  unitPrice: {
+    type: Sequelize.INTEGER,
   }
 });
 

@@ -8,8 +8,7 @@ const Invoice = db.define("invoice", {
     // validate
   },
   datePurchased: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW,
+    type: Sequelize.DATEONLY,
   },
 });
 
