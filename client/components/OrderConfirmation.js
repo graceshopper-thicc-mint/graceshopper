@@ -5,6 +5,8 @@ const getRandomInt = (max) => {
 }
 
 const OrderConfirmation = () => {
+
+
   return(
     <div>
       <h1>THANKS FOR YOUR ORDER</h1>
