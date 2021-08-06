@@ -5,7 +5,10 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>FS-App-Template</h1>
+    <h1>
+      T H I C C - M I N T
+      <img id="logo" src="thicc-mint.jpeg" />
+    </h1>
     <nav>
       {isLoggedIn ? (
         <div>

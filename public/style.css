@@ -43,3 +43,7 @@ form div {
   flex-direction: row;
   justify-content: space-between
 }
+
+#logo {
+  height: 50px;
+}
