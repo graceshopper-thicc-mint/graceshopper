@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { adjustItemQty } from '../store/cart';
+import { adjustItemQty, removeFromCart } from '../store/cart';
 
 const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
   const [qty, setQty] = useState(game.itemQuantity);
 
   function handleChange(event) {
-    // console.log('handleChange, game:', game, ' event:', event);
-    //Adjust cart state's quantity
-    setQty(event.target.value);
-    adjustItemQty(game, event.target.value);
-    // event.target.name //new value after increment
-    
+    const itemQty = parseInt(event.target.value, 10);
+    setQty(itemQty);
+    adjustItemQty(game, itemQty);    
   }
 
   return (

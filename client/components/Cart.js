@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import CartSingleItem from './CartSingleItem';
 
 const Cart = ({ cart }) => {
-  console.log("At Cart, this.props:", cart);
+  // console.log("At Cart, this.props:", cart);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
 
   useEffect(() => {
-    console.log(cart);
+    // console.log('useEffect, cart:', cart);
     let games = 0;
     let price = 0;
     cart.forEach((game) => {
@@ -20,6 +20,10 @@ const Cart = ({ cart }) => {
     setTotalGames(games);
     setTotalPrice(price);
   }, [cart, totalPrice, totalGames, setTotalPrice, setTotalGames]);
+
+  const round = (value, decimal) => {
+    return Number(Math.round(value + 'e' + decimal) + 'e-' + decimal);
+  }
 
   // const setCart = (cart) => {
   //   window.localStorage.setItem('cart', JSON.stringify(cart));

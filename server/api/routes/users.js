@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { models: { User, CartLine }} = require('../../db')
+const { models: { User, CartLine, Game }} = require('../../db')
 module.exports = router
 
 // GET /api/users
@@ -21,15 +21,27 @@ router.get('/', async (req, res, next) => {
 router.get("/:userId/cart", async (req, res, next) => {
   try {
     const userId = req.params.userId
-    const user = await User.findOne({
+    const cartItems = await CartLine.findAll({
       where: {
-        id: userId
+        userId: userId
       },
       include: {
-        model: CartLine
+        model: Game
       }
-    })
-    res.send(user.cartlines)
+    });
+    res.send(cartItems);
+    // const user = await User.findOne({
+    //   where: {
+    //     id: userId
+    //   },
+    //   include: {
+    //     model: CartLine,
+    //     include: {
+    //       model: Game
+    //     }
+    //   }
+    // })
+    // res.send(user.cartlines)
   } catch (error) {
     next(error)
   }
