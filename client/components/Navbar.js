@@ -12,7 +12,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           {/* The navbar will show these links after you log in */}
           <Link to="/home">Home</Link>
           <Link to="/games">SHOP</Link>
-          <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i></Link>
+          <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i>(numberofitemshere - should get updated automatically)</Link>
           <a href="#" onClick={handleClick}>
             Logout
           </a>
@@ -26,7 +26,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i></Link>
         </div>
       )}
-      
+
     </nav>
     <hr />
   </div>
@@ -45,7 +45,7 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
-    }
+    },
     //Put post games thunk here?
   }
 }
