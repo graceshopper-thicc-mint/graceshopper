@@ -55,7 +55,6 @@ class AllGames extends React.Component {
 
 //mapStateToProps
 const mapStateToProps = state => {
-  console.log('state: ', state);
   return {
     allGames: state.games.allGames
   }
@@ -67,7 +66,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchAllGames());
     },
     addToCart: (game) => dispatch(addToCart(game)),
-    fetchToCart: () => dispatch(fetchToCart())
   }
 }
 

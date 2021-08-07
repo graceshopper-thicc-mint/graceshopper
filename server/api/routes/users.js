@@ -17,13 +17,25 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// Get /api/users/:userId
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId);
+    console.log('inside /api/users/:userId: ', user);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+})
+
 // GET /api/users/:userId/cart  ==> display what's in their cart.
 router.get("/:userId/cart", async (req, res, next) => {
   try {
     const userId = req.params.userId
     const invoice = await Invoice.findOne({
       where: {
-        userId
+        userId,
+        datePurchased: null
       },
       include: InvoiceLine
     })
@@ -36,8 +48,9 @@ router.get("/:userId/cart", async (req, res, next) => {
 // POST /api/users/:userId/cart ==> everytime they "add to cart"
 router.post("/:userId/cart", async (req, res, next) => {
   try {
-      // ASsociate the invoice with the invoiceline
+      // Associate the invoice with the invoiceline
     const response = await InvoiceLine.create(req.body)
+    console.log(response);
     res.status(201).send(response)
   } catch (error) {
     next(error)

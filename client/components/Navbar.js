@@ -2,8 +2,21 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import { localStorage } from '../store/cart'
 
-const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
+const Navbar = ({handleClick, isLoggedIn, isAdmin, cart}) =>  {
+
+  function countTotalGames() {
+    let count = 0;
+    for(const key in localStorage) {
+      if(key.length === 1) {
+        count += Number(localStorage[key]);
+      }
+    }
+    return Number(count);
+  }
+
+  return (
   <div>
     <div id="navbar">
       <div id="logo-stuff">
@@ -19,7 +32,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
             <Link to="/admin">Admin</Link>) : null
           }
           <Link to="/games">SHOP</Link>
-          <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i>(numberofitemshere - should get updated automatically)</Link>
+          <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i>({countTotalGames()})</Link>
           <a id="logout" href="#" onClick={handleClick}>
             Logout
           </a>
@@ -37,16 +50,16 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
     </div>
     <hr />
   </div>
-)
+)}
 
 /**
  * CONTAINER
  */
 const mapState = state => {
-  console.log('navbar state: ', state);
   return {
     isLoggedIn: !!state.auth.id,
-    isAdmin: !!state.auth.isAdmin
+    isAdmin: !!state.auth.isAdmin,
+    cart: state.cart
   }
 }
 

@@ -31,16 +31,12 @@ export const me = () => async dispatch => {
 
 export const authenticate = (username, password, method) => async dispatch => {
   try {
-    console.log('inside authenticate (method): ', method);
-    console.log('typeof method: ', typeof method);
-    console.log('compare method to signup: ', method === 'signup')
     const res = await axios.post(`/auth/${method}`, {username, password})
     // Create invoice for user upon login
     window.localStorage.setItem(TOKEN, res.data.token)
     if(method === 'signup') {
       let userId = (parseJwt(res.data.token)).id
-      console.log('userId: ', userId)
-      await axios.post(`/api/users/${userId}`, {
+      await axios.post(`/api/users/${userId}/invoice`, {
         userId: userId
       })
     }
