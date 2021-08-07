@@ -29,6 +29,7 @@ const Cart = ({ cart, fetchCart }) => {
     });
 
     setTotalGames(games);
+    price = price.toFixed(2); //price is now a string
     setTotalPrice(price);
   }, [cart, totalPrice, totalGames, setTotalPrice, setTotalGames]);
 
