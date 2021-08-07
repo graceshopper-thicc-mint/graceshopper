@@ -135,13 +135,14 @@ router.post("/:userId/invoice", async (req, res, next) => {
 //PUT /api/users/:userId/:invoiceId
 router.put("/:userId/:invoiceId", async (req, res, next) => {
   try {
-    const invoiceId = req.params.invoiceId;
-
     const invoiceToUpdate = await Invoice.findOne({
       where: {
-        id: invoiceId
+        userId: req.params.userId
       }
     })
+
+    console.log('inside put invoiceId: ', invoiceToUpdate);
+    console.log('req.body: ', req.body);
 
     res.send(await invoiceToUpdate.update(req.body));
   } catch (error) {

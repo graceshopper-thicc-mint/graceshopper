@@ -141,20 +141,21 @@ export const saveCart = (user, cart) => {
   }
 }
 
-/*
-export const updateCart = (userId, confirmationNumber, datePurchased) => {
+export const updateCartInvoice = (confirmationNumber, datePurchased) => {
   return async (dispatch) => {
     try {
-      const invoice = await axios.get(`/${userId}`)
-      const invoiceData = invoice.data
-      const invoiceId = invoiceData.id
-      await axios.put(`/${userId}/${invoiceId}`, confirmationNumber, datePurchased)
+      const userId = (parseJwt(localStorage.token)).id;
+      const { data: invoice } = await axios.get(`/api/users/${userId}`);
+
+      await axios.put(`/api/users/${userId}/${invoice.id}`, {
+        confirmationNumber: confirmationNumber,
+        datePurchased: datePurchased
+      })
     } catch (error) {
       console.log(error)
     }
   }
 }
-*/
 
 const cartReducer = (state = [], action) => {
   switch(action.type) {

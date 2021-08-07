@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import CartSingleItem from './CartSingleItem';
 import OrderConfirmation from "./OrderConfirmation"
-import { fetchCart } from '../store/cart';
+import { fetchCart, updateCartInvoice } from '../store/cart';
 
-const Cart = ({ cart, fetchCart, userId }) => {
+const Cart = ({ cart, fetchCart, userId, updateCartInvoice }) => {
   // this.state
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
@@ -47,10 +47,11 @@ const Cart = ({ cart, fetchCart, userId }) => {
   // create a new invoice for the user,
   // fetch that orderconfirmation number with the invoice id, I guess?
   // render out the orderconfirmation page
-  function handleCheckout (e) {
-    const cartItems = e.target.value
+  function handleCheckout() {
     const orderConfirmationNumber = Math.floor(Math.random() * 10000000)
     const datePurchased = Date.now()
+    updateCartInvoice(orderConfirmationNumber, datePurchased);
+    console.log('button clicked.');
   }
 
   return (
@@ -67,7 +68,7 @@ const Cart = ({ cart, fetchCart, userId }) => {
         <h4>Cart Summary</h4>
         <p>Total Games: {totalGames} games</p>
         <p>Total Price: $ {totalPrice}</p>
-        <button type="submit" onClick={handleCheckout} value={cart}>Checkout</button>
+        <button type="submit" onClick={() => handleCheckout()}>Checkout</button>
       </div>
     </div>
   );
@@ -82,7 +83,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCart: () => dispatch(fetchCart())
+    fetchCart: () => dispatch(fetchCart()),
+    updateCartInvoice: (orderConfirmationNumber, datePurchased) => dispatch(updateCartInvoice(orderConfirmationNumber, datePurchased)),
   }
 }
 
