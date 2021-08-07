@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Baloo+2&family=Permanent+Marker&family=Spectral:wght@200&display=swap');
+
 body {
-  font-family: sans-serif;
+  font-family: 'Baloo 2', cursive;
+  background-color: #0b0c10;
+  color: white;
 }
 
 a {
@@ -11,8 +15,8 @@ label {
 }
 
 nav a {
-  display: inline-block;
   margin: 1em;
+  color: white;
 }
 
 form div {
@@ -44,6 +48,29 @@ form div {
   justify-content: space-between
 }
 
+<<<<<<< HEAD
 #logo {
   height: 50px;
+=======
+#logo-title {
+  color: white;
+}
+
+#logo {
+  height: 50px;
+  background: transparent
+}
+
+#navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+>>>>>>> 8bb8740078612fa61b24ac00136490f465410162
 }

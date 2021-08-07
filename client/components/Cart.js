@@ -16,7 +16,7 @@ const Cart = ({ cart, fetchCart }) => {
 
   // If you want to use ComponentDidUnmount, make an explicit
   // return within useEffect with a non-empty array component
-  
+
   // ComponentDidUpdate and this.setState
   useEffect(() => {
     console.log('cart before: ', cart);
