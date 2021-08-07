@@ -67,7 +67,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchAllGames());
     },
     addToCart: (game) => dispatch(addToCart(game)),
-    fetchToCart: () => dispatch(fetchToCart())
   }
 }
 
