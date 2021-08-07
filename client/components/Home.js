@@ -17,7 +17,6 @@ export const Home = ({username, fetchCart}) => {
  * CONTAINER
  */
 const mapState = state => {
-  console.log('at home state: ', state);
   return {
     username: state.auth.username
   }

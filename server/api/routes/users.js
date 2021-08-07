@@ -2,6 +2,8 @@ const router = require('express').Router()
 const { models: { User, Invoice, InvoiceLine }} = require('../../db')
 module.exports = router
 
+
+// GET ALL USERS
 // GET /api/users
 router.get('/', async (req, res, next) => {
   try {
@@ -17,13 +19,26 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// GET /api/users/:userId/cart  ==> display what's in their cart.
+// GET USER BY USER ID
+// GET /api/users/:userId
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+})
+
+// GET ALL ITEMS IN A USER'S CART (NOT PURCHASED!)
+// GET /api/users/:userId/cart
 router.get("/:userId/cart", async (req, res, next) => {
   try {
     const userId = req.params.userId
     const invoice = await Invoice.findOne({
       where: {
-        userId
+        userId,
+        datePurchased: null
       },
       include: InvoiceLine
     })
@@ -33,10 +48,10 @@ router.get("/:userId/cart", async (req, res, next) => {
   }
 })
 
-// POST /api/users/:userId/cart ==> everytime they "add to cart"
+// ADD A NEW INVOICELINE INSTANCE FOR A USER WHEN "ADDED TO CART"
+// POST /api/users/:userId/cart
 router.post("/:userId/cart", async (req, res, next) => {
   try {
-      // ASsociate the invoice with the invoiceline
     const response = await InvoiceLine.create(req.body)
     res.status(201).send(response)
   } catch (error) {
@@ -44,7 +59,8 @@ router.post("/:userId/cart", async (req, res, next) => {
   }
 })
 
-// PUT /api/users/:userId/cart ==> if they want to edit their cart
+// EDIT A SPECIFIC USER'S CART
+// PUT /api/users/:userId/cart
 router.put("/:userId/cart/:gameId", async (req, res, next) => {
   try {
     const userId = req.params.userId
@@ -66,7 +82,8 @@ router.put("/:userId/cart/:gameId", async (req, res, next) => {
   }
 })
 
-// DELETE /api/users/:userId/cart/:gameId ==> , or if they click remove in their cart.
+// DELETE A GAME/INVOICELINE FOR A SPECIFIC USER
+// DELETE /api/users/:userId/cart/:gameId
 router.delete("/:userId/cart/:gameId", async (req, res, next) => {
   try {
     const gameId = req.params.gameId
@@ -90,25 +107,25 @@ router.delete("/:userId/cart/:gameId", async (req, res, next) => {
   }
 })
 
-// CREATING A NEW INVOICE FOR A LOGGED IN CUSTOMER AS SOON AS THEY CHECKOUT SO THAT THEY WILL ALWAYS HAVE A CART, OR RIGHT AFTER THEY SIGN UP, WHEN GUESTS CHECK OUT.
-
-// GET /api/users/:userId
-router.get("/:userId", async (req, res, next) => {
+// GET A USER'S INVOICE(S)
+// GET /api/users/:userId/invoice
+router.get("/:userId/invoice", async (req, res, next) => {
   try {
     const response = await Invoice.findOne({
       where: {
         userId: req.params.userId,
+        datePurchased: null
       }
     })
-    console.log('invoiceId: ', response)
     res.send(response);
   } catch (error) {
     next(error)
   }
 })
 
-// POST /api/users/:userId
-router.post("/:userId", async (req, res, next) => {
+// CREATING A NEW INVOICE FOR A LOGGED IN CUSTOMER AS SOON AS THEY CHECKOUT SO THAT THEY WILL ALWAYS HAVE A CART, OR RIGHT AFTER THEY SIGN UP, WHEN GUESTS CHECK OUT.
+// POST /api/users/:userId/invoice
+router.post("/:userId/invoice", async (req, res, next) => {
   try {
     const response = await Invoice.create(req.body)
     res.status(201).send(response)
@@ -122,16 +139,17 @@ router.post("/:userId", async (req, res, next) => {
 //PUT /api/users/:userId/:invoiceId
 router.put("/:userId/:invoiceId", async (req, res, next) => {
   try {
-    const invoiceId = req.params.invoiceId;
-
     const invoiceToUpdate = await Invoice.findOne({
       where: {
-        id: invoiceId
+        userId: req.params.userId,
+        datePurchased: null
       }
     })
-
     res.send(await invoiceToUpdate.update(req.body));
   } catch (error) {
     next(error);
   }
 })
+
+
+// GET USER'S PURCHASES
