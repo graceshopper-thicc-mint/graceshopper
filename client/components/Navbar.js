@@ -17,7 +17,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/home">Home</Link>
           <Link to="/games">SHOP</Link>
           <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i>(numberofitemshere - should get updated automatically)</Link>
-          <a href="#" onClick={handleClick}>
+          <a id="logout" href="#" onClick={handleClick}>
             Logout
           </a>
         </div>
