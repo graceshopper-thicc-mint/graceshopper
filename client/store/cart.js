@@ -19,10 +19,10 @@ const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 const SAVE_CART = "SAVE_CART";
 
 // Action Creators
-const _fetchCart = (user) => {
+const _fetchCart = (game) => {
   return {
     type: FETCH_CART,
-    user
+    game
   }
 }
 
@@ -96,8 +96,14 @@ export const fetchCart = () => {
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
       //Get the user's cart items
       const userId = (parseJwt(localStorage.token)).id;
-      let cartItems = await axios.get(`/api/users/${userId}/cart`);
-      console.log(cartItems);
+      let { data: cartItems } = await axios.get(`/api/users/${userId}/cart`);
+      console.log('fetchCart, cartItems:', cartItems, ' userId:', userId);
+      cartItems.forEach( async (game) => {
+        const fetchedGame = await axios.get(`/api/games/${game.gameId}`);
+        dispatch(_fetchCart(fetchedGame));
+      })
+      
+      
     }
     // If logged in, append guest cart to user's cart
     // If not logged in, display guest cart
@@ -113,10 +119,24 @@ export const fetchCart = () => {
         const { data } = await axios.get(`/api/games/${key}`);
         let game = data;
         game.price = game.price/100;
-        dispatch(_addToCart(game));
+        console.log('At localStorage, game:', game);
+        
+        // dispatch(_addToCart(game));
         //game.itemQuantity = localStorage.getItem(game.id);
       }
     }
+    
+    
+    
+    // for(const key in localStorage) {
+    //   if(key.length === 1) {
+    //     const { data } = await axios.get(`/api/games/${key}`);
+    //     let game = data;
+    //     game.price = game.price/100;
+    //     dispatch(_addToCart(game));
+    //     //game.itemQuantity = localStorage.getItem(game.id);
+    //   }
+    // }
     
     
   }
@@ -156,6 +176,9 @@ const cartReducer = (state = [], action) => {
       });
 
       return [ ...filteredGames ];
+    }
+    case FETCH_CART: {
+      return [ ...state, action.game ];
     }
     case SAVE_CART: {
       

@@ -19,14 +19,24 @@ const Cart = ({ cart, fetchCart }) => {
   
   // ComponentDidUpdate and this.setState
   useEffect(() => {
-    console.log('cart before: ', cart);
-    console.log('cart after: ', cart);
+    // console.log('cart before: ', cart);
+    // console.log('cart after: ', cart);
     let games = 0;
     let price = 0;
     cart.forEach((game) => {
       games += game.itemQuantity;
       price += game.itemQuantity * game.price;
     });
+
+    // for(let key in localStorage) {
+    //   if(key !== 'token') {
+    //     games += localStorage[key];
+    //   }
+    // }
+
+    // cart.forEach((game) => {
+    //   return price += game.      
+    // })
 
     setTotalGames(games);
     price = price.toFixed(2); //price is now a string
