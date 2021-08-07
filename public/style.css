@@ -1,5 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Baloo+2&family=Permanent+Marker&family=Spectral:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@200&display=swap');
+
+
 body {
-  font-family: sans-serif;
+  font-family: 'Baloo 2', cursive;
+  background-color: #0b0c10;
+  color: white;
 }
 
 a {
@@ -11,8 +17,8 @@ label {
 }
 
 nav a {
-  display: inline-block;
   margin: 1em;
+  color: white;
 }
 
 form div {
@@ -22,15 +28,33 @@ form div {
 
 #games-container {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+.game-background {
+  background: rgba( 102, 252, 241, 0.8 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 14.0px );
+  -webkit-backdrop-filter: blur( 14.0px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  padding: 10px;
+}
+
+.game-background-white {
+  background:#7f96f1;
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 14.0px );
+  -webkit-backdrop-filter: blur( 14.0px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  margin: 15px 20px;
 }
 
 .game {
   display: flex;
-  flex-direction: column;
-  margin: 15px 20px;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .game img {
@@ -40,10 +64,57 @@ form div {
 
 .section {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between
+  flex-direction: column;
+  font-family: 'Work Sans', sans-serif;
 }
 
 #logo {
   height: 50px;
+  background: transparent
+}
+
+#navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-size: 15px;
+}
+
+#logout {
+  color: #66fcf1
+}
+
+.section p {
+  color: #1f2833;
+}
+
+#logo-stuff {
+  font-size: 20px;
+}
+
+hr {
+  opacity: 70%
+}
+
+.add-to-cart-button {
+  background-color: #c5c6c7;
+  color: #1f2833;
+  border: none;
+  width: 300px;
+  border-radius: 5px;
+}
+
+.add-to-cart-section p {
+  color: #1f2833
+}
+
+#game-name {
+  font-size: 20px;
 }
