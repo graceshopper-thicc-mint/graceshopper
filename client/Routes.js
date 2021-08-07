@@ -8,6 +8,7 @@ import AllGames from './components/AllGames';
 import Cart from './components/Cart';
 import SingleGame from "./components/SingleGame"
 import OrderConfirmation from "./components/OrderConfirmation"
+import Admin from "./components/Admin";
 
 /**
  * COMPONENT
@@ -26,13 +27,13 @@ class Routes extends Component {
           <Switch>
             <Route path="/home" component={Home} />
             {isAdmin ? (
-              <Route path="/admin" component={Admin} /> ) : null
+              <Route exact path="/admin" component={Admin} /> ) : null
             }
             <Route path="/cart" component={Cart}/>
             <Route exact path="/games" component={AllGames} />
             <Route path="/games/:gameId" component={SingleGame} />
             <Route path="/users/:userId/confirmation" component={OrderConfirmation} />
-            <Redirect to="/home" />
+            {/* <Redirect to="/home" /> */}
           </Switch>
         ) : (
           <Switch>
