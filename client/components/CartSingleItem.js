@@ -17,7 +17,7 @@ const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
       <p>{game.name}</p>
       <p>$ {game.price}</p>
       <form>
-        <input type="number" id="game-qty" name="game-qty" min="0" value={
+        <input type="number" id="game-qty" name="game-qty" min="1" value={
           localStorage.getItem(game.id) ? localStorage.getItem(game.id) : qty
         } onChange={handleChange} />
       </form>
