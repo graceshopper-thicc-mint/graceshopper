@@ -89,7 +89,6 @@ export const fetchCart = () => {
 
       //Get the user's cart items
       const userId = (parseJwt(localStorage.token)).id;
-<<<<<<< HEAD
       let { data: cartItems } = await axios.get(`/api/users/${userId}/cart`);
       console.log('fetchCart, cartItems:', cartItems, ' userId:', userId);
       cartItems.forEach( async (game) => {
@@ -98,9 +97,6 @@ export const fetchCart = () => {
       })
       
       
-=======
-      let cartItems = await axios.get(`/api/users/${userId}/cart`)
->>>>>>> 145701343925970035240994a30898bb13b55696
     }
     // If logged in, append guest cart to user's cart
     // If not logged in, display guest cart
@@ -116,7 +112,6 @@ export const fetchCart = () => {
         const { data } = await axios.get(`/api/games/${key}`);
         let game = data;
         game.price = game.price/100;
-<<<<<<< HEAD
         console.log('At localStorage, game:', game);
         
         // dispatch(_addToCart(game));
@@ -137,11 +132,6 @@ export const fetchCart = () => {
     // }
     
     
-=======
-        dispatch(_addToCart(game));
-      }
-    }
->>>>>>> 145701343925970035240994a30898bb13b55696
   }
 }
 
@@ -198,7 +188,6 @@ const cartReducer = (state = [], action) => {
       });
       return [ ...filteredGames ];
     }
-<<<<<<< HEAD
     case FETCH_CART: {
       return [ ...state, action.game ];
     }
@@ -207,8 +196,6 @@ const cartReducer = (state = [], action) => {
 
       return [ ...state ];
     }
-=======
->>>>>>> 145701343925970035240994a30898bb13b55696
     default:
       return state;
   }

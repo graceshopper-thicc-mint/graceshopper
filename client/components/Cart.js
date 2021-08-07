@@ -21,13 +21,8 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart }) => {
 
   // ComponentDidUpdate and this.setState
   useEffect(() => {
-<<<<<<< HEAD
     // console.log('cart before: ', cart);
     // console.log('cart after: ', cart);
-=======
-    //console.log('cart before: ', cart);
-    //console.log('cart after: ', cart);
->>>>>>> 145701343925970035240994a30898bb13b55696
     let games = 0;
     let price = 0;
     cart.forEach((game) => {
