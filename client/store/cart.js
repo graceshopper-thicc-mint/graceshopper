@@ -47,11 +47,20 @@ const _removeFromCart = (game) => {
     game
   };
 };
+/*
+const _updateCart = (userId, confirmationNumber, datePurchased) => {
+  return {
+    type: UPDATE_CART,
+    userId,
+    confirmationNumber,
+    datePurchased
+  }
+}*/
 
 // const _saveCart = () => {
 //   return {
 //     type: SAVE_CART,
-    
+
 //   };
 // };
 
@@ -73,7 +82,7 @@ export const addToCart = (game, user) => { //params: game, user
       });
     }
     localStorage.setItem(game.id, game.itemQuantity);
-  } 
+  }
 }
 
 export const adjustItemQty = (game, qty) => {
@@ -96,7 +105,7 @@ export const fetchCart = () => {
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
       //Get the user's cart items
       const userId = (parseJwt(localStorage.token)).id;
-      let cartItems = await axios.get(`/api/users/${userId}/cart`);
+      let cartItems = await axios.get(`/api/users/${userId}/cart`); // check for datepurchased
       console.log(cartItems);
     }
     // If logged in, append guest cart to user's cart
@@ -107,7 +116,7 @@ export const fetchCart = () => {
     and get the game for that gameId...
     3. and Dispatch addToCart(game)
     */
-    
+
     for(const key in localStorage) {
       if(key.length === 1) {
         const { data } = await axios.get(`/api/games/${key}`);
@@ -117,13 +126,11 @@ export const fetchCart = () => {
         //game.itemQuantity = localStorage.getItem(game.id);
       }
     }
-    
-    
   }
 }
 /*
 if(Object.prototype.hasOwnProperty.call(window.localStorage, 'token')) {
-        
+
 }
 */
 export const saveCart = (user, cart) => {
@@ -132,19 +139,33 @@ export const saveCart = (user, cart) => {
   }
 }
 
+/*
+export const updateCart = (userId, confirmationNumber, datePurchased) => {
+  return async (dispatch) => {
+    try {
+      const invoice = await axios.get(`/${userId}`)
+      const invoiceData = invoice.data
+      const invoiceId = invoiceData.id
+      await axios.put(`/${userId}/${invoiceId}`, confirmationNumber, datePurchased)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+*/
 
 const cartReducer = (state = [], action) => {
   switch(action.type) {
     case ADD_TO_CART: {
       const gameIds = state.map((game) => game.id);
-      
+
       if(gameIds.indexOf(action.game.id) !== -1) {
         action.game.itemQuantity++;
         return [ ...state ];
       } else {
         action.game.itemQuantity = 1;
         return [ ...state, action.game ];
-      }      
+      }
     }
     case ADJUST_ITEM_QTY: {
       action.game.itemQuantity = action.qty;
@@ -154,12 +175,9 @@ const cartReducer = (state = [], action) => {
       const filteredGames = state.filter((game) => {
         return game.id !== action.game.id;
       });
-
       return [ ...filteredGames ];
     }
     case SAVE_CART: {
-      
-
       return [ ...state ];
     }
     default:

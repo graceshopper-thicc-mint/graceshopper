@@ -23,7 +23,8 @@ router.get("/:userId/cart", async (req, res, next) => {
     const userId = req.params.userId
     const invoice = await Invoice.findOne({
       where: {
-        userId
+        userId,
+        datePurchased: null
       },
       include: InvoiceLine
     })
