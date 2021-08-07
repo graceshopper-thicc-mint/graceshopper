@@ -47,22 +47,6 @@ const _removeFromCart = (game) => {
     game
   };
 };
-/*
-const _updateCart = (userId, confirmationNumber, datePurchased) => {
-  return {
-    type: UPDATE_CART,
-    userId,
-    confirmationNumber,
-    datePurchased
-  }
-}*/
-
-// const _saveCart = () => {
-//   return {
-//     type: SAVE_CART,
-
-//   };
-// };
 
 // Thunks
 export const addToCart = (game, user) => { //params: game, user
@@ -73,7 +57,6 @@ export const addToCart = (game, user) => { //params: game, user
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
       const userId = (parseJwt(localStorage.token)).id;
       let { data: invoice } = await axios.get(`/api/users/${userId}/invoice`);
-      console.log('invoiceId inside addtocart: ', invoice);
       await axios.post(`/api/users/${userId}/cart`, {
         gameId: game.id,
         itemQuantity: game.itemQuantity,
@@ -102,13 +85,11 @@ export const removeFromCart = (game) => {
 
 export const fetchCart = () => {
   return async (dispatch) => {
-    console.log('test fetchcart');
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
+
       //Get the user's cart items
       const userId = (parseJwt(localStorage.token)).id;
-      console.log('inside fetchcart: ', userId);
-      let cartItems = await axios.get(`/api/users/${userId}/cart`); // check for datepurchased
-      console.log(cartItems);
+      let cartItems = await axios.get(`/api/users/${userId}/cart`)
     }
     // If logged in, append guest cart to user's cart
     // If not logged in, display guest cart
@@ -125,31 +106,34 @@ export const fetchCart = () => {
         let game = data;
         game.price = game.price/100;
         dispatch(_addToCart(game));
-        //game.itemQuantity = localStorage.getItem(game.id);
       }
     }
   }
 }
-/*
-if(Object.prototype.hasOwnProperty.call(window.localStorage, 'token')) {
 
-}
-*/
-export const saveCart = (user, cart) => {
-  return async (dispatch) => {
-    //await axios
-  }
-}
-
+// Add in datePurchased and confirmationNumer
 export const updateCartInvoice = (confirmationNumber, datePurchased) => {
   return async (dispatch) => {
     try {
       const userId = (parseJwt(localStorage.token)).id;
-      const { data: invoice } = await axios.get(`/api/users/${userId}`);
-
-      await axios.put(`/api/users/${userId}/${invoice.id}`, {
+      const { data } = await axios.get(`/api/users/${userId}/invoice`)
+      await axios.put(`/api/users/${userId}/${data.id}`, {
         confirmationNumber: confirmationNumber,
         datePurchased: datePurchased
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+// Assign a new cart for a user after their purchases
+export const createNewCart = () => {
+  return async (dispatch) => {
+    try {
+      const userId = (parseJwt(localStorage.token)).id
+      await axios.post(`/api/users/${userId}/invoice`, {
+        userId: userId
       })
     } catch (error) {
       console.log(error)
@@ -179,9 +163,6 @@ const cartReducer = (state = [], action) => {
         return game.id !== action.game.id;
       });
       return [ ...filteredGames ];
-    }
-    case SAVE_CART: {
-      return [ ...state ];
     }
     default:
       return state;

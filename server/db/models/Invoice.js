@@ -5,10 +5,12 @@ const Invoice = db.define("invoice", {
   confirmationNumber: {
     type: Sequelize.INTEGER,
     unique: true,
+    defaultValue: null
     // validate
   },
   datePurchased: {
     type: Sequelize.DATEONLY,
+    defaultValue: null
   },
 });
 

@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import CartSingleItem from './CartSingleItem';
 import OrderConfirmation from "./OrderConfirmation"
-import { fetchCart, updateCartInvoice } from '../store/cart';
+import { fetchCart, updateCartInvoice, createNewCart } from '../store/cart';
 
-const Cart = ({ cart, fetchCart, userId, updateCartInvoice }) => {
+const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart }) => {
   // this.state
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
@@ -40,18 +40,23 @@ const Cart = ({ cart, fetchCart, userId, updateCartInvoice }) => {
   }
 
   // what happens when you click checkout
-  // i want to create a order confirmation #,
-  // save datepurchased as the time when clicked,
-  // save all that to the database (update)
-  // since we now have a datepurchased, we dont render that cart out anymore
+  // i want to create a order confirmation #, DONE
+  // save datepurchased as the time when clicked, DONE
+  // save all that to the database (update) DONE
+  // since we now have a datepurchased, we dont render that cart out anymore NEEDS WORK
   // create a new invoice for the user,
   // fetch that orderconfirmation number with the invoice id, I guess?
   // render out the orderconfirmation page
-  function handleCheckout() {
+   function handleCheckout() {
     const orderConfirmationNumber = Math.floor(Math.random() * 10000000)
     const datePurchased = Date.now()
-    updateCartInvoice(orderConfirmationNumber, datePurchased);
-    console.log('button clicked.');
+    updateCartInvoice(orderConfirmationNumber, datePurchased)
+    for (let key in localStorage) {
+      if (key !== "token") {
+        localStorage.removeItem(key)
+      }
+    }
+    createNewCart()
   }
 
   return (
@@ -85,6 +90,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchCart: () => dispatch(fetchCart()),
     updateCartInvoice: (orderConfirmationNumber, datePurchased) => dispatch(updateCartInvoice(orderConfirmationNumber, datePurchased)),
+    createNewCart: () => dispatch(createNewCart())
   }
 }
 
