@@ -5,15 +5,6 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-<<<<<<< HEAD
-    <h1>
-      T H I C C - M I N T
-      <img id="logo" src="thicc-mint.jpeg" />
-    </h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-=======
     <div id="navbar">
       <div id="logo-stuff">
         T H I C C - M I N T
@@ -22,7 +13,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       <nav>
         {isLoggedIn ? (
         <div id="nav-items">
->>>>>>> 8bb8740078612fa61b24ac00136490f465410162
           {/* The navbar will show these links after you log in */}
           <Link to="/home">Home</Link>
           <Link to="/games">SHOP</Link>
@@ -40,10 +30,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i></Link>
         </div>
       )}
-<<<<<<< HEAD
-
-=======
->>>>>>> 8bb8740078612fa61b24ac00136490f465410162
     </nav>
     </div>
     <hr />

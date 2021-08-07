@@ -48,10 +48,6 @@ form div {
   justify-content: space-between
 }
 
-<<<<<<< HEAD
-#logo {
-  height: 50px;
-=======
 #logo-title {
   color: white;
 }
@@ -72,5 +68,4 @@ nav {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
->>>>>>> 8bb8740078612fa61b24ac00136490f465410162
 }
