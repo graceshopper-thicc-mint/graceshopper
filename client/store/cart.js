@@ -141,7 +141,7 @@ export const createNewCart = () => {
   }
 }
 
-// Fetch a user's purchase history
+/* Fetch a user's purchase history
 export const getOrders = () => {
   return async (dispatch) => {
     try {
@@ -152,7 +152,7 @@ export const getOrders = () => {
       console.log(error)
     }
   }
-}
+}*/
 
 const cartReducer = (state = [], action) => {
   switch(action.type) {
