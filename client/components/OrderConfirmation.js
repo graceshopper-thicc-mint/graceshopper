@@ -3,18 +3,6 @@ import axios from "axios"
 import { getOrders } from "../store/cart"
 import { connect } from "react-redux"
 
-/*
-const OrderConfirmation = ({ getOrders }) => {
-  let orderConfirmationNumber = ""
-  useEffect( ()=> {
-    const order =  Promise.resolve(getOrders())
-    orderConfirmationNumber = order.then((hi) => {
-      return hi
-    })
-  },[])
-
-  console.log(orderConfirmationNumber)*/
-
 class OrderConfirmation extends React.Component {
   constructor() {
     super()

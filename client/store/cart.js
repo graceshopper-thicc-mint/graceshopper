@@ -56,6 +56,7 @@ export const addToCart = (game, user) => { //params: game, user
     dispatch(_addToCart(game));
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
       const userId = (parseJwt(localStorage.token)).id;
+      console.log(userId)
       let { data: invoice } = await axios.get(`/api/users/${userId}/invoice`);
       await axios.post(`/api/users/${userId}/cart`, {
         gameId: game.id,
@@ -165,7 +166,7 @@ export const createNewCart = () => {
   }
 }
 
-// Fetch a user's purchase history
+/* Fetch a user's purchase history
 export const getOrders = () => {
   return async (dispatch) => {
     try {
@@ -176,7 +177,7 @@ export const getOrders = () => {
       console.log(error)
     }
   }
-}
+}*/
 
 const cartReducer = (state = [], action) => {
   switch(action.type) {
