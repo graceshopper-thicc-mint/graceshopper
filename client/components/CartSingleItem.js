@@ -27,7 +27,7 @@ const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
       <p>{game.name}</p>
       <p>$ {game.price}</p>
       <label htmlFor="game-qty">Quantity:</label>
-      <select name="qty" id="game-qty" value={qty} onChange={handleChange} >
+      <select name="qty" id="game-qty" value={game.itemQuantity} onChange={handleChange} >
       <option key="1" className="update-qty" value="1">1</option>
       <option key="2" className="update-qty" value="2">2</option>
       <option key="3" className="update-qty" value="3">3</option>
