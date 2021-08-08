@@ -141,6 +141,19 @@ export const createNewCart = () => {
   }
 }
 
+// Fetch a user's purchase history
+export const getOrders = () => {
+  return async (dispatch) => {
+    try {
+      const userId = (parseJwt(localStorage.token)).id
+      const { data } = await axios.get(`/api/users/${userId}/purchases`)
+      return data[0]
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 const cartReducer = (state = [], action) => {
   switch(action.type) {
     case ADD_TO_CART: {
