@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const { models: { User, Invoice, InvoiceLine }} = require('../../db')
-module.exports = router
-
+const { Op } = require("sequelize")
 
 // GET ALL USERS
 // GET /api/users
@@ -132,9 +131,14 @@ router.delete("/:userId/cart/:gameId", async (req, res, next) => {
           userId
         }
       }
-    })
-    await gameToDelete.destroy()
-    res.send(gameToDelete)
+    });
+
+    if(gameToDelete === null) {
+      res.status(404).send('The game to be deleted doesn\'t exist');
+    } else {
+      await gameToDelete.destroy()
+      res.send(gameToDelete)
+    }
   } catch (error) {
     next(error)
   }
@@ -167,9 +171,8 @@ router.post("/:userId/invoice", async (req, res, next) => {
   }
 })
 
-// UPDATES INVOICE INSTANCE WITH DATEPURCHASED AND CONFIRMATIONNUMBER
-
-//PUT /api/users/:userId/:invoiceId
+// UPDATES A USER'S ACTIVE CART WITH DATEPURCHASED AND CONFIRMATION NUMBER THEREFORE MAKING IT AN INACTIVE CART
+// PUT /api/users/:userId/:invoiceId
 router.put("/:userId/:invoiceId", async (req, res, next) => {
   try {
     const invoiceToUpdate = await Invoice.findOne({
@@ -185,4 +188,22 @@ router.put("/:userId/:invoiceId", async (req, res, next) => {
 })
 
 
-// GET USER'S PURCHASES
+// GET USER'S PURCHASES IN DESCENDING ORDER
+router.get("/:userId/purchases", async (req, res, next) => {
+  try {
+    const recentPurchase = await Invoice.findAll({
+      where: {
+        userId: req.params.userId,
+        datePurchased: {
+          [Op.not]: null
+        }
+      },
+      order: [["datePurchased", "DESC"]]
+    })
+    res.send(recentPurchase)
+  } catch (error) {
+    next(error)
+  }
+})
+
+module.exports = router

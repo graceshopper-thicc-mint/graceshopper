@@ -15,10 +15,10 @@ class AllGames extends React.Component {
     return (
       <div id="games-container">
         {allGames.map((game) => (
-          <div>
+          <div key={game.id}>
           <div className="game-background-white">
             <div className="game-background">
-              <div key={game.id} className="game">
+              <div className="game">
                 <Link to={`games/${game.id}`}>
                   <img src={game.imageUrl} />
                 </Link>

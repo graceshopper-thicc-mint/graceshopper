@@ -57,6 +57,7 @@ export const addToCart = (game) => { //params: game, user
     dispatch(_addToCart(game));
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
       const userId = (parseJwt(localStorage.token)).id;
+      console.log(userId)
       let { data: invoice } = await axios.get(`/api/users/${userId}/invoice`);
       let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
       if(invoice && cartDb.map((item) => item.gameId).indexOf(game.id) === -1) {
@@ -80,8 +81,13 @@ export const addToCart = (game) => { //params: game, user
 
 export const adjustItemQty = (game, qty) => {
   return async (dispatch) => {
-    //let userId = (parseJwt(localStorage.token)).id;
-    //await axios.get(`/api/users/${user.id}/cart`)
+    if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
+      const userId = (parseJwt(localStorage.token)).id;
+      await axios.put(`/api/users/${userId}/cart/${game.id}`, {
+        itemQuantity: qty
+      });
+    }
+    
     dispatch(_adjustItemQty(game, qty));
     localStorage.setItem(game.id, qty);
   }
@@ -89,6 +95,11 @@ export const adjustItemQty = (game, qty) => {
 
 export const removeFromCart = (game) => {
   return async (dispatch) => {
+    if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
+      const userId = (parseJwt(localStorage.token)).id;
+      await axios.delete(`/api/users/${userId}/cart/${game.id}`);
+    }
+    
     dispatch(_removeFromCart(game));
     localStorage.removeItem(game.id);
   }
@@ -148,6 +159,19 @@ export const createNewCart = () => {
     }
   }
 }
+
+/* Fetch a user's purchase history
+export const getOrders = () => {
+  return async (dispatch) => {
+    try {
+      const userId = (parseJwt(localStorage.token)).id
+      const { data } = await axios.get(`/api/users/${userId}/purchases`)
+      return data[0]
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}*/
 
 const cartReducer = (state = [], action) => {
   switch(action.type) {

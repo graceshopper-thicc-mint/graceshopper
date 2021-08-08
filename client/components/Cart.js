@@ -1,12 +1,14 @@
 import { getConfirmation } from 'history/DOMUtils';
-import { Redirect } from "react-router-dom"
+import { Redirect, Link, useHistory } from "react-router-dom"
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import CartSingleItem from './CartSingleItem';
 import OrderConfirmation from "./OrderConfirmation"
+import axios from "axios"
 import { fetchCart, updateCartInvoice, createNewCart } from '../store/cart';
 
-const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart }) => {
+const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => {
+  let history = useHistory()
   // this.state
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
@@ -35,19 +37,34 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart }) => {
   // save datepurchased as the time when clicked, DONE
   // save all that to the database (update) DONE
   // since we now have a datepurchased, we dont render that cart out anymore NEEDS WORK
-  // create a new invoice for the user,
+  // create a new invoice for the user DONE
   // fetch that orderconfirmation number with the invoice id, I guess?
   // render out the orderconfirmation page
-   function handleCheckout() {
+   async function handleCheckout() {
     const orderConfirmationNumber = Math.floor(Math.random() * 10000000)
     const datePurchased = Date.now()
-    updateCartInvoice(orderConfirmationNumber, datePurchased)
-    for (let key in localStorage) {
-      if (key !== "token") {
-        localStorage.removeItem(key)
+    if (!localStorage.token) {
+      const { data } = await axios.post("/api/guests/invoice", {
+        confirmationNumber: orderConfirmationNumber,
+        datePurchased
+      })
+      const confirmationNumber = data.confirmationNumber
+      //history.push({
+      // pathname: `/users/${userId}/confirmation`
+      //})
+
+    } else {
+      await updateCartInvoice(orderConfirmationNumber, datePurchased)
+      for (let key in localStorage) {
+        if (key !== "token") {
+          localStorage.removeItem(key)
+        }
       }
-    }
-    createNewCart()
+      await createNewCart()
+      history.push({
+        pathname: `/users/${userId}/confirmation`
+      })
+      }
   }
 
   return (
@@ -64,7 +81,9 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart }) => {
         <h4>Cart Summary</h4>
         <p>Total Games: {totalGames} games</p>
         <p>Total Price: $ {totalPrice}</p>
-        <button type="submit" onClick={() => handleCheckout()}>Checkout</button>
+        <button type="submit" onClick={() => handleCheckout()}>
+          Checkout
+        </button>
       </div>
     </div>
   );

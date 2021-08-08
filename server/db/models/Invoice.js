@@ -9,7 +9,7 @@ const Invoice = db.define("invoice", {
     // validate
   },
   datePurchased: {
-    type: Sequelize.DATEONLY,
+    type: Sequelize.DATE,
     defaultValue: null
   },
 });
