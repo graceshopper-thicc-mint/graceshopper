@@ -131,9 +131,14 @@ router.delete("/:userId/cart/:gameId", async (req, res, next) => {
           userId
         }
       }
-    })
-    await gameToDelete.destroy()
-    res.send(gameToDelete)
+    });
+
+    if(gameToDelete === null) {
+      res.status(404).send('The game to be deleted doesn\'t exist');
+    } else {
+      await gameToDelete.destroy()
+      res.send(gameToDelete)
+    }
   } catch (error) {
     next(error)
   }

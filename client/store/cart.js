@@ -82,8 +82,13 @@ export const addToCart = (game) => { //params: game, user
 
 export const adjustItemQty = (game, qty) => {
   return async (dispatch) => {
-    //let userId = (parseJwt(localStorage.token)).id;
-    //await axios.get(`/api/users/${user.id}/cart`)
+    if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
+      const userId = (parseJwt(localStorage.token)).id;
+      await axios.put(`/api/users/${userId}/cart/${game.id}`, {
+        itemQuantity: qty
+      });
+    }
+    
     dispatch(_adjustItemQty(game, qty));
     localStorage.setItem(game.id, qty);
   }
@@ -91,6 +96,11 @@ export const adjustItemQty = (game, qty) => {
 
 export const removeFromCart = (game) => {
   return async (dispatch) => {
+    if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
+      const userId = (parseJwt(localStorage.token)).id;
+      await axios.delete(`/api/users/${userId}/cart/${game.id}`);
+    }
+    
     dispatch(_removeFromCart(game));
     localStorage.removeItem(game.id);
   }
