@@ -87,9 +87,10 @@ export const adjustItemQty = (game, qty) => {
         itemQuantity: qty
       });
     }
-    
+    else {
+      localStorage.setItem(game.id, qty);
+    }
     dispatch(_adjustItemQty(game, qty));
-    localStorage.setItem(game.id, qty);
   }
 }
 
@@ -99,9 +100,10 @@ export const removeFromCart = (game) => {
       const userId = (parseJwt(localStorage.token)).id;
       await axios.delete(`/api/users/${userId}/cart/${game.id}`);
     }
-    
+    else {
+      localStorage.removeItem(game.id);
+    }
     dispatch(_removeFromCart(game));
-    localStorage.removeItem(game.id);
   }
 }
 
