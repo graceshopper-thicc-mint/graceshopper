@@ -15,10 +15,10 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
         <div id="nav-items">
           {/* The navbar will show these links after you log in */}
           <Link to="/home">Home</Link>
+          <Link to="/games">SHOP</Link>
           {isAdmin ? (
             <Link to="/admin">Admin</Link>) : null
           }
-          <Link to="/games">SHOP</Link>
           <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i>(numberofitemshere - should get updated automatically)</Link>
           <a id="logout" href="#" onClick={handleClick}>
             Logout
@@ -43,7 +43,6 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
  * CONTAINER
  */
 const mapState = state => {
-  console.log('navbar state: ', state);
   return {
     isLoggedIn: !!state.auth.id,
     isAdmin: !!state.auth.isAdmin

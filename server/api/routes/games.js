@@ -33,10 +33,10 @@ router.get('/:gameId', async (req, res, next) => {
 })
 
 // PUT /api/games/:gameId/edit
-router.put('/:gameId/edit', async (req, res, next) => {
+router.put('/:gameId', async (req, res, next) => {
   try {
     const gameToUpdate = await Game.findByPk(req.params.gameId);
-    const updateGame = await gameToUpdate.updateGame(req.body);
+    const updateGame = await gameToUpdate.update(req.body);
     res.send(updateGame);
   } catch (error) {
     next(error);

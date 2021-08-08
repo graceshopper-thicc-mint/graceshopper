@@ -9,6 +9,8 @@ import Cart from './components/Cart';
 import SingleGame from "./components/SingleGame"
 import OrderConfirmation from "./components/OrderConfirmation"
 import Admin from "./components/Admin";
+import AdminGames from "./components/AdminGames";
+import EditGame from "./components/EditGame";
 
 /**
  * COMPONENT
@@ -27,13 +29,17 @@ class Routes extends Component {
           <Switch>
             <Route path="/home" component={Home} />
             {isAdmin ? (
-              <Route exact path="/admin" component={Admin} /> ) : null
+              <Switch>
+                <Route exact path="/admin" component={Admin}/>
+                <Route exact path="/admin/games" component={AdminGames}/>
+                <Route exact path="/admin/games/:gameId" component={EditGame}/>
+              </Switch>) : null
             }
             <Route path="/cart" component={Cart}/>
             <Route exact path="/games" component={AllGames} />
             <Route path="/games/:gameId" component={SingleGame} />
             <Route path="/users/:userId/confirmation" component={OrderConfirmation} />
-            {/* <Redirect to="/home" /> */}
+            <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
@@ -58,7 +64,7 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
     isLoggedIn: !!state.auth.id,
-    isAdmin: !!state.isAdmin
+    isAdmin: !!state.auth.isAdmin
   }
 }
 

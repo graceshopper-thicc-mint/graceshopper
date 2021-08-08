@@ -11,6 +11,7 @@ const initialState = {
  */
 const SET_ALL_GAMES = 'SET_ALL_GAMES';
 const SET_SINGLE_GAME = 'SET_SINGLE_GAME';
+const UPDATE_SINGLE_GAME = 'UPDATE_SINGLE_GAME';
 
 /**
  * ACTION CREATORS
@@ -25,6 +26,13 @@ const setAllGames = (games) => {
 const setSingleGame = (game) => {
   return {
     type: SET_SINGLE_GAME,
+    game
+  }
+}
+
+const updateSingleGame = (game) => {
+  return{
+    type: UPDATE_SINGLE_GAME,
     game
   }
 }
@@ -53,6 +61,18 @@ export const fetchSingleGame = (gameId) => {
   }
 }
 
+export const updateGame = (gameId, game, history) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/api/games/${gameId}`, game);
+      const action = updateSingleGame(data);
+      dispatch(action);
+      history.push(`${gameId}`)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
 /**
  * REDUCER
  */
@@ -61,6 +81,8 @@ export default function(state = initialState, action) {
     case SET_ALL_GAMES:
       return { ...state, allGames: action.games };
     case SET_SINGLE_GAME:
+      return { ...state, singleGame: action.game };
+    case UPDATE_SINGLE_GAME:
       return { ...state, singleGame: action.game };
     default:
       return state;
