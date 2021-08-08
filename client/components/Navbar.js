@@ -1,20 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import { localStorage } from '../store/cart'
+import { fetchCart, localStorage } from '../store/cart'
 
-const Navbar = ({handleClick, isLoggedIn, isAdmin, cart}) =>  {
+const Navbar = ({handleClick, isLoggedIn, isAdmin, cart, fetchCart}) =>  {
+  let [totalGames, setTotalGames] = useState(0);
 
-  function countTotalGames() {
-    let count = 0;
-    for(const key in localStorage) {
-      if(key.length === 1) {
-        count += Number(localStorage[key]);
-      }
-    }
-    return Number(count);
-  }
+  useEffect(() => {
+    console.log('inside navbar mount: ');
+    fetchCart();
+  }, []);
+
+  useEffect(() => {
+    let total = 0;
+
+    cart.forEach((game) => {
+      total += game.itemQuantity;
+    });
+    setTotalGames(total);
+  }, [cart, totalGames, setTotalGames]);
 
   return (
   <div>
@@ -32,7 +37,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, cart}) =>  {
             <Link to="/admin">Admin</Link>) : null
           }
           <Link to="/games">SHOP</Link>
-          <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i>({countTotalGames()})</Link>
+          <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i>({totalGames})</Link>
           <a id="logout" href="#" onClick={handleClick}>
             Logout
           </a>
@@ -59,7 +64,7 @@ const mapState = state => {
   return {
     isLoggedIn: !!state.auth.id,
     isAdmin: !!state.auth.isAdmin,
-    cart: state.cart
+    cart: state.cart,
   }
 }
 
@@ -68,6 +73,7 @@ const mapDispatch = dispatch => {
     handleClick() {
       dispatch(logout())
     },
+    fetchCart: () => dispatch(fetchCart())
     //Put post games thunk here?
   }
 }

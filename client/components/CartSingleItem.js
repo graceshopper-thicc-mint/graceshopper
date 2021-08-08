@@ -5,23 +5,18 @@ import { localStorage } from '../store/cart';
 
 const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
   const [qty, setQty] = useState(game.itemQuantity);
-  console.log('game.itemQuantity:', game.itemQuantity);
   // Similar to componentDidMount and componentDidUpdate:
   // useEffect(() => {
   //   document.querySelectorAll
   // });
 
-
-
-
-
   function handleChange(event) {
     // console.log('At handleChange, event.target.value:', event.target.value);
     const itemQty = parseInt(event.target.value, 10);
-    console.log('At handleChange, qty before setQty:', qty);
-    console.log('itemQty:', itemQty);
+    // console.log('At handleChange, qty before setQty:', qty);
+    // console.log('itemQty:', itemQty);
     setQty(itemQty);
-    console.log('At handleChange, qty after setQty:', qty);
+    // console.log('At handleChange, qty after setQty:', qty);
     adjustItemQty(game, itemQty);    
   }
 

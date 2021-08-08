@@ -10,44 +10,31 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart }) => {
   // this.state
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
+  console.log('cart state: ', cart);
 
   // ComponentDidMount
   useEffect(() => {
     fetchCart();
   }, []);
 
-  // If you want to use ComponentDidUnmount, make an explicit
-  // return within useEffect with a non-empty array component
-
   // ComponentDidUpdate and this.setState
   useEffect(() => {
-    // console.log('cart before: ', cart);
-    // console.log('cart after: ', cart);
     let games = 0;
     let price = 0;
+
     cart.forEach((game) => {
       games += game.itemQuantity;
       price += game.itemQuantity * game.price;
     });
 
-    // for(let key in localStorage) {
-    //   if(key !== 'token') {
-    //     games += localStorage[key];
-    //   }
-    // }
-
-    // cart.forEach((game) => {
-    //   return price += game.      
-    // })
-
     setTotalGames(games);
-    price = price.toFixed(2); //price is now a string
+    price = Number(price.toFixed(2)); // price is 2 decimals and now a number
     setTotalPrice(price);
   }, [cart, totalPrice, totalGames, setTotalPrice, setTotalGames]);
 
-  const round = (value, decimal) => {
-    return Number(Math.round(value + 'e' + decimal) + 'e-' + decimal);
-  }
+  // const round = (value, decimal) => {
+  //   return Number(Math.round(value + 'e' + decimal) + 'e-' + decimal);
+  // }
 
   // what happens when you click checkout
   // i want to create a order confirmation #, DONE
