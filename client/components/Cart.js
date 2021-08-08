@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import CartSingleItem from './CartSingleItem';
 import OrderConfirmation from "./OrderConfirmation"
+import axios from "axios"
 import { fetchCart, updateCartInvoice, createNewCart } from '../store/cart';
 
 const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => {
@@ -51,16 +52,28 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => 
    async function handleCheckout() {
     const orderConfirmationNumber = Math.floor(Math.random() * 10000000)
     const datePurchased = Date.now()
-    await updateCartInvoice(orderConfirmationNumber, datePurchased)
-    for (let key in localStorage) {
-      if (key !== "token") {
-        localStorage.removeItem(key)
+    if (!localStorage.token) {
+      const { data } = await axios.post("/api/guests/invoice", {
+        confirmationNumber: orderConfirmationNumber,
+        datePurchased
+      })
+      const confirmationNumber = data.confirmationNumber
+      //history.push({
+      // pathname: `/users/${userId}/confirmation`
+      //})
+
+    } else {
+      await updateCartInvoice(orderConfirmationNumber, datePurchased)
+      for (let key in localStorage) {
+        if (key !== "token") {
+          localStorage.removeItem(key)
+        }
       }
-    }
-    await createNewCart()
-    history.push({
-      pathname: `/users/${userId}/confirmation`
-    })
+      await createNewCart()
+      history.push({
+        pathname: `/users/${userId}/confirmation`
+      })
+      }
   }
 
   return (
