@@ -23,8 +23,10 @@ class AllGames extends React.Component {
                   <img src={game.imageUrl} />
                 </Link>
                 <div className="section">
-                  <p id="game-name">{game.name}</p>
-                  <p>Publisher: {game.publisher}</p>
+                  <Link to={`games/${game.id}`}>
+                    <p className="game-name">{game.name}</p>
+                  </Link>
+                  <p>Publisher: <span>{game.publisher}</span></p>
                   <p>Release Date: {game.releaseDate}</p>
                   <p>ESRB Rating: {game.maturityRating}</p>
                   <div className="stars">
@@ -37,7 +39,7 @@ class AllGames extends React.Component {
                 </div>
                 <div className="add-to-cart-section">
                   <p>{`$${game.price}`}</p>
-                  <button value={game.id} className="add-to-cart-button" onClick={() => addToCart(game)}>
+                  <button className="add-to-cart-button" onClick={() => addToCart(game)}>
                     Add To Cart
                     <i className="fas fa-cart-plus"></i>
                   </button>
