@@ -25,7 +25,7 @@ router.get("/", requireToken, isAdmin, async (req, res, next) => {
 // GET /api/users/:userId
 router.get("/:userId", requireToken, isAdmin, async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId, {
+    const user = await User.findByPk(req.params.userId, { 
       attributes: ["id", "username"],
     });
     res.send(user);
