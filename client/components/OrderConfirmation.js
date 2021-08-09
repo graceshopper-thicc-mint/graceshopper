@@ -12,7 +12,7 @@ class OrderConfirmation extends React.Component {
   async componentDidMount() {
     const { userId } = this.props
     const { data } = await axios.get(`/api/users/${userId}/purchases`)
-    const recentPurchase = data[0]
+    const recentPurcqhase = data[0]
     const number = recentPurchase.confirmationNumber
     this.setState({
       confirmationNumber: number
