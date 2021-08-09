@@ -5,7 +5,7 @@
 body {
   font-family: 'Baloo 2', cursive;
   background: rgb(36,46,101);
-  background: radial-gradient(circle, rgba(36,46,101,1) 65%, rgba(32,39,80,1) 74%, rgba(25,26,39,1) 92%);
+  background: radial-gradient(circle, rgba(12,12,103,1) 0%, rgba(0,0,0,1) 100%);
   color: white;
 }
 
@@ -159,10 +159,6 @@ hr {
   color: orange
 }
 
-.login-signup {
-  border: 5px white;
-}
-
 #signup {
   display: flex;
   flex-direction: column;
@@ -173,19 +169,19 @@ hr {
   width: 400px;
   height: 520px;;
 }
-#signup p {
+#signup p, #login p{
   font-weight: bolder;
   margin: 0px
 }
 
-#signup input {
+#signup input, #login input {
   width: 200px;
   height: 20px;
   margin-bottom: 3px;
   border-radius: 8px;
 }
 
-#signup button {
+#signup button, #login button {
   width: 205px;
   height: 30px;
   border-radius: 8px;
@@ -197,10 +193,22 @@ hr {
   font-weight: bolder;
 }
 
-#signup button:active {
+#signup button:active, #login button:active {
   background: #66FCF2CC;
   -webkit-box-shadow: inset 0px 0px 5px #1bf8e9;
      -moz-box-shadow: inset 0px 0px 5px #1bf8e9;
           box-shadow: inset 0px 0px 5px #1bf8e9;
   outline: none;
 }
+
+#login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: white 2px solid;
+  margin: auto;
+  margin-top: 100px;
+  width: 400px;
+  height: 320px;;
+}
+
