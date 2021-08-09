@@ -9,6 +9,7 @@ import Cart from './components/Cart';
 import SingleGame from "./components/SingleGame"
 import OrderConfirmation from "./components/OrderConfirmation"
 import Admin from "./components/Admin";
+import GuestOrderConfirmation from "./components/GuestOrderConfirmation"
 
 /**
  * COMPONENT
@@ -43,6 +44,7 @@ class Routes extends Component {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/cart" component={Cart} />
+            <Route path="/confirmation" component={GuestOrderConfirmation} />
           </Switch>
         )}
       </div>

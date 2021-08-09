@@ -58,9 +58,10 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => 
         datePurchased
       })
       const confirmationNumber = data.confirmationNumber
-      //history.push({
-      // pathname: `/users/${userId}/confirmation`
-      //})
+      history.push({
+        pathname: `/confirmation`,
+        state: { confirmationNumber: orderConfirmationNumber}
+      })
 
     } else {
       await updateCartInvoice(orderConfirmationNumber, datePurchased)
