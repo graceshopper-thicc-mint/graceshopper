@@ -40,6 +40,15 @@ form div {
   border: 1px solid rgba( 255, 255, 255, 0.18 );
   padding: 10px;
 }
+.game-background:hover {
+  background: rgba(83, 221, 212, 0.8);
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 14.0px );
+  -webkit-backdrop-filter: blur( 14.0px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  padding: 10px;
+}
 
 .game-background-white {
   background:#7f96f1;
@@ -121,6 +130,7 @@ hr {
   color: #1f2833
 }
 
-#game-name {
+.game-name {
   font-size: 20px;
+  font-weight: bolder;
 }

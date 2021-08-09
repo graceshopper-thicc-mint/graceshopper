@@ -24,7 +24,7 @@ class AllGames extends React.Component {
                 </Link>
                 <div className="section">
                   <Link to={`games/${game.id}`}>
-                    <p id="game-name">{game.name}</p>
+                    <p className="game-name">{game.name}</p>
                   </Link>
                   <p>Publisher: {game.publisher}</p>
                   <p>Release Date: {game.releaseDate}</p>
