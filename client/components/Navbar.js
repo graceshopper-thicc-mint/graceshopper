@@ -30,8 +30,8 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, cart, fetchCart}) =>  {
   <div>
     <div id="navbar">
       <div id="logo-stuff">
-        <img id="logo" src="thicc-mint.png" />
         T H I C C - M I N T
+        <img id="logo" src="thicc-mint.png" />
       </div>
       <nav>
         {isLoggedIn ? (
