@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { adjustItemQty, removeFromCart } from '../store/cart';
 import { localStorage } from '../store/cart';
 
 const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
   const [qty, setQty] = useState(game.itemQuantity);
+  console.log('CartSingleItem, game', game, 'game.itemQuantity:', game.itemQuantity);
   // Similar to componentDidMount and componentDidUpdate:
-  // useEffect(() => {
-  //   document.querySelectorAll
-  // });
+  useEffect(() => {
+    // console.log('CartSingleItem, game', game, 'game.itemQuantity:', game.itemQuantity);
+    
+  });
+
+  /*
+  If componentDidUpdate then use the redux store's state
+  */
 
   function handleChange(event) {
     // console.log('At handleChange, event.target.value:', event.target.value);

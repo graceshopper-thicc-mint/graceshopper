@@ -65,10 +65,10 @@ export const addToCart = (game) => { //params: game, user
       const userId = (parseJwt(localStorage.token)).id;
       let { data: invoice } = await axios.get(`/api/users/${userId}/invoice`);
       let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
-      if(invoice && cartDb.map((item) => item.gameId).indexOf(game.id) === -1) {
+      if(invoice && cartDb.map((invoiceLine) => invoiceLine.gameId).indexOf(game.id) === -1) {
         await axios.post(`/api/users/${userId}/cart`, {
           gameId: game.id,
-          itemQuantity: game.itemQuantity,
+          // itemQuantity: game.itemQuantity, //dont need this because InvoiceLine defaultValue is 1 and game.ItemQuantity is undefined
           unitPrice: game.price * 100,
           invoiceId: invoice.id,
         });
@@ -119,17 +119,24 @@ export const fetchCart = () => {
       const userId = (parseJwt(localStorage.token)).id;
       let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
       console.log('this is cartDb inside fetchCart: ', cartDb);
-      let cartItems = [];
-      cartDb.forEach(async (invoiceLine) => {
+      
+      const gamesAwaiting = cartDb.map(async (invoiceLine) => {
         let { data: gameToFetch } = await axios.get(`/api/games/${invoiceLine.gameId}`);
         gameToFetch.itemQuantity = invoiceLine.itemQuantity;
         gameToFetch.price = gameToFetch.price / 100;
-        console.log('fetchCart, gameToFetch:', gameToFetch);
-        cartItems.push(gameToFetch);
-        // dispatch(_fetchCart(gameToFetch));
+        return gameToFetch;
+      })
+      const gamesPromise = Promise.all(gamesAwaiting).then((game) => {
+        return game;
+      }).catch(err => {
+        console.log(err);
       });
-      console.log('fetchCart, cartItems:', cartItems);
-      dispatch(_fetchCart(cartItems));
+      const gamesAwaited = await gamesPromise; //cartItems
+
+      console.log('fetchCart, gamesAwaited:', gamesAwaited);
+      dispatch(_fetchCart(gamesAwaited));
+      
+      
 
     }
 
