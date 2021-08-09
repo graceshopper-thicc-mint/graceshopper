@@ -68,6 +68,10 @@ form div {
   font-family: 'Work Sans', sans-serif;
 }
 
+#logo-title {
+  color: white;
+}
+
 #logo {
   height: 50px;
   background: transparent

@@ -9,7 +9,7 @@ const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
   function handleChange(event) {
     const itemQty = parseInt(event.target.value, 10);
     setQty(itemQty);
-    adjustItemQty(game, itemQty);    
+    adjustItemQty(game, itemQty);
   }
 
   return (

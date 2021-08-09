@@ -15,10 +15,10 @@ class AllGames extends React.Component {
     return (
       <div id="games-container">
         {allGames.map((game) => (
-          <div>
+          <div key={game.id}>
           <div className="game-background-white">
             <div className="game-background">
-              <div key={game.id} className="game">
+              <div className="game">
                 <Link to={`games/${game.id}`}>
                   <img src={game.imageUrl} />
                 </Link>
@@ -55,7 +55,6 @@ class AllGames extends React.Component {
 
 //mapStateToProps
 const mapStateToProps = state => {
-  console.log('state: ', state);
   return {
     allGames: state.games.allGames
   }
@@ -67,7 +66,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchAllGames());
     },
     addToCart: (game) => dispatch(addToCart(game)),
-    fetchToCart: () => dispatch(fetchToCart())
   }
 }
 

@@ -31,16 +31,12 @@ export const me = () => async dispatch => {
 
 export const authenticate = (username, password, method) => async dispatch => {
   try {
-    console.log('inside authenticate (method): ', method);
-    console.log('typeof method: ', typeof method);
-    console.log('compare method to signup: ', method === 'signup')
     const res = await axios.post(`/auth/${method}`, {username, password})
-    // Create invoice for user upon login
+    // Create invoice for user upon sign-up
     window.localStorage.setItem(TOKEN, res.data.token)
     if(method === 'signup') {
       let userId = (parseJwt(res.data.token)).id
-      console.log('userId: ', userId)
-      await axios.post(`/api/users/${userId}`, {
+      await axios.post(`/api/users/${userId}/invoice`, {
         userId: userId
       })
     }
@@ -52,9 +48,9 @@ export const authenticate = (username, password, method) => async dispatch => {
 
 export const logout = () => {
   //window.localStorage.removeItem(TOKEN)
-  console.log('before clear: ', window.localStorage);
+  // console.log('before clear: ', window.localStorage);
   window.localStorage.clear();
-  console.log('after clear: ', window.localStorage);
+  // console.log('after clear: ', window.localStorage);
   history.push('/login')
   return {
     type: SET_AUTH,
