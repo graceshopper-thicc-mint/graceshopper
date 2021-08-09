@@ -218,19 +218,6 @@ const cartReducer = (state = [], action) => {
       return [ ...filteredGames ];
     }
     case FETCH_CART: {
-<<<<<<< HEAD
-
-
-      // const gameIdSet = new Set(state.map((game) => game.id));
-
-      // if(gameIdSet.has(action.game.id)) {
-      //   action.game.itemQuantity++;
-      //   return [ ...state ];
-      // } else {
-      //   action.game.itemQuantity = 1;
-      // }
-      // return [ ...state, action.game ];
-=======
       if(localStorage.getItem(action.game.id)) {
         action.game.itemQuantity = Number(localStorage.getItem(action.game.id));
       }
@@ -239,7 +226,6 @@ const cartReducer = (state = [], action) => {
       }
       action.game.price = action.game.price / 100;
       return [ ...state, action.game ];
->>>>>>> 22fa18853d34ed972746274a0d929e28ed43078e
     }
     case SAVE_CART: {
       
