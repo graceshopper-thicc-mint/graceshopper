@@ -45,10 +45,10 @@ router.get("/:userId/cart", requireToken, isAdmin, async (req, res, next) => {
         datePurchased: null,
       },
       include: {
-        model: InvoiceLine
-      }
-    })
-    res.send(invoice.invoicelines)
+        model: InvoiceLine,
+      },
+    });
+    res.send(invoice.invoicelines);
   } catch (error) {
     next(error);
   }
@@ -57,28 +57,28 @@ router.get("/:userId/cart", requireToken, isAdmin, async (req, res, next) => {
 // GET /api/users/:userId/cart/:gameId
 router.get("/:userId/cart/:gameId", async (req, res, next) => {
   try {
-    const userId = req.params.userId
-    const gameId = req.params.gameId
+    const userId = req.params.userId;
+    const gameId = req.params.gameId;
 
     // Need to grab invoiceId first from userId
     // Then search for invoiceLines that matches gameId and invoiceId
     const gameInvoiceLine = await Invoice.findOne({
       where: {
         userId: userId,
-        datePurchased: null
+        datePurchased: null,
       },
       include: {
         model: InvoiceLine,
         where: {
-          gameId: gameId
-        }
-      }
-    })
+          gameId: gameId,
+        },
+      },
+    });
     res.send(gameInvoiceLine.invoicelines);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 // ADD A NEW INVOICELINE INSTANCE FOR A USER WHEN "ADDED TO CART"
 // POST /api/users/:userId/cart
@@ -93,29 +93,34 @@ router.post("/:userId/cart", requireToken, isAdmin, async (req, res, next) => {
 
 // EDIT A SPECIFIC USER'S CART
 // PUT /api/users/:userId/cart/:gameId
-router.put("/:userId/cart/:gameId", requireToken, isAdmin, async (req, res, next) => {
-  try {
-    const userId = req.params.userId
-    const gameId = req.params.gameId
-    // Make get request to retrieve invoice associated with user
-    const invoice = await Invoice.findOne({
-      where: {
-        userId: userId,
-        datePurchased: null
-      },
-    })
+router.put(
+  "/:userId/cart/:gameId",
+  requireToken,
+  isAdmin,
+  async (req, res, next) => {
+    try {
+      const userId = req.params.userId;
+      const gameId = req.params.gameId;
+      // Make get request to retrieve invoice associated with user
+      const invoice = await Invoice.findOne({
+        where: {
+          userId: userId,
+          datePurchased: null,
+        },
+      });
 
-    // Use invoiceId and gameId to find specific game to update
-    const gameToUpdateInCart = await InvoiceLine.findOne({
-      where: {
-        gameId: gameId,
-        invoiceId: invoice.id
-      }
-    })
-    console.log('gameToUpdateInCart: ', gameToUpdateInCart);
-    res.send(await gameToUpdateInCart.update(req.body))
-  } catch (error) {
-    next(error)
+      // Use invoiceId and gameId to find specific game to update
+      const gameToUpdateInCart = await InvoiceLine.findOne({
+        where: {
+          gameId: gameId,
+          invoiceId: invoice.id,
+        },
+      });
+      console.log("gameToUpdateInCart: ", gameToUpdateInCart);
+      res.send(await gameToUpdateInCart.update(req.body));
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
@@ -137,22 +142,22 @@ router.delete(
         include: {
           model: Invoice,
           where: {
-            userId
-          }
-        }
+            userId,
+          },
+        },
       });
 
-      if(gameToDelete === null) {
-        res.status(404).send('The game to be deleted doesnt exist');
+      if (gameToDelete === null) {
+        res.status(404).send("The game to be deleted doesnt exist");
       } else {
-        await gameToDelete.destroy()
-        res.send(gameToDelete)
+        await gameToDelete.destroy();
+        res.send(gameToDelete);
       }
     } catch (error) {
-      next(error)
-
+      next(error);
     }
- });
+  }
+);
 
 // GET A USER'S INVOICE(S)
 // GET /api/users/:userId/invoice
