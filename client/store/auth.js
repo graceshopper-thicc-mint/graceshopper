@@ -52,7 +52,8 @@ export const logout = () => {
   history.push('/login')
   return {
     type: SET_AUTH,
-    auth: {}
+    auth: {},
+    cart: []
   }
 }
 

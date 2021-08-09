@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {connect} from 'react-redux'
 
 /**
  * COMPONENT
  */
-export const Home = ({username, fetchCart}) => {
-
+export const Home = ({username}) => {
   return (
     <div>
       <h3>Welcome, {username}</h3>

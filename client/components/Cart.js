@@ -12,12 +12,6 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => 
   // this.state
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
-  console.log('cart state: ', cart);
-
-  // ComponentDidMount
-  useEffect(() => {
-    fetchCart();
-  }, []);
 
   // ComponentDidUpdate and this.setState
   useEffect(() => {

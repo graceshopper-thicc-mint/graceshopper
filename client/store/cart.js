@@ -50,16 +50,15 @@ const _removeFromCart = (game) => {
 
 // Thunks
 export const addToCart = (game) => { //params: game, user
+  console.log('game inside addToCart:', game);
   return async (dispatch) => {
-    //console.log('addToCart, usedId:', userId);
     //Update the user's cart state with the new game
     dispatch(_addToCart(game));
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
       const userId = (parseJwt(localStorage.token)).id;
-      console.log(userId)
       let { data: invoice } = await axios.get(`/api/users/${userId}/invoice`);
-      if(!Number(localStorage[game.id]) && invoice) {
-        localStorage.setItem(game.id, game.itemQuantity);
+      let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
+      if(invoice && cartDb.map((item) => item.gameId).indexOf(game.id) === -1) {
         await axios.post(`/api/users/${userId}/cart`, {
           gameId: game.id,
           itemQuantity: game.itemQuantity,
@@ -67,10 +66,8 @@ export const addToCart = (game) => { //params: game, user
           invoiceId: invoice.id,
         });
       }
-      else if(Number(localStorage[game.id]) >= 1 && invoice) {
+      else if(invoice) {
         let { data: invoiceLine } = await axios.get(`/api/users/${userId}/cart/${game.id}`);
-        // console.log('invoiceLine in addToCart: ', invoiceLine[0]);
-        localStorage.setItem(game.id, Number(localStorage.getItem(game.id)) + 1);
         await axios.put(`/api/users/${userId}/cart/${game.id}`, {
           itemQuantity: invoiceLine[0].itemQuantity + 1,
           unitPrice: invoiceLine[0].unitPrice + game.price * 100
@@ -88,9 +85,10 @@ export const adjustItemQty = (game, qty) => {
         itemQuantity: qty
       });
     }
-    
+    else {
+      localStorage.setItem(game.id, qty);
+    }
     dispatch(_adjustItemQty(game, qty));
-    localStorage.setItem(game.id, qty);
   }
 }
 
@@ -100,45 +98,32 @@ export const removeFromCart = (game) => {
       const userId = (parseJwt(localStorage.token)).id;
       await axios.delete(`/api/users/${userId}/cart/${game.id}`);
     }
-    
+    else {
+      localStorage.removeItem(game.id);
+    }
     dispatch(_removeFromCart(game));
-    localStorage.removeItem(game.id);
   }
 }
 
 export const fetchCart = () => {
   return async (dispatch) => {
+    // Fetch user cart on refresh
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
-      //Get each individual game obj from db and adjust game obj
       const userId = (parseJwt(localStorage.token)).id;
-      let { data: cartItems } = await axios.get(`/api/users/${userId}/cart`);
-      cartItems.forEach(async (game) => {
-        console.log('fetchCart, cartItems.forEach');
-        const { data: fetchedGame } = await axios.get(`/api/games/${game.gameId}`);
-        fetchedGame.price = fetchedGame.price/100;
-        if(Number(localStorage[game.id])) {
-          fetchedGame.itemQuantity = Number(localStorage[game.id]);
-        }
-        dispatch(_fetchCart(fetchedGame));
+      let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
+      console.log('this is cartDb inside fetchCart: ', cartDb);
+      cartDb.forEach(async (game) => {
+        let { data: gameToFetch } = await axios.get(`/api/games/${game.gameId}`);
+        gameToFetch.itemQuantity = game.itemQuantity;
+        dispatch(_fetchCart(gameToFetch));
       });
+    }
 
-      //When page refreshes or loads, show current cart qtys from localStorage
-      const cartItemDivs = document.querySelectorAll('#game-qty');
-      for(let i = 0; i < cartItemDivs.length; i++) {
-        const gameId = cartItemDivs[0].dataset["gameId"];
-        const gameQty = localStorage.getItem(gameId)
-        cartItemDivs[i].querySelector('#game-qty').value = gameQty; 
-      }
-
-    } else {
-      // Guest cart
-      console.log('inside fetchCart thunk:');
-      for(const key in localStorage) {
-        if(key.length === 1) {
-          const { data: game } = await axios.get(`/api/games/${key}`);
-          game.price = game.price/100;
-          dispatch(_fetchCart(game));
-        }
+    // Append user cart to guest cart stored in local storage if it exists
+    for(const key in localStorage) {
+      if(key.length === 1) {
+        const { data: game } = await axios.get(`/api/games/${key}`);
+        dispatch(_fetchCart(game));
       }
     }
 
@@ -233,6 +218,7 @@ const cartReducer = (state = [], action) => {
       return [ ...filteredGames ];
     }
     case FETCH_CART: {
+<<<<<<< HEAD
 
 
       // const gameIdSet = new Set(state.map((game) => game.id));
@@ -244,6 +230,16 @@ const cartReducer = (state = [], action) => {
       //   action.game.itemQuantity = 1;
       // }
       // return [ ...state, action.game ];
+=======
+      if(localStorage.getItem(action.game.id)) {
+        action.game.itemQuantity = Number(localStorage.getItem(action.game.id));
+      }
+      else {
+        action.game.isFetched = true;
+      }
+      action.game.price = action.game.price / 100;
+      return [ ...state, action.game ];
+>>>>>>> 22fa18853d34ed972746274a0d929e28ed43078e
     }
     case SAVE_CART: {
       
