@@ -3,7 +3,7 @@ import history from '../history'
 
 const initialState = {
   allGames: [],
-  singleGame: {}
+  singleGame: {},
 };
 
 /**

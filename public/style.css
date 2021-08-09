@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Baloo+2&family=Permanent+Marker&family=Spectral:wght@200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@200&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 body {
   font-family: 'Baloo 2', cursive;
-  background-color: #0b0c10;
+  background: rgb(36,46,101);
+  background: radial-gradient(circle, rgba(36,46,101,1) 65%, rgba(32,39,80,1) 74%, rgba(25,26,39,1) 92%);
   color: white;
 }
 
@@ -32,10 +33,19 @@ form div {
 }
 
 .game-background {
-  background: rgba( 102, 252, 241, 0.8 );
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 14.0px );
-  -webkit-backdrop-filter: blur( 14.0px );
+  background: #F2F2F2CC;
+  background: -webkit-radial-gradient(top, #F2F2F2CC, #66FCF2CC);
+  background: -moz-radial-gradient(top, #F2F2F2CC, #66FCF2CC);
+  background: radial-gradient(to bottom, #F2F2F2CC, #66FCF2CC);
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  padding: 10px;
+}
+.game-background:hover {
+  background: #F2F2F2CC;
+  background: -webkit-radial-gradient(top, #F2F2F2CC, #53DDD5CC);
+  background: -moz-radial-gradient(top, #F2F2F2CC, #53DDD5CC);
+  background: radial-gradient(to bottom, #F2F2F2CC, #53DDD5CC);
   border-radius: 10px;
   border: 1px solid rgba( 255, 255, 255, 0.18 );
   padding: 10px;
@@ -54,7 +64,6 @@ form div {
 .game {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
 }
 
 .game img {
@@ -63,6 +72,8 @@ form div {
 }
 
 .section {
+  margin: 0 20px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   font-family: 'Work Sans', sans-serif;
@@ -97,6 +108,8 @@ nav {
 
 .section p {
   color: #1f2833;
+  margin: 2px;
+  font-weight: bolder;
 }
 
 #logo-stuff {
@@ -108,17 +121,40 @@ hr {
 }
 
 .add-to-cart-button {
-  background-color: #c5c6c7;
+  background-color: #ededed;
+  width: 300px;
   color: #1f2833;
   border: none;
-  width: 300px;
-  border-radius: 5px;
+  border-radius: 8px;
+  transition: border 0.2s ease;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.add-to-cart-button:active {
+  background: #e5e5e5;
+  -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+     -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+          box-shadow: inset 0px 0px 5px #c1c1c1;
+  outline: none;
 }
 
 .add-to-cart-section p {
+  text-align: center;
   color: #1f2833
 }
 
-#game-name {
+.game-name {
   font-size: 20px;
+  font-weight: bolder;
+  transition: border 0.2s ease;
+  cursor: pointer;
+}
+
+.game-name:hover {
+  color: white;
+}
+
+.stars span {
+  color: orange
 }

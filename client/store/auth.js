@@ -1,6 +1,8 @@
 import axios from 'axios'
 import history from '../history'
 import { parseJwt } from './cart'
+import { localStorage } from './cart'
+import store from "./"
 
 const TOKEN = 'token'
 
@@ -47,14 +49,14 @@ export const authenticate = (username, password, method) => async dispatch => {
 }
 
 export const logout = () => {
-  //window.localStorage.removeItem(TOKEN)
-  // console.log('before clear: ', window.localStorage);
-  window.localStorage.clear();
-  // console.log('after clear: ', window.localStorage);
+  localStorage.clear();
+  //Empty the cart
+  console.log('logout, store.dispatch', store.dispatch({type: "CLEAR_CART"}));
+  console.log('Dispatched clearCart, store.getState:', store.getState());
   history.push('/login')
   return {
     type: SET_AUTH,
-    auth: {}
+    auth: {},
   }
 }
 
