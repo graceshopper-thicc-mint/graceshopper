@@ -17,6 +17,7 @@ const ADD_TO_CART = "ADD_TO_CART";
 const ADJUST_ITEM_QTY = "ADJUST_ITEM_QTY";
 const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 const SAVE_CART = "SAVE_CART";
+const CLEAR_CART = "CLEAR_CART";
 
 // Action Creators
 const _fetchCart = (game) => {
@@ -47,6 +48,12 @@ const _removeFromCart = (game) => {
     game
   };
 };
+
+const _clearCart = () => {
+  return {
+    type: CLEAR_CART,
+  }
+}
 
 // Thunks
 export const addToCart = (game) => { //params: game, user
@@ -194,6 +201,12 @@ export const getOrders = () => {
   }
 }*/
 
+export const clearCart = () => {
+  return (dispatch) => {
+    dispatch(_clearCart());
+  }
+}
+
 const cartReducer = (state = [], action) => {
   switch(action.type) {
     case ADD_TO_CART: {
@@ -225,12 +238,15 @@ const cartReducer = (state = [], action) => {
         action.game.isFetched = true;
       }
       action.game.price = action.game.price / 100;
-      return [ ...state, action.game ];
+      return [ action.game ];
     }
     case SAVE_CART: {
       
 
       return [ ...state ];
+    }
+    case CLEAR_CART: {
+      return [];
     }
     default:
       return state;
