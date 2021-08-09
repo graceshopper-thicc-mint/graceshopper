@@ -34,7 +34,7 @@ class Routes extends Component {
             <Route exact path="/games" component={AllGames} />
             <Route path="/games/:gameId" component={SingleGame} />
             <Route path="/users/:userId/confirmation" component={OrderConfirmation} />
-            {/* <Redirect to="/home" /> */}
+            <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>

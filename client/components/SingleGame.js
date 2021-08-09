@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import { fetchSingleGame } from "../store/games"
 import { Link } from "react-router-dom"
+import { addToCart } from "../store/cart"
 
 class SingleGame extends React.Component {
   async componentDidMount() {
@@ -10,7 +11,7 @@ class SingleGame extends React.Component {
   }
 
   render() {
-    const { game } = this.props
+    const { game, addToCart } = this.props
     return (
       <div id="single-game">
         <h1>{game.name}</h1>
@@ -21,7 +22,7 @@ class SingleGame extends React.Component {
         <p>ESRB Rating: {game.maturityRating}</p>
         <img src={game.imageUrl}/>
         <p>{`$${game.price}`}</p>
-        <button value={game.id}>
+        <button value={game.id} onClick={() => addToCart(game)}>
           Add To Cart
           <i className="fas fa-cart-plus"></i>
         </button>
@@ -40,7 +41,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getSingleGame: (id) => dispatch(fetchSingleGame(id))
+    getSingleGame: (id) => dispatch(fetchSingleGame(id)),
+    addToCart: (game) => dispatch(addToCart(game)),
   }
 }
 
