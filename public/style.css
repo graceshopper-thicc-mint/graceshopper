@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Baloo+2&family=Permanent+Marker&family=Spectral:wght@200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@200&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 body {
   font-family: 'Baloo 2', cursive;
@@ -33,21 +33,19 @@ form div {
 }
 
 .game-background {
-  background: rgba( 102, 252, 241, 0.8 );
-  background: radial-gradient(circle, rgba(195,240,237,1) 0%, rgba(83,221,212,1) 100%);
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 14.0px );
-  -webkit-backdrop-filter: blur( 14.0px );
+  background: #F2F2F2CC;
+  background: -webkit-radial-gradient(top, #F2F2F2CC, #66FCF2CC);
+  background: -moz-radial-gradient(top, #F2F2F2CC, #66FCF2CC);
+  background: radial-gradient(to bottom, #F2F2F2CC, #66FCF2CC);
   border-radius: 10px;
   border: 1px solid rgba( 255, 255, 255, 0.18 );
   padding: 10px;
 }
 .game-background:hover {
-  background: rgba(83, 221, 212, 0.8);
-  background: radial-gradient(circle, rgba(195,240,237,1) 0%, rgba(71,152,146,1) 100%);
-  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-  backdrop-filter: blur( 14.0px );
-  -webkit-backdrop-filter: blur( 14.0px );
+  background: #F2F2F2CC;
+  background: -webkit-radial-gradient(top, #F2F2F2CC, #53DDD5CC);
+  background: -moz-radial-gradient(top, #F2F2F2CC, #53DDD5CC);
+  background: radial-gradient(to bottom, #F2F2F2CC, #53DDD5CC);
   border-radius: 10px;
   border: 1px solid rgba( 255, 255, 255, 0.18 );
   padding: 10px;
@@ -111,6 +109,7 @@ nav {
 .section p {
   color: #1f2833;
   margin: 2px;
+  font-weight: bolder;
 }
 
 #logo-stuff {
@@ -123,12 +122,13 @@ hr {
 
 .add-to-cart-button {
   background-color: #ededed;
+  width: 300px;
   color: #1f2833;
   border: none;
-  width: 300px;
-  border-radius: 5px;
+  border-radius: 8px;
   transition: border 0.2s ease;
   cursor: pointer;
+  padding: 8px;
 }
 
 .add-to-cart-button:active {
@@ -153,4 +153,8 @@ hr {
 
 .game-name:hover {
   color: white;
+}
+
+.stars span {
+  color: orange
 }
