@@ -9,6 +9,10 @@ class AllGames extends React.Component {
     this.props.loadAllGames()
   }
 
+  handleAddToCart(e) {
+    const game = e.target.value
+    addToCart(game)
+  }
   render() {
     const { addToCart, allGames } = this.props;
 
@@ -39,7 +43,7 @@ class AllGames extends React.Component {
                 </div>
                 <div className="add-to-cart-section">
                   <p>{`$${game.price}`}</p>
-                  <button value={game.id} className="add-to-cart-button" onClick={() => addToCart(game)}>
+                  <button value={game} className="add-to-cart-button" onClick={() => addToCart(game)}>
                     Add To Cart
                     <i className="fas fa-cart-plus"></i>
                   </button>
