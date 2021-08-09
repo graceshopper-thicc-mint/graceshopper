@@ -7,28 +7,59 @@ import {authenticate} from '../store'
  */
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
-
   return (
+    displayName === "Sign Up" ? (
     <div>
       <form onSubmit={handleSubmit} name={name}>
         <div>
+          <label htmlFor="firstName">
+            <small>First Name</small>
+          </label>
+          <input name="firstName" type="text" />
+          <label htmlFor="lastName">
+            <small>Last Name</small>
+          </label>
+          <input name="lastName" type="text" />
+          <label htmlFor="email">
+            <small>Email</small>
+          </label>
+          <input name="email" type="text" />
           <label htmlFor="username">
             <small>Username</small>
           </label>
           <input name="username" type="text" />
-        </div>
-        <div>
           <label htmlFor="password">
             <small>Password</small>
           </label>
           <input name="password" type="password" />
+          <label htmlFor="adminKey">
+            <small>Admin Key</small>
+          </label>
+          <input name="adminKey" type="password" />
         </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
+        <button type="submit">Create an Account</button>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
     </div>
+    ) : (
+      <div>
+        <form onSubmit={handleSubmit} name={name}>
+          <div>
+            <label htmlFor="username">
+              <small>Username</small>
+            </label>
+            <input name="username" type="text" />
+
+            <label htmlFor="password">
+              <small>Password</small>
+            </label>
+            <input name="password" type="password" />
+          </div>
+          <button type="submit">Login</button>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+      </div>
+    )
   )
 }
 
@@ -59,10 +90,16 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
+      const info = {
+        firstName: evt.target.firstName.value,
+        lastName: evt.target.lastName.value,
+        email: evt.target.email.value,
+        isAdmin: evt.target.adminKey.value,
+        username: evt.target.username.value,
+        password: evt.target.password.value
+      }
       const formName = evt.target.name
-      const username = evt.target.username.value
-      const password = evt.target.password.value
-      dispatch(authenticate(username, password, formName))
+      dispatch(authenticate(info, formName))
     },
   }
 }
