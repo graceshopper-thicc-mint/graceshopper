@@ -12,6 +12,16 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// GET /api/games/:gameId
+router.get('/:gameId', async (req, res, next) => {
+  try {
+    const game = await Game.findByPk(req.params.gameId);
+    res.send(game);
+  } catch (error) {
+    next(error);
+  }
+})
+
 // POST /api/games
 router.post('/', async (req, res, next) => {
   try{
@@ -22,15 +32,6 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-// GET /api/games/:gameId
-router.get('/:gameId', async (req, res, next) => {
-  try {
-    const game = await Game.findByPk(req.params.gameId);
-    res.send(game);
-  } catch (error) {
-    next(error);
-  }
-})
 
 // PUT /api/games/:gameId
 router.put('/:gameId', async (req, res, next) => {
@@ -43,12 +44,12 @@ router.put('/:gameId', async (req, res, next) => {
   }
 })
 
-// DELETE /api/games/
+// DELETE /api/games/:gameId
 router.delete('/:gameId', async(req, res, next) => {
   try {
     const gameToDelete = await Game.findByPk(req.params.gameId);
     await gameToDelete.destroy();
-    res.status(204).send(gameToDelete);
+    res.send(gameToDelete);
   } catch(error) {
     next(error);
   }

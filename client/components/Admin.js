@@ -7,8 +7,11 @@ export default class Admin extends React.Component {
     return(
       <div>
         <h1>Administration</h1>
-        <Link to="admin/games">
+        <Link to="admin/editGames">
           <button type="button">Edit Games</button>
+        </Link>
+        <Link to="admin/createGame">
+          <button type="button">Create New Game</button>
         </Link>
         <Link to="admin/users">
           <button type="button">Edit Users</button>

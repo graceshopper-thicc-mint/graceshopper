@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchAllGames } from '../store/games';
+import { deleteGame, fetchAllGames } from '../store/games';
 
 class AdminGames extends React.Component {
   async componentDidMount(){
@@ -13,7 +13,8 @@ class AdminGames extends React.Component {
           {this.props.allGames.map((game) => {
             return(
             <div key={game.id}>
-              <Link to={`games/${game.id}`}>{game.name}</Link>
+              <Link to={`editGames/${game.id}`}>{game.name}</Link>
+              <button type="button" onClick={() => this.props.deleteGame(game.id)}>Delete</button>
             </div>
             )
           })}
@@ -29,11 +30,14 @@ const mapStateToProps = state => {
   }
 }
 //mapDispatchToProps
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, { history }) => {
   return {
     loadAllGames: () => {
       dispatch(fetchAllGames());
     },
+    deleteGame: (gameId) => {
+      dispatch(deleteGame(gameId, history))
+    }
   }
 }
 
