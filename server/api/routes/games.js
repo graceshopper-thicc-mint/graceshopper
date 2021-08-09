@@ -12,8 +12,8 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// POST /api/games/create
-router.post('/create', async (req, res, next) => {
+// POST /api/games
+router.post('/', async (req, res, next) => {
   try{
     const newGame = await Game.create(req.body);
     res.send(newGame);
@@ -32,7 +32,7 @@ router.get('/:gameId', async (req, res, next) => {
   }
 })
 
-// PUT /api/games/:gameId/edit
+// PUT /api/games/:gameId
 router.put('/:gameId', async (req, res, next) => {
   try {
     const gameToUpdate = await Game.findByPk(req.params.gameId);

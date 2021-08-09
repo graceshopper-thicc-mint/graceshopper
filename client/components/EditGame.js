@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchSingleGame, setSingleGame, updateGame } from '../store/games';
+import { fetchAllGames, fetchSingleGame, setSingleGame, updateGame } from '../store/games';
 
 class EditGame extends React.Component {
   constructor(props){
@@ -19,16 +19,17 @@ class EditGame extends React.Component {
     this.props.getSingleGame(gameId)
   }
 
-  componenetWillUnmount(){
-    this.props.clearGame()
+  componentWillUnmount(){
+    this.props.clearGame();
   }
 
   componentDidUpdate(prevProps){
-    if(prevProps.game.id !== this.props.game.id){
+    console.log(prevProps);
+    if(prevProps.game.name !== this.props.game.name){
       this.setState({
-        name: this.props.game.name || '',
-        price: this.props.game.price || 0,
-        maturityRating: this.props.game.maturityRating || ''
+        name: this.props.game.name,
+        price: this.props.game.price,
+        maturityRating: this.props.game.maturityRating
       })
     }
   }
@@ -67,13 +68,15 @@ class EditGame extends React.Component {
 
 const mapStateToProps = state => {
   return{
-    game: state.games.singleGame
+    game: state.games.singleGame,
+    allGames: state.games.allGames
   }
 }
 
 const mapDispatchToProps = (dispatch, { history }) => {
   return{
     getSingleGame: (id) => dispatch(fetchSingleGame(id)),
+    getAllGames: () => dispatch(fetchAllGames()),
     clearGame: () => {dispatch(setSingleGame({}))},
     updateGame: (id, game) => dispatch(updateGame(id, game, history)),
   }
