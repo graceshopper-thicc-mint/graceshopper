@@ -36,7 +36,7 @@ router.get("/:userId", requireToken, isAdmin, async (req, res, next) => {
 
 // GET ALL ITEMS IN A USER'S CART (NOT PURCHASED!)
 // GET /api/users/:userId/cart
-router.get("/:userId/cart", requireToken, isAdmin, async (req, res, next) => {
+router.get("/:userId/cart", requireToken, async (req, res, next) => {
   try {
     const userId = req.params.userId;
     const invoice = await Invoice.findOne({
