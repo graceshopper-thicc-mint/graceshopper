@@ -127,6 +127,8 @@ hr {
   border: none;
   width: 300px;
   border-radius: 5px;
+  transition: border 0.2s ease;
+  cursor: pointer;
 }
 
 .add-to-cart-section p {
@@ -137,4 +139,10 @@ hr {
 .game-name {
   font-size: 20px;
   font-weight: bolder;
+  transition: border 0.2s ease;
+  cursor: pointer;
+}
+
+.game-name:hover {
+  color: white;
 }
