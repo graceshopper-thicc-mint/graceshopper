@@ -9,6 +9,10 @@ import Cart from './components/Cart';
 import SingleGame from "./components/SingleGame"
 import OrderConfirmation from "./components/OrderConfirmation"
 import Admin from "./components/Admin";
+import AdminGames from "./components/AdminGames";
+import EditGame from "./components/EditGame";
+import CreateGame from './components/CreateGame';
+import AdminUsers from './components/AdminUsers';
 import GuestOrderConfirmation from "./components/GuestOrderConfirmation"
 
 /**
@@ -28,7 +32,13 @@ class Routes extends Component {
           <Switch>
             <Route path="/home" component={Home} />
             {isAdmin ? (
-              <Route exact path="/admin" component={Admin} /> ) : null
+              <Switch>
+                <Route exact path="/admin" component={Admin}/>
+                <Route path="/admin/users" component={AdminUsers}/>
+                <Route exact path="/admin/editGames" component={AdminGames}/>
+                <Route exact path="/admin/editGames/:gameId" component={EditGame}/>
+                <Route path="/admin/createGame" component={CreateGame}/>
+              </Switch>) : null
             }
             <Route path="/cart" component={Cart}/>
             <Route exact path="/games" component={AllGames} />
@@ -60,7 +70,7 @@ const mapState = state => {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
     isLoggedIn: !!state.auth.id,
-    isAdmin: !!state.isAdmin
+    isAdmin: !!state.auth.isAdmin
   }
 }
 

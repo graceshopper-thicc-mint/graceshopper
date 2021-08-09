@@ -1,5 +1,4 @@
 import axios from 'axios'
-import history from '../history'
 
 const initialState = {
   allGames: [],
@@ -11,6 +10,9 @@ const initialState = {
  */
 const SET_ALL_GAMES = 'SET_ALL_GAMES';
 const SET_SINGLE_GAME = 'SET_SINGLE_GAME';
+const UPDATE_SINGLE_GAME = 'UPDATE_SINGLE_GAME';
+const DELETE_GAME = 'DELETE_GAME';
+const CREATE_GAME = 'CREATE_GAME';
 
 /**
  * ACTION CREATORS
@@ -22,9 +24,30 @@ const setAllGames = (games) => {
   };
 };
 
-const setSingleGame = (game) => {
+export const setSingleGame = (game) => {
   return {
     type: SET_SINGLE_GAME,
+    game
+  }
+}
+
+const updateSingleGame = (game) => {
+  return {
+    type: UPDATE_SINGLE_GAME,
+    game
+  }
+}
+
+const _deleteGame = (game) => {
+  return {
+    type: DELETE_GAME,
+    game
+  }
+}
+
+const _createGame = (game) => {
+  return {
+    type: CREATE_GAME,
     game
   }
 }
@@ -53,6 +76,44 @@ export const fetchSingleGame = (gameId) => {
   }
 }
 
+export const createGame = (game, history) => {
+  return async (dispatch) => {
+    try {
+      const{ data } = await axios.post('/api/games', game);
+      const action = _createGame(data);
+      dispatch(action);
+      history.push(`/admin`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+export const updateGame = (gameId, game, history) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/api/games/${gameId}`, game);
+      const action = updateSingleGame(data);
+      dispatch(action);
+      history.push(`/admin/editGames`)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+export const deleteGame = (gameId, history) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`/api/games/${gameId}`);
+      const action = _deleteGame(data);
+      dispatch(action);
+      history.push(`/admin/editGames`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
 /**
  * REDUCER
  */
@@ -62,6 +123,21 @@ export default function(state = initialState, action) {
       return { ...state, allGames: action.games };
     case SET_SINGLE_GAME:
       return { ...state, singleGame: action.game };
+    case CREATE_GAME:
+      return {...state, allGames: [...state.allGames, action.game]}
+    case UPDATE_SINGLE_GAME:
+      // const newGames = state.allGames.map((game) => {
+      //   if(game.id === action.game.id){
+      //     return action.game;
+      //   } else {
+      //     return game;
+      //   }
+      // })
+      return {...state, singleGame: action.game};
+    case DELETE_GAME:
+      return {...state, allGames: state.allGames.filter((game) =>
+        game.id !== action.game.id
+      )}
     default:
       return state;
   }
