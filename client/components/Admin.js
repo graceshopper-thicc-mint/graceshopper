@@ -14,7 +14,7 @@ export default class Admin extends React.Component {
           <button type="button">Create New Game</button>
         </Link>
         <Link to="admin/users">
-          <button type="button">Edit Users</button>
+          <button type="button">View Users</button>
         </Link>
       </div>
     )

@@ -122,3 +122,7 @@ hr {
 #game-name {
   font-size: 20px;
 }
+
+table, th, td {
+  border: 1px solid lightgrey;
+}
