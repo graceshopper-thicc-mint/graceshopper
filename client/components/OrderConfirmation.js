@@ -1,6 +1,5 @@
 import React, { useEffect } from "react"
 import axios from "axios"
-import { getOrders } from "../store/cart"
 import { connect } from "react-redux"
 
 class OrderConfirmation extends React.Component {
@@ -37,10 +36,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getOrders: () => dispatch(getOrders())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(OrderConfirmation)
+export default connect(mapStateToProps)(OrderConfirmation)

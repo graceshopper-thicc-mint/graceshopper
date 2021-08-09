@@ -158,7 +158,7 @@ export const fetchCart = () => {
   }
 }
 
-// Add in datePurchased and confirmationNumer
+// Add in datePurchased and confirmationNumer for a logged in user
 export const updateCartInvoice = (confirmationNumber, datePurchased) => {
   return async (dispatch) => {
     try {
@@ -168,6 +168,16 @@ export const updateCartInvoice = (confirmationNumber, datePurchased) => {
         confirmationNumber: confirmationNumber,
         datePurchased: datePurchased
       })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const updateInvoiceGuest = (confirmationNumber, datePurchased) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put()
     } catch (error) {
       console.log(error)
     }
