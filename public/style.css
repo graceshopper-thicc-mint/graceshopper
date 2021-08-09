@@ -159,6 +159,7 @@ hr {
   color: orange
 }
 
+
 #signup {
   display: flex;
   flex-direction: column;
@@ -210,5 +211,9 @@ hr {
   margin-top: 100px;
   width: 400px;
   height: 320px;;
+}
+
+table, th, td {
+  border: 1px solid lightgrey;
 }
 
