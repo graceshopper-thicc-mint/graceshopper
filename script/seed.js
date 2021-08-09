@@ -20,22 +20,10 @@ async function seed() {
   // Creating Users
   const users = await Promise.all([
     User.create({
-      username: "cody",
-      password: "123",
-      isAdmin: false,
-      email: "cody@gmail.com",
-    }),
-    User.create({
       username: "sakib",
       password: "123",
       isAdmin: true,
       email: "sakiba09@gmail.com",
-    }),
-    User.create({
-      username: "murphy",
-      password: "123",
-      isAdmin: false,
-      email: "murphy@gmail.com",
     }),
     User.create({
       username: "michael",
@@ -61,24 +49,6 @@ async function seed() {
       isAdmin: true,
       email: "tweakss@gmail.com",
     }),
-    User.create({
-      username: "sean",
-      password: "123",
-      isAdmin: false,
-      email: "sean@gmail.com",
-    }),
-    User.create({
-      username: "jeff",
-      password: "123",
-      isAdmin: false,
-      email: "jeff@gmail.com",
-    }),
-    User.create({
-      username: "lucy",
-      password: "123",
-      isAdmin: false,
-      email: "lucy@gmail.com",
-    }),
   ]);
 
   const createdGames = await Promise.all(
@@ -87,17 +57,19 @@ async function seed() {
     })
   );
 
-  const createdInvoices = await Promise.all(
-    invoices.map((invoice) => {
-      return Invoice.create(invoice);
-    })
-  )
+  // Don't need to automatically seed invoice
+  // const createdInvoices = await Promise.all(
+  //   invoices.map((invoice) => {
+  //     return Invoice.create(invoice);
+  //   })
+  // )
 
-  const createInvoiceLines = await Promise.all(
-    invoiceLines.map((invoiceLine) => {
-      return InvoiceLine.create(invoiceLine);
-    })
-  )
+  // Don't need dummy data for invoice lines
+  // const createInvoiceLines = await Promise.all(
+  //   invoiceLines.map((invoiceLine) => {
+  //     return InvoiceLine.create(invoiceLine);
+  //   })
+  // )
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
