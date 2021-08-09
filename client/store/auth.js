@@ -1,6 +1,8 @@
 import axios from 'axios'
 import history from '../history'
 import { parseJwt } from './cart'
+import { localStorage } from './cart'
+import store from "./"
 
 const TOKEN = 'token'
 
@@ -31,16 +33,12 @@ export const me = () => async dispatch => {
 
 export const authenticate = (username, password, method) => async dispatch => {
   try {
-    console.log('inside authenticate (method): ', method);
-    console.log('typeof method: ', typeof method);
-    console.log('compare method to signup: ', method === 'signup')
     const res = await axios.post(`/auth/${method}`, {username, password})
-    // Create invoice for user upon login
+    // Create invoice for user upon sign-up
     window.localStorage.setItem(TOKEN, res.data.token)
     if(method === 'signup') {
       let userId = (parseJwt(res.data.token)).id
-      console.log('userId: ', userId)
-      await axios.post(`/api/users/${userId}`, {
+      await axios.post(`/api/users/${userId}/invoice`, {
         userId: userId
       })
     }
@@ -51,14 +49,14 @@ export const authenticate = (username, password, method) => async dispatch => {
 }
 
 export const logout = () => {
-  //window.localStorage.removeItem(TOKEN)
-  console.log('before clear: ', window.localStorage);
-  window.localStorage.clear();
-  console.log('after clear: ', window.localStorage);
+  localStorage.clear();
+  //Empty the cart
+  console.log('logout, store.dispatch', store.dispatch({type: "CLEAR_CART"}));
+  console.log('Dispatched clearCart, store.getState:', store.getState());
   history.push('/login')
   return {
     type: SET_AUTH,
-    auth: {}
+    auth: {},
   }
 }
 
