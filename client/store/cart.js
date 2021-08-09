@@ -119,7 +119,7 @@ export const fetchCart = () => {
       });
     }
 
-    // Append user cart to guest cart stored in local storage
+    // Append user cart to guest cart stored in local storage if it exists
     for(const key in localStorage) {
       if(key.length === 1) {
         const { data: game } = await axios.get(`/api/games/${key}`);
