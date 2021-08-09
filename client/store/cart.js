@@ -20,10 +20,10 @@ const SAVE_CART = "SAVE_CART";
 const CLEAR_CART = "CLEAR_CART";
 
 // Action Creators
-const _fetchCart = (game) => {
+const _fetchCart = (games) => {
   return {
     type: FETCH_CART,
-    game
+    games
   }
 }
 
@@ -119,11 +119,18 @@ export const fetchCart = () => {
       const userId = (parseJwt(localStorage.token)).id;
       let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
       console.log('this is cartDb inside fetchCart: ', cartDb);
-      cartDb.forEach(async (game) => {
-        let { data: gameToFetch } = await axios.get(`/api/games/${game.gameId}`);
-        gameToFetch.itemQuantity = game.itemQuantity;
-        dispatch(_fetchCart(gameToFetch));
+      let cartItems = [];
+      cartDb.forEach(async (invoiceLine) => {
+        let { data: gameToFetch } = await axios.get(`/api/games/${invoiceLine.gameId}`);
+        gameToFetch.itemQuantity = invoiceLine.itemQuantity;
+        gameToFetch.price = gameToFetch.price / 100;
+        console.log('fetchCart, gameToFetch:', gameToFetch);
+        cartItems.push(gameToFetch);
+        // dispatch(_fetchCart(gameToFetch));
       });
+      console.log('fetchCart, cartItems:', cartItems);
+      dispatch(_fetchCart(cartItems));
+
     }
 
     // Append user cart to guest cart stored in local storage if it exists
@@ -241,14 +248,16 @@ const cartReducer = (state = [], action) => {
       return [ ...filteredGames ];
     }
     case FETCH_CART: {
-      if(localStorage.getItem(action.game.id)) {
-        action.game.itemQuantity = Number(localStorage.getItem(action.game.id));
-      }
-      else {
-        action.game.isFetched = true;
-      }
-      action.game.price = action.game.price / 100;
-      return [ action.game ];
+      // if(localStorage.getItem(action.game.id)) {
+      //   action.game.itemQuantity = Number(localStorage.getItem(action.game.id));
+      // }
+      // else {
+      //   action.game.isFetched = true;
+      // }
+      // action.game.price = action.game.price / 100;
+      // return [ action.game ];
+      console.log('FETCH_CART reducer, action.games:', action.games);
+      return [ ...action.games ];
     }
     case SAVE_CART: {
       
