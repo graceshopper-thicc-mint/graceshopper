@@ -31,9 +31,10 @@ export const me = () => async dispatch => {
   }
 }
 
-export const authenticate = (username, password, method) => async dispatch => {
+export const authenticate = (info, method) => async dispatch => {
   try {
-    const res = await axios.post(`/auth/${method}`, {username, password})
+    console.log(info)
+    const res = await axios.post(`/auth/${method}`, info)
     // Create invoice for user upon sign-up
     window.localStorage.setItem(TOKEN, res.data.token)
     if(method === 'signup') {
