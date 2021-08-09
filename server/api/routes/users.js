@@ -39,9 +39,37 @@ router.get("/:userId/cart", async (req, res, next) => {
         userId,
         datePurchased: null
       },
-      include: InvoiceLine
+      include: {
+        model: InvoiceLine
+      }
     })
     res.send(invoice.invoicelines)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// GET /api/users/:userId/cart/:gameId
+router.get("/:userId/cart/:gameId", async (req, res, next) => {
+  try {
+    const userId = req.params.userId
+    const gameId = req.params.gameId
+
+    // Need to grab invoiceId first from userId
+    // Then search for invoiceLines that matches gameId and invoiceId
+    const gameInvoiceLine = await Invoice.findOne({
+      where: {
+        userId: userId,
+        datePurchased: null
+      },
+      include: {
+        model: InvoiceLine,
+        where: {
+          gameId: gameId
+        }
+      }
+    })
+    res.send(gameInvoiceLine.invoicelines);
   } catch (error) {
     next(error)
   }
@@ -59,23 +87,28 @@ router.post("/:userId/cart", async (req, res, next) => {
 })
 
 // EDIT A SPECIFIC USER'S CART
-// PUT /api/users/:userId/cart
+// PUT /api/users/:userId/cart/:gameId
 router.put("/:userId/cart/:gameId", async (req, res, next) => {
   try {
     const userId = req.params.userId
     const gameId = req.params.gameId
-    const gameToUpdate = await InvoiceLine.findOne({
+    // Make get request to retrieve invoice associated with user
+    const invoice = await Invoice.findOne({
       where: {
-        gameId
+        userId: userId,
+        datePurchased: null
       },
-      include: {
-        model: Invoice,
-        where : {
-          userId
-        }
+    })
+
+    // Use invoiceId and gameId to find specific game to update
+    const gameToUpdateInCart = await InvoiceLine.findOne({
+      where: {
+        gameId: gameId,
+        invoiceId: invoice.id
       }
     })
-    res.send(await gameToUpdate.update(req.body))
+    console.log('gameToUpdateInCart: ', gameToUpdateInCart);
+    res.send(await gameToUpdateInCart.update(req.body))
   } catch (error) {
     next(error)
   }
@@ -98,9 +131,14 @@ router.delete("/:userId/cart/:gameId", async (req, res, next) => {
           userId
         }
       }
-    })
-    await gameToDelete.destroy()
-    res.send(gameToDelete)
+    });
+
+    if(gameToDelete === null) {
+      res.status(404).send('The game to be deleted doesn\'t exist');
+    } else {
+      await gameToDelete.destroy()
+      res.send(gameToDelete)
+    }
   } catch (error) {
     next(error)
   }
