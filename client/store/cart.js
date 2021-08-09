@@ -115,17 +115,16 @@ export const removeFromCart = (game) => {
 export const fetchCart = () => {
   return async (dispatch) => {
     // Fetch user cart on refresh
-    if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
-      const userId = (parseJwt(localStorage.token)).id;
-      let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
-      console.log('this is cartDb inside fetchCart: ', cartDb);
-      cartDb.forEach(async (game) => {
-        let { data: gameToFetch } = await axios.get(`/api/games/${game.gameId}`);
-        gameToFetch.itemQuantity = game.itemQuantity;
-        dispatch(_fetchCart(gameToFetch));
-      });
-    }
-
+    // if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
+    //   const userId = (parseJwt(localStorage.token)).id;
+    //   let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
+    //   console.log('this is cartDb inside fetchCart: ', cartDb);
+    //   cartDb.forEach(async (game) => {
+    //   let { data: gameToFetch } = await axios.get(`/api/games/${game.gameId}`);
+    //   gameToFetch.itemQuantity = game.itemQuantity;
+    //   dispatch(_fetchCart(gameToFetch));
+    //   });
+    // }
     // Append user cart to guest cart stored in local storage if it exists
     for(const key in localStorage) {
       if(key.length === 1) {
