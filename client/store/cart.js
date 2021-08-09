@@ -108,28 +108,61 @@ export const removeFromCart = (game) => {
 
 export const fetchCart = () => {
   return async (dispatch) => {
-    // if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
-    //   //Get the user's cart items
-    //   const userId = (parseJwt(localStorage.token)).id;
-    //   let { data: cartItems } = await axios.get(`/api/users/${userId}/cart`);
-    //   cartItems.forEach(async (game) => {
-    //     const { data: fetchedGame } = await axios.get(`/api/games/${game.gameId}`);
-    //     fetchedGame.price = fetchedGame.price/100;
-    //     if(Number(localStorage[game.id]) {
-    //       fetchedGame.itemQuantity = Number(localStorage[game.id]);
-    //     }
-    //     dispatch(_fetchCart(fetchedGame));
-    //   });
-    // }
-    // Guest cart
-    console.log('inside fetchCart thunk: ');
-    for(const key in localStorage) {
-      if(key.length === 1) {
-        const { data: game } = await axios.get(`/api/games/${key}`);
-        game.price = game.price/100;
-        dispatch(_fetchCart(game));
+    if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
+      //Get each individual game obj from db and adjust game obj
+      const userId = (parseJwt(localStorage.token)).id;
+      let { data: cartItems } = await axios.get(`/api/users/${userId}/cart`);
+      cartItems.forEach(async (game) => {
+        console.log('fetchCart, cartItems.forEach');
+        const { data: fetchedGame } = await axios.get(`/api/games/${game.gameId}`);
+        fetchedGame.price = fetchedGame.price/100;
+        if(Number(localStorage[game.id])) {
+          fetchedGame.itemQuantity = Number(localStorage[game.id]);
+        }
+        dispatch(_fetchCart(fetchedGame));
+      });
+
+      //When page refreshes or loads, show current cart qtys from localStorage
+      const cartItemDivs = document.querySelectorAll('#game-qty');
+      for(let i = 0; i < cartItemDivs.length; i++) {
+        const gameId = cartItemDivs[0].dataset["gameId"];
+        const gameQty = localStorage.getItem(gameId)
+        cartItemDivs[i].querySelector('#game-qty').value = gameQty; 
+      }
+
+    } else {
+      // Guest cart
+      console.log('inside fetchCart thunk:');
+      for(const key in localStorage) {
+        if(key.length === 1) {
+          const { data: game } = await axios.get(`/api/games/${key}`);
+          game.price = game.price/100;
+          dispatch(_fetchCart(game));
+        }
       }
     }
+
+    //Get the user's cart items
+      // const userId = (parseJwt(localStorage.token)).id;
+      // let { data: cartItems } = await axios.get(`/api/users/${userId}/cart`);
+      // cartItems.forEach(async (game) => {
+      //   const { data: fetchedGame } = await axios.get(`/api/games/${game.gameId}`);
+      //   fetchedGame.price = fetchedGame.price/100;
+      //   if(Number(localStorage[game.id])) {
+      //     fetchedGame.itemQuantity = Number(localStorage[game.id]);
+      //   }
+      //   dispatch(_fetchCart(fetchedGame));
+      // });
+
+    // Guest cart
+    // console.log('inside fetchCart thunk: ');
+    // for(const key in localStorage) {
+    //   if(key.length === 1) {
+    //     const { data: game } = await axios.get(`/api/games/${key}`);
+    //     game.price = game.price/100;
+    //     dispatch(_fetchCart(game));
+    //   }
+    // }
   }
 }
 
@@ -200,15 +233,17 @@ const cartReducer = (state = [], action) => {
       return [ ...filteredGames ];
     }
     case FETCH_CART: {
-      const gameIdSet = new Set(state.map((game) => game.id));
 
-      if(gameIdSet.has(action.game.id)) {
-        action.game.itemQuantity++;
-        return [ ...state ];
-      } else {
-        action.game.itemQuantity = 1;
-      }
-      return [ ...state, action.game ];
+
+      // const gameIdSet = new Set(state.map((game) => game.id));
+
+      // if(gameIdSet.has(action.game.id)) {
+      //   action.game.itemQuantity++;
+      //   return [ ...state ];
+      // } else {
+      //   action.game.itemQuantity = 1;
+      // }
+      // return [ ...state, action.game ];
     }
     case SAVE_CART: {
       
