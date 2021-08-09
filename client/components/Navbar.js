@@ -21,6 +21,11 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, cart, fetchCart}) =>  {
     setTotalGames(total);
   }, [cart, totalGames, setTotalGames]);
 
+  function handleCart() {
+    // console.log('handleCart');
+    fetchCart();
+  }
+
   return (
   <div>
     <div id="navbar">
@@ -37,7 +42,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, cart, fetchCart}) =>  {
             <Link to="/admin">Admin</Link>) : null
           }
           <Link to="/games">SHOP</Link>
-          <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i>({totalGames})</Link>
+          <Link to="/cart" onClick={handleCart}>Cart<i className ="fas fa-cart-plus"></i>({totalGames})</Link>
           <a id="logout" href="#" onClick={handleClick}>
             Logout
           </a>
@@ -71,6 +76,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     handleClick() {
+      console.log('handleClick for logout');
       dispatch(logout())
     },
     fetchCart: () => dispatch(fetchCart())

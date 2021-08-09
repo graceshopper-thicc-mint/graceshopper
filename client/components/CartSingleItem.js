@@ -23,7 +23,7 @@ const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
   // const qtyValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (
-    <div key={game.id} className="in-cart-game">
+    <div key={game.id} className="in-cart-game" data-game-id={game.id}>
       <p>{game.name}</p>
       <p>$ {game.price}</p>
       <label htmlFor="game-qty">Quantity:</label>

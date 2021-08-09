@@ -17,6 +17,7 @@ const ADD_TO_CART = "ADD_TO_CART";
 const ADJUST_ITEM_QTY = "ADJUST_ITEM_QTY";
 const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 const SAVE_CART = "SAVE_CART";
+const CLEAR_CART = "CLEAR_CART";
 
 // Action Creators
 const _fetchCart = (game) => {
@@ -47,6 +48,12 @@ const _removeFromCart = (game) => {
     game
   };
 };
+
+const _clearCart = () => {
+  return {
+    type: CLEAR_CART,
+  }
+}
 
 // Thunks
 export const addToCart = (game) => { //params: game, user
@@ -126,10 +133,32 @@ export const fetchCart = () => {
         dispatch(_fetchCart(game));
       }
     }
+
+    //Get the user's cart items
+      // const userId = (parseJwt(localStorage.token)).id;
+      // let { data: cartItems } = await axios.get(`/api/users/${userId}/cart`);
+      // cartItems.forEach(async (game) => {
+      //   const { data: fetchedGame } = await axios.get(`/api/games/${game.gameId}`);
+      //   fetchedGame.price = fetchedGame.price/100;
+      //   if(Number(localStorage[game.id])) {
+      //     fetchedGame.itemQuantity = Number(localStorage[game.id]);
+      //   }
+      //   dispatch(_fetchCart(fetchedGame));
+      // });
+
+    // Guest cart
+    // console.log('inside fetchCart thunk: ');
+    // for(const key in localStorage) {
+    //   if(key.length === 1) {
+    //     const { data: game } = await axios.get(`/api/games/${key}`);
+    //     game.price = game.price/100;
+    //     dispatch(_fetchCart(game));
+    //   }
+    // }
   }
 }
 
-// Add in datePurchased and confirmationNumer
+// Add in datePurchased and confirmationNumer for a logged in user
 export const updateCartInvoice = (confirmationNumber, datePurchased) => {
   return async (dispatch) => {
     try {
@@ -139,6 +168,16 @@ export const updateCartInvoice = (confirmationNumber, datePurchased) => {
         confirmationNumber: confirmationNumber,
         datePurchased: datePurchased
       })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const updateInvoiceGuest = (confirmationNumber, datePurchased) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put()
     } catch (error) {
       console.log(error)
     }
@@ -172,6 +211,12 @@ export const getOrders = () => {
   }
 }*/
 
+export const clearCart = () => {
+  return (dispatch) => {
+    dispatch(_clearCart());
+  }
+}
+
 const cartReducer = (state = [], action) => {
   switch(action.type) {
     case ADD_TO_CART: {
@@ -203,12 +248,15 @@ const cartReducer = (state = [], action) => {
         action.game.isFetched = true;
       }
       action.game.price = action.game.price / 100;
-      return [ ...state, action.game ];
+      return [ action.game ];
     }
     case SAVE_CART: {
       
 
       return [ ...state ];
+    }
+    case CLEAR_CART: {
+      return [];
     }
     default:
       return state;
