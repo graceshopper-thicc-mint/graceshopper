@@ -97,6 +97,7 @@ nav {
 
 .section p {
   color: #1f2833;
+  margin: 2px;
 }
 
 #logo-stuff {
@@ -116,6 +117,7 @@ hr {
 }
 
 .add-to-cart-section p {
+  text-align: center;
   color: #1f2833
 }
 

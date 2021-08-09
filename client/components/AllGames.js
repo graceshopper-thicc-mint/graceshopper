@@ -23,7 +23,9 @@ class AllGames extends React.Component {
                   <img src={game.imageUrl} />
                 </Link>
                 <div className="section">
-                  <p id="game-name">{game.name}</p>
+                  <Link to={`games/${game.id}`}>
+                    <p id="game-name">{game.name}</p>
+                  </Link>
                   <p>Publisher: {game.publisher}</p>
                   <p>Release Date: {game.releaseDate}</p>
                   <p>ESRB Rating: {game.maturityRating}</p>
