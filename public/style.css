@@ -102,7 +102,7 @@ nav {
   font-size: 15px;
 }
 
-#logout {
+#nav-logout {
   color: #66fcf1
 }
 
@@ -246,4 +246,19 @@ table, th, td {
   margin-top: 100px;
   width: 400px;
   height: 320px;;
+}
+
+#navbar-container {
+  position: sticky;
+  top: 0px;
+  z-index: 10;
+  background-color: black
+}
+
+#nav-login:hover , #nav-signup:hover , .nav-shop:hover , .nav-cart:hover, #nav-home:hover {
+  text-shadow: 2px 1px #66fcf1
+}
+
+#nav-items {
+  font-size: 20px;
 }

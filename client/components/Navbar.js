@@ -27,7 +27,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, cart, fetchCart}) =>  {
   }
 
   return (
-  <div>
+  <div id="navbar-container">
     <div id="navbar">
       <div id="logo-stuff">
         <img id="logo" src="thicc-mint.png" />
@@ -37,23 +37,23 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, cart, fetchCart}) =>  {
         {isLoggedIn ? (
         <div id="nav-items">
           {/* The navbar will show these links after you log in */}
-          <Link to="/games">SHOP</Link>
-          <Link to="/home">Home</Link>
+          <Link to="/games" className="nav-shop" >Shop</Link>
+          <Link to="/home" id="nav-home">Home</Link>
           {isAdmin ? (
-            <Link to="/admin">Admin</Link>) : null
+            <Link to="/admin" id="nav-admin">Admin</Link>) : null
           }
-          <Link to="/cart" onClick={handleCart}>Cart<i className ="fas fa-cart-plus"></i>({totalGames})</Link>
-          <a id="logout" href="#" onClick={handleClick}>
+          <Link to="/cart" onClick={handleCart} className="nav-cart">Cart<i className ="fas fa-cart-plus"></i>({totalGames})</Link>
+          <a id="nav-logout" href="#" onClick={handleClick}>
             Logout
           </a>
         </div>
       ) : (
         <div id="nav-items">
           {/* The navbar will show these links before you log in */}
-          <Link to="/games">SHOP</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/cart">Cart<i className ="fas fa-cart-plus"></i></Link>
+          <Link to="/games" className="nav-shop">Shop</Link>
+          <Link to="/login" id="nav-login">Login</Link>
+          <Link to="/signup" id="nav-signup">Sign Up</Link>
+          <Link to="/cart" className="nav-cart">Cart<i className ="fas fa-cart-plus" ></i></Link>
         </div>
       )}
     </nav>
