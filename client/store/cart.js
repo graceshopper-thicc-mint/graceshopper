@@ -57,6 +57,8 @@ export const addToCart = (game) => { //params: game, user
       const userId = (parseJwt(localStorage.token)).id;
       let { data: invoice } = await axios.get(`/api/users/${userId}/invoice`);
       let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
+      console.log('addToCart has token');
+
       if(invoice && cartDb.map((invoiceLine) => invoiceLine.gameId).indexOf(game.id) === -1) {
         await axios.post(`/api/users/${userId}/cart`, {
           gameId: game.id,
@@ -74,6 +76,23 @@ export const addToCart = (game) => { //params: game, user
         });
       }
       
+    } else {
+      console.log('addToCart, else');
+      //Add gameId and qty to local storage
+      if(!Object.prototype.hasOwnProperty.call(game.id)) {
+        localStorage[game.id] = 1;
+        game.itemQuantity = 1;
+      } else {
+        console.log('guest cart already have game');
+        let qty = localStorage.getItem(game.id);
+        qty = parseInt(qty, 10);
+        qty++;
+        console.log('qty:', qty);
+        localStorage.setItem(game.id, qty);
+
+        game.itemQuantity = localStorage.getItem(game.id);
+      }
+
     }
     console.log('game to be added:', game);
     dispatch(_addToCart(game));
@@ -135,12 +154,12 @@ export const fetchCart = () => {
     }
     
     // Append user cart to guest cart stored in local storage if it exists
-    for(const key in localStorage) {
-      if(key.length === 1) {
-        const { data: game } = await axios.get(`/api/games/${key}`);
-        dispatch(_fetchCart(game));
-      }
-    }
+    // for(const key in localStorage) {
+    //   if(key.length === 1) {
+    //     const { data: game } = await axios.get(`/api/games/${key}`);
+    //     dispatch(_fetchCart(game));
+    //   }
+    // }
 
   }
 }
