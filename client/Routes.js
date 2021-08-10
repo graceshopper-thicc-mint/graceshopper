@@ -14,6 +14,7 @@ import EditGame from "./components/EditGame";
 import CreateGame from './components/CreateGame';
 import AdminUsers from './components/AdminUsers';
 import GuestOrderConfirmation from "./components/GuestOrderConfirmation"
+import Checkout from "./components/Checkout"
 
 /**
  * COMPONENT
@@ -33,6 +34,7 @@ class Routes extends Component {
             <Route path="/home" component={Home} />
             {isAdmin ? (
               <Switch>
+                <Route path="/users/:userId/checkout" component={Checkout} />
                 <Route exact path="/admin" component={Admin}/>
                 <Route path="/admin/users" component={AdminUsers}/>
                 <Route exact path="/admin/editGames" component={AdminGames}/>
@@ -44,6 +46,7 @@ class Routes extends Component {
             <Route exact path="/games" component={AllGames} />
             <Route path="/games/:gameId" component={SingleGame} />
             <Route path="/users/:userId/confirmation" component={OrderConfirmation} />
+            <Route path="/users/:userId/checkout" component={Checkout} />
             <Redirect to="/home" />
           </Switch>
         ) : (
@@ -55,6 +58,7 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
             <Route path="/cart" component={Cart} />
             <Route path="/confirmation" component={GuestOrderConfirmation} />
+            <Route path="/users/:userId/checkout" component={Checkout} />
           </Switch>
         )}
       </div>

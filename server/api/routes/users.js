@@ -4,6 +4,7 @@ const {
 } = require("../../db");
 const { Op } = require("sequelize");
 const { requireToken, isAdmin } = require("../gatekeepingMiddleware");
+const sgMail = require("@sendgrid/mail")
 
 // GET ALL USERS
 // GET /api/users
@@ -189,18 +190,44 @@ router.post(
   }
 );
 
+
 // UPDATES A USER'S ACTIVE CART WITH DATEPURCHASED AND CONFIRMATION NUMBER THEREFORE MAKING IT AN INACTIVE CART
 // PUT /api/users/:userId/:invoiceId
+// use sendgrid here
 router.put(
   "/:userId/:invoiceId",
   async (req, res, next) => {
     try {
+      const { confirmationNumber } = req.body
+      const userId = req.params.userId
+
+      const user = await User.findByPk(userId)
       const invoiceToUpdate = await Invoice.findOne({
         where: {
-          userId: req.params.userId,
+          userId,
           datePurchased: null,
         },
       });
+
+      // extract information for the email
+      const { firstName, lastName, email } = user
+
+      // construct your email
+      const msg = {
+        to: email,
+        from: "thicc.mint.FSA@gmail.com",
+        subject: "Thanks For Your Order",
+        text: `Hello ${firstName} ${lastName}. Thanks for your order! Your order confirmation number is ${confirmationNumber}. Love, The Thicc-Mint Fam <3`
+      } // send dat email
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log("Email sent")
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+      // update the database
       res.send(await invoiceToUpdate.update(req.body));
     } catch (error) {
       next(error);
