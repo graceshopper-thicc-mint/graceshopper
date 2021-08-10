@@ -131,7 +131,7 @@ export const fetchCart = () => {
 
       dispatch(_fetchCart(gamesAwaited));
     }
-
+    
     // Append user cart to guest cart stored in local storage if it exists
     for(const key in localStorage) {
       if(key.length === 1) {
