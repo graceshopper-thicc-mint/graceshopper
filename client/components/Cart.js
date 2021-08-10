@@ -9,7 +9,6 @@ import { fetchCart, updateCartInvoice, createNewCart } from '../store/cart';
 
 const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => {
   let history = useHistory()
-  // this.state
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalGames, setTotalGames] = useState(0);
 
@@ -27,10 +26,6 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => 
     price = Number(price.toFixed(2)); // price is 2 decimals and now a number
     setTotalPrice(price);
   }, [cart, totalPrice, totalGames, setTotalPrice, setTotalGames]);
-
-  // const round = (value, decimal) => {
-  //   return Number(Math.round(value + 'e' + decimal) + 'e-' + decimal);
-  // }
 
   // what happens when you click checkout
   // i want to create a order confirmation #, DONE
@@ -68,7 +63,8 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => 
       }
   }
 
-  return (
+  if (cart.length > 0) {
+    return (
     <div>
       <h3>Cart</h3>
       <div>
@@ -87,7 +83,14 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => 
         </button>
       </div>
     </div>
-  );
+  )
+  } else {
+    return (
+      <div>
+        <h1>Your cart is empty.</h1>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = (state) => {

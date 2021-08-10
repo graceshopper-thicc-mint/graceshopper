@@ -1,10 +1,9 @@
-import React, { useState } from "react"
+import React from "react"
 import Billing from "./Billing"
 
 const Checkout = () => {
   return (
     <div>
-      <Payment />
       <Billing />
     </div>
   )
