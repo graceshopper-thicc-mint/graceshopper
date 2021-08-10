@@ -24,7 +24,7 @@ async function seed() {
       lastName: "hossain",
       username: "sakib",
       password: "123",
-      isAdmin: true,
+      isAdmin: "thicc-mint-rox",
       email: "sakiba09@gmail.com",
     }),
     User.create({
@@ -32,7 +32,7 @@ async function seed() {
       lastName: "orman",
       username: "michael",
       password: "123",
-      isAdmin: true,
+      isAdmin: "thicc-mint-rox",
       email: "michaelorman61@gmail.com",
     }),
     User.create({
@@ -40,7 +40,7 @@ async function seed() {
       lastName: "chang",
       username: "haram",
       password: "123",
-      isAdmin: true,
+      isAdmin: "thicc-mint-rox",
       email: "harammchang@gmail.com",
     }),
     User.create({
@@ -48,7 +48,7 @@ async function seed() {
       lastName: "nguyen",
       username: "jason",
       password: "123",
-      isAdmin: true,
+      isAdmin: "thicc-mint-rox",
       email: "jt.nguyen14311@gmail.com",
     }),
     User.create({
@@ -56,7 +56,7 @@ async function seed() {
       lastName: "lee",
       username: "ben",
       password: "123",
-      isAdmin: true,
+      isAdmin: "thicc-mint-rox",
       email: "tweakss@gmail.com",
     }),
   ]);

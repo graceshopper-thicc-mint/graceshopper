@@ -87,7 +87,7 @@ const hashPassword = async (user) => {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
   }
 };
-/*
+
 User.beforeCreate(user => {
   if (user.isAdmin !== "thicc-mint-rox") {
     throw new Error("Admin key not valid")
@@ -95,7 +95,6 @@ User.beforeCreate(user => {
     user.isAdmin = true
   }
 })
-*/
 
 User.beforeCreate(hashPassword);
 User.beforeUpdate(hashPassword);
