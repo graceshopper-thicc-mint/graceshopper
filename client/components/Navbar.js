@@ -30,18 +30,18 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, cart, fetchCart}) =>  {
   <div>
     <div id="navbar">
       <div id="logo-stuff">
-        T H I C C - M I N T
         <img id="logo" src="thicc-mint.png" />
+        T H I C C - M I N T
       </div>
       <nav>
         {isLoggedIn ? (
         <div id="nav-items">
           {/* The navbar will show these links after you log in */}
+          <Link to="/games">SHOP</Link>
           <Link to="/home">Home</Link>
           {isAdmin ? (
             <Link to="/admin">Admin</Link>) : null
           }
-          <Link to="/games">SHOP</Link>
           <Link to="/cart" onClick={handleCart}>Cart<i className ="fas fa-cart-plus"></i>({totalGames})</Link>
           <a id="logout" href="#" onClick={handleClick}>
             Logout

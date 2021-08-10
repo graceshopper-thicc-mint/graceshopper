@@ -17,7 +17,7 @@ const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
     // console.log('itemQty:', itemQty);
     setQty(itemQty);
     // console.log('At handleChange, qty after setQty:', qty);
-    adjustItemQty(game, itemQty);    
+    adjustItemQty(game, itemQty);
   }
 
   // const qtyValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

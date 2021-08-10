@@ -25,7 +25,7 @@ router.get("/", requireToken, isAdmin, async (req, res, next) => {
 // GET /api/users/:userId
 router.get("/:userId", requireToken, isAdmin, async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId, { 
+    const user = await User.findByPk(req.params.userId, {
       attributes: ["id", "username"],
     });
     res.send(user);
@@ -36,7 +36,7 @@ router.get("/:userId", requireToken, isAdmin, async (req, res, next) => {
 
 // GET ALL ITEMS IN A USER'S CART (NOT PURCHASED!)
 // GET /api/users/:userId/cart
-router.get("/:userId/cart", requireToken, isAdmin, async (req, res, next) => {
+router.get("/:userId/cart", requireToken, async (req, res, next) => {
   try {
     const userId = req.params.userId;
     const invoice = await Invoice.findOne({
@@ -177,6 +177,7 @@ router.get(
 // CREATING A NEW INVOICE FOR A LOGGED IN CUSTOMER AS SOON AS THEY CHECKOUT SO THAT THEY WILL ALWAYS HAVE A CART, OR RIGHT AFTER THEY SIGN UP, WHEN GUESTS CHECK OUT.
 // POST /api/users/:userId/invoice
 router.post(
+
   "/:userId/invoice",
   async (req, res, next) => {
     try {

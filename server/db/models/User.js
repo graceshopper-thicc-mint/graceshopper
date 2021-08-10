@@ -2,11 +2,18 @@ const Sequelize = require("sequelize");
 const db = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const axios = require("axios");
 
 const SALT_ROUNDS = 5;
 
 const User = db.define("user", {
+  firstName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  lastName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   username: {
     type: Sequelize.STRING,
     unique: true,
@@ -14,6 +21,7 @@ const User = db.define("user", {
   },
   password: {
     type: Sequelize.STRING,
+    allowNull: false
   },
   isAdmin: {
     type: Sequelize.BOOLEAN,
@@ -79,6 +87,16 @@ const hashPassword = async (user) => {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
   }
 };
+
+User.beforeCreate(user => {
+  if (user.isAdmin === "") {
+    user.isAdmin = false
+  } else if (user.isAdmin !== "thicc-mint-rox") {
+    throw new Error("Admin key not valid")
+  } else {
+    user.isAdmin = true
+  }
+})
 
 User.beforeCreate(hashPassword);
 User.beforeUpdate(hashPassword);
