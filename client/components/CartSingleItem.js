@@ -5,16 +5,16 @@ import { localStorage } from '../store/cart';
 
 const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
   const [qty, setQty] = useState(game.itemQuantity);
-  console.log('CartSingleItem, game', game, 'game.itemQuantity:', game.itemQuantity);
+  // console.log('CartSingleItem, game', game, 'game.itemQuantity:', game.itemQuantity, ' qty:', qty);
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     // console.log('CartSingleItem, game', game, 'game.itemQuantity:', game.itemQuantity);
-    
+    // document.querySelector('#game-qty').value = game.itemQuantity;
+    const gameListing = document.querySelector(`#id${game.id}`);
+    // console.log('gameListing:', gameListing);
+    gameListing.querySelector('#game-qty').value = game.itemQuantity;
   });
 
-  /*
-  If componentDidUpdate then use the redux store's state
-  */
 
   function handleChange(event) {
     // console.log('At handleChange, event.target.value:', event.target.value);
@@ -29,7 +29,7 @@ const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
   // const qtyValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (
-    <div key={game.id} className="in-cart-game" data-game-id={game.id}>
+    <div key={game.id} id={`id${game.id}`} className="in-cart-game">
       <p>{game.name}</p>
       <p>$ {game.price}</p>
       <label htmlFor="game-qty">Quantity:</label>
