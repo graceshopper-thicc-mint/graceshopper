@@ -66,27 +66,30 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => 
 
   if (cart.length > 0) {
     return (
-    <div>
-      <h3>Cart</h3>
-      <div>
-        {cart.map((game) => {
-          return <CartSingleItem key={game.id} game={game} />;
-        })}
+      <div id="cart-container">
+        <div id="cart-games">
+          <h3 id="how-many-items">{totalGames} item(s) in your cart</h3>
+          <div id="cart-game">
+            {cart.map((game) => {
+              return <CartSingleItem key={game.id} game={game} />;
+            })}
+          </div>
+        </div>
+        <div id="cart-summary">
+          <p id="cart-summary-title">Cart Summary</p>
+          <p>{totalGames} game(s)</p>
+          <p>Total Price: $ {totalPrice}</p>
+          <button type="submit" onClick={() => handleCheckout()}>
+            Checkout
+          </button>
+        </div>
       </div>
-      <div>
-        <h4>Cart Summary</h4>
-        <p>Total Games: {totalGames} games</p>
-        <p>Total Price: $ {totalPrice}</p>
-        <button type="submit" onClick={() => handleCheckout()}>
-          Checkout
-        </button>
-      </div>
-    </div>
-  )
+    )
   } else {
     return (
-      <div>
+      <div id="empty-cart">
         <h1>Your cart is empty.</h1>
+        <img src="sad-face.png" />
       </div>
     )
   }
