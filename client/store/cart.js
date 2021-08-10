@@ -1,6 +1,5 @@
 import axios from 'axios';
 import atob from 'atob';
-import store from './';
 
 export const localStorage = window.localStorage;
 
@@ -17,7 +16,6 @@ const FETCH_CART = "FETCH_CART";
 const ADD_TO_CART = "ADD_TO_CART";
 const ADJUST_ITEM_QTY = "ADJUST_ITEM_QTY";
 const REMOVE_FROM_CART = "REMOVE_FROM_CART";
-const SAVE_CART = "SAVE_CART";
 const CLEAR_CART = "CLEAR_CART";
 
 // Action Creators
@@ -62,7 +60,6 @@ export const addToCart = (game) => { //params: game, user
       if(invoice && cartDb.map((invoiceLine) => invoiceLine.gameId).indexOf(game.id) === -1) {
         await axios.post(`/api/users/${userId}/cart`, {
           gameId: game.id,
-          // itemQuantity: game.itemQuantity, //dont need this because InvoiceLine defaultValue is 1 and game.ItemQuantity is undefined
           unitPrice: game.price * 100,
           invoiceId: invoice.id,
         });
@@ -234,11 +231,6 @@ const cartReducer = (state = [], action) => {
     }
     case FETCH_CART: {
       return [ ...action.games ];
-    }
-    case SAVE_CART: {
-      
-
-      return [ ...state ];
     }
     case CLEAR_CART: {
       return [];
