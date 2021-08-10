@@ -21,7 +21,7 @@ class SingleGame extends React.Component {
         <p>Release Date: {game.releaseDate}</p>
         <p>ESRB Rating: {game.maturityRating}</p>
         <img src={game.imageUrl}/>
-        <p>{`$${game.price}`}</p>
+        <p>{`$${game.price/100}`}</p>
         <button value={game.id} onClick={() => addToCart(game)}>
           Add To Cart
           <i className="fas fa-cart-plus"></i>
