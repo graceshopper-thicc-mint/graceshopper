@@ -342,11 +342,7 @@ table, th, td {
 }
 
 #message {
-  font-size: 25px;
-}
-
-#head-text {
-  position: relative;
+  font-size: 35px;
 }
 
 #text-on-image {
@@ -354,10 +350,6 @@ table, th, td {
   position: fixed;
   left: 500px;
   top: 200px;
-}
-
-#text-on-image p {
-  font-size: 60px;
   text-align: center;
 }
 

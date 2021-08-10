@@ -8,8 +8,8 @@ export const Home = ({firstName, lastName}) => {
   return (
     <div id="head-text">
       <div id="text-on-image">
-        <p>WELCOME {firstName} {lastName}!!</p>
-        <p>HAPPY SHOPPING!!</p>
+        <p id="welcome">WELCOME {firstName} {lastName}!!</p>
+        <p id="message">HAPPY SHOPPING!!</p>
       </div>
         <img id="home-bg" src="gaming-background.jpeg" />
     </div>
