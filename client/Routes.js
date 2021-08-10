@@ -8,11 +8,6 @@ import AllGames from "./components/AllGames";
 import Cart from "./components/Cart";
 import SingleGame from "./components/SingleGame";
 import OrderConfirmation from "./components/OrderConfirmation";
-import Admin from "./components/Admin";
-import AdminGames from "./components/AdminGames";
-import EditGame from "./components/EditGame";
-import CreateGame from "./components/CreateGame";
-import AdminUsers from "./components/AdminUsers";
 import GuestOrderConfirmation from "./components/GuestOrderConfirmation";
 import Checkout from "./components/Checkout";
 

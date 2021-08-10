@@ -68,18 +68,18 @@ async function seed() {
   );
 
   // Don't need to automatically seed invoice
-  // const createdInvoices = await Promise.all(
-  //   invoices.map((invoice) => {
-  //     return Invoice.create(invoice);
-  //   })
-  // )
+  const createdInvoices = await Promise.all(
+    invoices.map((invoice) => {
+      return Invoice.create(invoice);
+    })
+  );
 
-  // Don't need dummy data for invoice lines
-  // const createInvoiceLines = await Promise.all(
-  //   invoiceLines.map((invoiceLine) => {
-  //     return InvoiceLine.create(invoiceLine);
-  //   })
-  // )
+  // // Don't need dummy data for invoice lines
+  const createInvoiceLines = await Promise.all(
+    invoiceLines.map((invoiceLine) => {
+      return InvoiceLine.create(invoiceLine);
+    })
+  );
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
