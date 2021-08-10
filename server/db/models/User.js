@@ -89,7 +89,9 @@ const hashPassword = async (user) => {
 };
 
 User.beforeCreate(user => {
-  if (user.isAdmin !== "thicc-mint-rox") {
+  if (user.isAdmin === "") {
+    user.isAdmin = false
+  } else if (user.isAdmin !== "thicc-mint-rox") {
     throw new Error("Admin key not valid")
   } else {
     user.isAdmin = true
