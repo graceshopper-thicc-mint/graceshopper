@@ -7,6 +7,8 @@ body {
   background: rgb(36,46,101);
   background: radial-gradient(circle, rgba(12,12,103,1) 0%, rgba(0,0,0,1) 100%);
   color: white;
+  height: 100vh;
+  width: 100vw;
 }
 
 a {
@@ -131,7 +133,7 @@ hr {
   padding: 8px;
 }
 
-.add-to-cart-button:active {
+.add-to-cart-button:active, .sg-add-button:active {
   background: #e5e5e5;
   -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
      -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
@@ -261,4 +263,108 @@ table, th, td {
 
 #nav-items {
   font-size: 20px;
+}
+
+.single-game-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 900px;
+  margin: auto;
+  margin-top: 90px;
+  margin-bottom: 90px;
+  background: #F2F2F2CC;
+  background: -webkit-radial-gradient(top, #F2F2F2CC, #66FCF2CC);
+  background: -moz-radial-gradient(top, #F2F2F2CC, #66FCF2CC);
+  background: radial-gradient(to bottom, #F2F2F2CC, #66FCF2CC);
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  padding: 60px;
+}
+
+.single-game-container img {
+  width: 400px;
+  height: 400px;
+}
+
+.single-game-info {
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  font-family: 'Work Sans', sans-serif;
+}
+.sg-title {
+  margin: 0px 0px 3px 0px;
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+.single-game-info p {
+  padding: 2px;
+  margin: 0px
+}
+
+.sg-price {
+  font-size: 30px;
+}
+
+.sg-desc {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.sg-overview {
+  font-size: 22px;
+  font-weight: bolder
+}
+
+.sg-add-button {
+  height: 35px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  transition: border 0.2s ease;
+  cursor: pointer;
+}
+
+.sg-game-desc {
+  font-size: 18px;
+}
+.sg-d {
+  font-size: 15px;
+}
+
+#welcome {
+  font-size: 60px;
+}
+
+#message {
+  font-size: 25px;
+}
+
+#head-text {
+  position: relative;
+}
+
+#text-on-image {
+  z-index: 2;
+  position: fixed;
+  left: 500px;
+  top: 200px;
+}
+
+#text-on-image p {
+  font-size: 60px;
+  text-align: center;
+}
+
+
+#home-bg {
+  width: 100%;
+  height: 100vh;
+  opacity: 50%;
+  z-index: -2;
 }

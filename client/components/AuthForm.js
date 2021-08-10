@@ -91,9 +91,7 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
-      console.log("handlesubmit is gonna run")
       const formName = evt.target.name
-      console.log("formname", formName)
       if (formName === "login") {
         const info = {
           username: evt.target.username.value,

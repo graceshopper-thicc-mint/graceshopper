@@ -4,10 +4,14 @@ import {connect} from 'react-redux'
 /**
  * COMPONENT
  */
-export const Home = ({username}) => {
+export const Home = ({firstName, lastName}) => {
   return (
-    <div>
-      <h3>Welcome, {username}</h3>
+    <div id="head-text">
+      <div id="text-on-image">
+        <p>WELCOME {firstName} {lastName}!!</p>
+        <p>HAPPY SHOPPING!!</p>
+      </div>
+        <img id="home-bg" src="gaming-background.jpeg" />
     </div>
   )
 }
@@ -17,7 +21,8 @@ export const Home = ({username}) => {
  */
 const mapState = state => {
   return {
-    username: state.auth.username
+    firstName: state.auth.firstName,
+    lastName: state.auth.lastName
   }
 }
 
