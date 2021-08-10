@@ -72,34 +72,12 @@ export const addToCart = (game) => { //params: game, user
           itemQuantity: invoiceLine[0].itemQuantity + 1,
           unitPrice: invoiceLine[0].unitPrice + game.price * 100
         });
-
-        // game.itemQuantity = invoiceLine[0].itemQuantity + 1;
       }
       
     }
     console.log('game to be added:', game);
     dispatch(_addToCart(game));
-    // if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
-    //   const userId = (parseJwt(localStorage.token)).id;
-    //   let { data: invoice } = await axios.get(`/api/users/${userId}/invoice`);
-    //   let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
-    //   if(invoice && cartDb.map((invoiceLine) => invoiceLine.gameId).indexOf(game.id) === -1) {
-    //     await axios.post(`/api/users/${userId}/cart`, {
-    //       gameId: game.id,
-    //       // itemQuantity: game.itemQuantity, //dont need this because InvoiceLine defaultValue is 1 and game.ItemQuantity is undefined
-    //       unitPrice: game.price * 100,
-    //       invoiceId: invoice.id,
-    //     });
-    //   }
-    //   else if(invoice) {
-    //     let { data: invoiceLine } = await axios.get(`/api/users/${userId}/cart/${game.id}`);
-    //     await axios.put(`/api/users/${userId}/cart/${game.id}`, {
-    //       itemQuantity: invoiceLine[0].itemQuantity + 1,
-    //       unitPrice: invoiceLine[0].unitPrice + game.price * 100
-    //     });
-    //   }
-    // }
-    // console.log('game to be added:', game);
+    
   }
 }
 
@@ -236,18 +214,6 @@ const cartReducer = (state = [], action) => {
         action.game.itemQuantity = 1;
         return [ ...state, action.game ];
       }
-
-
-      // const gameIdSet = new Set(state.map((game) => game.id));
-      // console.log('cartReducer, action.game:', action.game);
-    
-      // if(gameIdSet.has(action.game.id)) {
-      //   action.game.itemQuantity++;
-      //   return [ ...state ];
-      // } else {
-      //   action.game.itemQuantity = 1;
-      //   return [ ...state, action.game ];
-      // }
     }
     case ADJUST_ITEM_QTY: {
       action.game.itemQuantity = action.qty;
@@ -260,15 +226,6 @@ const cartReducer = (state = [], action) => {
       return [ ...filteredGames ];
     }
     case FETCH_CART: {
-      // if(localStorage.getItem(action.game.id)) {
-      //   action.game.itemQuantity = Number(localStorage.getItem(action.game.id));
-      // }
-      // else {
-      //   action.game.isFetched = true;
-      // }
-      // action.game.price = action.game.price / 100;
-      // return [ action.game ];
-      // console.log('FETCH_CART reducer, action.games:', action.games);
       return [ ...action.games ];
     }
     case SAVE_CART: {
