@@ -38,10 +38,6 @@ class Routes extends Component {
                 <Route exact path="/admin/editGames" component={AdminGames}/>
                 <Route exact path="/admin/editGames/:gameId" component={EditGame}/>
                 <Route path="/admin/createGame" component={CreateGame}/>
-                <Route path="/cart" component={Cart}/>
-                <Route exact path="/games" component={AllGames} />
-                <Route path="/games/:gameId" component={SingleGame} />
-                <Route path="/users/:userId/confirmation" component={OrderConfirmation} />
               </Switch>) : null
             }
             <Route path="/cart" component={Cart}/>
