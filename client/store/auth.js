@@ -1,7 +1,7 @@
 import axios from 'axios'
 import history from '../history'
 import { parseJwt } from './cart'
-import { localStorage, fetchCart } from './cart'
+import { localStorage } from './cart'
 import store from "./"
 
 const TOKEN = 'token'
@@ -27,13 +27,11 @@ export const me = () => async dispatch => {
         authorization: token
       }
     })
-    console.log('me, res.data', res.data);
     return dispatch(setAuth(res.data))
   }
 }
 
 async function logInFetchCart(userId) {
-  console.log('logInFetchCart');
   let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
   
   const gamesAwaiting = cartDb.map(async (invoiceLine) => {
@@ -49,7 +47,6 @@ async function logInFetchCart(userId) {
   });
   const gamesAwaited = await gamesPromise; //cartItems
 
-  console.log('logInFetchCart, store:', store.getState());
   store.dispatch({
     type: "FETCH_CART",
     games: gamesAwaited, //games is an array of game objs
@@ -69,7 +66,6 @@ export const authenticate = (username, password, method) => async dispatch => {
       })
       dispatch(me());
     } else {
-      //call some other function that fetches cart then dispatch(me)
       logInFetchCart(userId);
       dispatch(me());
     }
@@ -80,9 +76,7 @@ export const authenticate = (username, password, method) => async dispatch => {
 
 export const logout = () => {
   localStorage.clear();
-  //Empty the cart
-  console.log('logout, store.dispatch', store.dispatch({type: "CLEAR_CART"}));
-  console.log('Dispatched clearCart, store.getState:', store.getState());
+  store.dispatch({type: "CLEAR_CART"});
   history.push('/login')
   return {
     type: SET_AUTH,
