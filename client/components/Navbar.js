@@ -8,7 +8,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, cart, fetchCart}) =>  {
   let [totalGames, setTotalGames] = useState(0);
 
   useEffect(() => {
-    //console.log('inside navbar mount: ');
+    console.log('inside navbar mount: ');
     fetchCart();
   }, []);
 
@@ -22,7 +22,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, cart, fetchCart}) =>  {
   }, [cart, totalGames, setTotalGames]);
 
   function handleCart() {
-    // console.log('handleCart');
+    console.log('handleCart');
     fetchCart();
   }
 
@@ -76,7 +76,6 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     handleClick() {
-      console.log('handleClick for logout');
       dispatch(logout())
     },
     fetchCart: () => dispatch(fetchCart())

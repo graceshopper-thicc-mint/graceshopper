@@ -20,10 +20,10 @@ const SAVE_CART = "SAVE_CART";
 const CLEAR_CART = "CLEAR_CART";
 
 // Action Creators
-const _fetchCart = (game) => {
+const _fetchCart = (games) => {
   return {
     type: FETCH_CART,
-    game
+    games
   }
 }
 
@@ -49,26 +49,19 @@ const _removeFromCart = (game) => {
   };
 };
 
-const _clearCart = () => {
-  return {
-    type: CLEAR_CART,
-  }
-}
 
 // Thunks
 export const addToCart = (game) => { //params: game, user
-  console.log('game inside addToCart:', game);
+  // console.log('game inside addToCart:', game);
   return async (dispatch) => {
-    //Update the user's cart state with the new game
-    dispatch(_addToCart(game));
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
       const userId = (parseJwt(localStorage.token)).id;
       let { data: invoice } = await axios.get(`/api/users/${userId}/invoice`);
       let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
-      if(invoice && cartDb.map((item) => item.gameId).indexOf(game.id) === -1) {
+      if(invoice && cartDb.map((invoiceLine) => invoiceLine.gameId).indexOf(game.id) === -1) {
         await axios.post(`/api/users/${userId}/cart`, {
           gameId: game.id,
-          itemQuantity: game.itemQuantity,
+          // itemQuantity: game.itemQuantity, //dont need this because InvoiceLine defaultValue is 1 and game.ItemQuantity is undefined
           unitPrice: game.price * 100,
           invoiceId: invoice.id,
         });
@@ -80,7 +73,11 @@ export const addToCart = (game) => { //params: game, user
           unitPrice: invoiceLine[0].unitPrice + game.price * 100
         });
       }
+      
     }
+    console.log('game to be added:', game);
+    dispatch(_addToCart(game));
+    
   }
 }
 
@@ -114,17 +111,27 @@ export const removeFromCart = (game) => {
 
 export const fetchCart = () => {
   return async (dispatch) => {
-    // Fetch user cart on refresh
-    // if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
-    //   const userId = (parseJwt(localStorage.token)).id;
-    //   let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
-    //   console.log('this is cartDb inside fetchCart: ', cartDb);
-    //   cartDb.forEach(async (game) => {
-    //   let { data: gameToFetch } = await axios.get(`/api/games/${game.gameId}`);
-    //   gameToFetch.itemQuantity = game.itemQuantity;
-    //   dispatch(_fetchCart(gameToFetch));
-    //   });
-    // }
+    if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
+      const userId = (parseJwt(localStorage.token)).id;
+      let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
+      console.log('this is cartDb inside fetchCart: ', cartDb);
+      
+      const gamesAwaiting = cartDb.map(async (invoiceLine) => {
+        let { data: gameToFetch } = await axios.get(`/api/games/${invoiceLine.gameId}`);
+        gameToFetch.itemQuantity = invoiceLine.itemQuantity;
+        gameToFetch.price = gameToFetch.price / 100;
+        return gameToFetch;
+      })
+      const gamesPromise = Promise.all(gamesAwaiting).then((game) => {
+        return game;
+      }).catch(err => {
+        console.log(err);
+      });
+      const gamesAwaited = await gamesPromise; //cartItems
+
+      dispatch(_fetchCart(gamesAwaited));
+    }
+    
     // Append user cart to guest cart stored in local storage if it exists
     for(const key in localStorage) {
       if(key.length === 1) {
@@ -133,27 +140,6 @@ export const fetchCart = () => {
       }
     }
 
-    //Get the user's cart items
-      // const userId = (parseJwt(localStorage.token)).id;
-      // let { data: cartItems } = await axios.get(`/api/users/${userId}/cart`);
-      // cartItems.forEach(async (game) => {
-      //   const { data: fetchedGame } = await axios.get(`/api/games/${game.gameId}`);
-      //   fetchedGame.price = fetchedGame.price/100;
-      //   if(Number(localStorage[game.id])) {
-      //     fetchedGame.itemQuantity = Number(localStorage[game.id]);
-      //   }
-      //   dispatch(_fetchCart(fetchedGame));
-      // });
-
-    // Guest cart
-    // console.log('inside fetchCart thunk: ');
-    // for(const key in localStorage) {
-    //   if(key.length === 1) {
-    //     const { data: game } = await axios.get(`/api/games/${key}`);
-    //     game.price = game.price/100;
-    //     dispatch(_fetchCart(game));
-    //   }
-    // }
   }
 }
 
@@ -210,19 +196,19 @@ export const getOrders = () => {
   }
 }*/
 
-export const clearCart = () => {
-  return (dispatch) => {
-    dispatch(_clearCart());
-  }
-}
 
 const cartReducer = (state = [], action) => {
   switch(action.type) {
     case ADD_TO_CART: {
-      const gameIdSet = new Set(state.map((game) => game.id));
+      const gameIds = state.map((game) => {
+        return game.id;
+      });
 
-      if(gameIdSet.has(action.game.id)) {
-        action.game.itemQuantity++;
+      const indexOfGameInCart = gameIds.indexOf(action.game.id);
+      console.log('cartReducer, game in state before:', state[indexOfGameInCart]);
+      if(indexOfGameInCart !== -1) {
+        state[indexOfGameInCart].itemQuantity++;
+        console.log('cartReducer game in state after qty++:', state[indexOfGameInCart]);
         return [ ...state ];
       } else {
         action.game.itemQuantity = 1;
@@ -240,14 +226,7 @@ const cartReducer = (state = [], action) => {
       return [ ...filteredGames ];
     }
     case FETCH_CART: {
-      if(localStorage.getItem(action.game.id)) {
-        action.game.itemQuantity = Number(localStorage.getItem(action.game.id));
-      }
-      else {
-        action.game.isFetched = true;
-      }
-      action.game.price = action.game.price / 100;
-      return [ action.game ];
+      return [ ...action.games ];
     }
     case SAVE_CART: {
       
