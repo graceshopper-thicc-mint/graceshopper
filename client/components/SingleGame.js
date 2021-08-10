@@ -17,7 +17,7 @@ class SingleGame extends React.Component {
         <img src={game.imageUrl}/>
         <div className="single-game-info">
           <p className="sg-title">{game.name}</p>
-          <p className="sg-price">{`$${game.price}`}</p>
+          <p className="sg-price">{`$${game.price/100}`}</p>
           <button className="sg-add-button" value={game.id} onClick={() => addToCart(game)}>
             Add To Cart
             <i className="fas fa-cart-plus"></i>

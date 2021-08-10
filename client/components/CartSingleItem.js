@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { adjustItemQty, removeFromCart } from '../store/cart';
+import { adjustItemQty, removeFromCart, addToCart } from '../store/cart';
 import { localStorage } from '../store/cart';
 
 const CartSingleItem = ({ game, adjustItemQty, removeFromCart }) => {
