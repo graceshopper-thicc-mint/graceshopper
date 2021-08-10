@@ -51,7 +51,6 @@ const AuthForm = props => {
               <p>Username</p>
             </label>
             <input name="username" type="text" />
-
             <label htmlFor="password">
               <p>Password</p>
             </label>
@@ -92,17 +91,27 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
-      const info = {
-        firstName: evt.target.firstName.value,
-        lastName: evt.target.lastName.value,
-        email: evt.target.email.value,
-        isAdmin: evt.target.adminKey.value,
-        username: evt.target.username.value,
-        password: evt.target.password.value
-      }
+      console.log("handlesubmit is gonna run")
       const formName = evt.target.name
-      dispatch(authenticate(info, formName))
-    },
+      console.log("formname", formName)
+      if (formName === "login") {
+        const info = {
+          username: evt.target.username.value,
+          password: evt.target.password.value
+        }
+        dispatch(authenticate(info, formName))
+      } else {
+        const info = {
+          username: evt.target.username.value,
+          password: evt.target.password.value,
+          firstName: evt.target.firstName.value,
+          lastName: evt.target.lastName.value,
+          email: evt.target.email.value,
+          isAdmin: evt.target.adminKey.value
+        }
+        dispatch(authenticate(info, formName))
+      }
+    }
   }
 }
 
