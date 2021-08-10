@@ -36,7 +36,7 @@ const AuthForm = props => {
           <label htmlFor="adminKey">
             <p>Admin Key</p>
           </label>
-          <input name="adminKey" type="password" />
+          <input name="adminKey" type="password" placeholder="For admins only"/>
         </div>
         <button type="submit">Create an Account</button>
         {error && error.response && <div> {error.response.data} </div>}
