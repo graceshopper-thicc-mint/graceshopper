@@ -191,6 +191,7 @@ router.post(
 
 // UPDATES A USER'S ACTIVE CART WITH DATEPURCHASED AND CONFIRMATION NUMBER THEREFORE MAKING IT AN INACTIVE CART
 // PUT /api/users/:userId/:invoiceId
+// use sendgrid here
 router.put(
   "/:userId/:invoiceId",
   async (req, res, next) => {
@@ -201,6 +202,7 @@ router.put(
           datePurchased: null,
         },
       });
+      // put info into sendgrid email
       res.send(await invoiceToUpdate.update(req.body));
     } catch (error) {
       next(error);
