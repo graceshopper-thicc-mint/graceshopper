@@ -16,7 +16,6 @@ const FETCH_CART = "FETCH_CART";
 const ADD_TO_CART = "ADD_TO_CART";
 const ADJUST_ITEM_QTY = "ADJUST_ITEM_QTY";
 const REMOVE_FROM_CART = "REMOVE_FROM_CART";
-const SAVE_CART = "SAVE_CART";
 const CLEAR_CART = "CLEAR_CART";
 
 // Action Creators
@@ -61,13 +60,14 @@ export const addToCart = (game) => { //params: game, user
       if(invoice && cartDb.map((invoiceLine) => invoiceLine.gameId).indexOf(game.id) === -1) {
         await axios.post(`/api/users/${userId}/cart`, {
           gameId: game.id,
-          // itemQuantity: game.itemQuantity, //dont need this because InvoiceLine defaultValue is 1 and game.ItemQuantity is undefined
           unitPrice: game.price * 100,
           invoiceId: invoice.id,
         });
+        game.itemQuantity = 1;
       }
       else if(invoice) {
         let { data: invoiceLine } = await axios.get(`/api/users/${userId}/cart/${game.id}`);
+        game.itemQuantity = invoiceLine[0].itemQuantity + 1;
         await axios.put(`/api/users/${userId}/cart/${game.id}`, {
           itemQuantity: invoiceLine[0].itemQuantity + 1,
           unitPrice: invoiceLine[0].unitPrice + game.price * 100
@@ -88,10 +88,12 @@ export const adjustItemQty = (game, qty) => {
       await axios.put(`/api/users/${userId}/cart/${game.id}`, {
         itemQuantity: qty
       });
+      game.itemQuantity = qty;
     }
     else {
       localStorage.setItem(game.id, qty);
     }
+
     dispatch(_adjustItemQty(game, qty));
   }
 }
@@ -205,19 +207,21 @@ const cartReducer = (state = [], action) => {
       });
 
       const indexOfGameInCart = gameIds.indexOf(action.game.id);
-      console.log('cartReducer, game in state before:', state[indexOfGameInCart]);
       if(indexOfGameInCart !== -1) {
-        state[indexOfGameInCart].itemQuantity++;
-        console.log('cartReducer game in state after qty++:', state[indexOfGameInCart]);
-        return [ ...state ];
+        const filteredGames = state.filter((game) => {
+          return game.id !== action.game.id;
+        });
+        return [ ...filteredGames, action.game ];
       } else {
-        action.game.itemQuantity = 1;
         return [ ...state, action.game ];
       }
     }
     case ADJUST_ITEM_QTY: {
-      action.game.itemQuantity = action.qty;
-      return [ ...state ];
+      const filteredGames = state.filter((game) => {
+          return game.id !== action.game.id;
+        });
+        
+        return [ ...filteredGames, action.game ];
     }
     case REMOVE_FROM_CART: {
       const filteredGames = state.filter((game) => {
@@ -227,11 +231,6 @@ const cartReducer = (state = [], action) => {
     }
     case FETCH_CART: {
       return [ ...action.games ];
-    }
-    case SAVE_CART: {
-      
-
-      return [ ...state ];
     }
     case CLEAR_CART: {
       return [];

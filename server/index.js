@@ -2,6 +2,9 @@ const { db } = require('./db')
 const PORT = process.env.PORT || 8080
 const app = require('./app')
 const seed = require('../script/seed');
+require("dotenv").config()
+const sgMail = require("@sendgrid/mail")
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const init = async () => {
   try {
