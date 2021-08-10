@@ -1,5 +1,6 @@
 import axios from 'axios';
 import atob from 'atob';
+import store from './';
 
 export const localStorage = window.localStorage;
 
@@ -65,9 +66,11 @@ export const addToCart = (game) => { //params: game, user
           unitPrice: game.price * 100,
           invoiceId: invoice.id,
         });
+        game.itemQuantity = 1;
       }
       else if(invoice) {
         let { data: invoiceLine } = await axios.get(`/api/users/${userId}/cart/${game.id}`);
+        game.itemQuantity = invoiceLine[0].itemQuantity + 1;
         await axios.put(`/api/users/${userId}/cart/${game.id}`, {
           itemQuantity: invoiceLine[0].itemQuantity + 1,
           unitPrice: invoiceLine[0].unitPrice + game.price * 100
@@ -88,10 +91,12 @@ export const adjustItemQty = (game, qty) => {
       await axios.put(`/api/users/${userId}/cart/${game.id}`, {
         itemQuantity: qty
       });
+      game.itemQuantity = qty;
     }
     else {
       localStorage.setItem(game.id, qty);
     }
+
     dispatch(_adjustItemQty(game, qty));
   }
 }
@@ -205,19 +210,21 @@ const cartReducer = (state = [], action) => {
       });
 
       const indexOfGameInCart = gameIds.indexOf(action.game.id);
-      console.log('cartReducer, game in state before:', state[indexOfGameInCart]);
       if(indexOfGameInCart !== -1) {
-        state[indexOfGameInCart].itemQuantity++;
-        console.log('cartReducer game in state after qty++:', state[indexOfGameInCart]);
-        return [ ...state ];
+        const filteredGames = state.filter((game) => {
+          return game.id !== action.game.id;
+        });
+        return [ ...filteredGames, action.game ];
       } else {
-        action.game.itemQuantity = 1;
         return [ ...state, action.game ];
       }
     }
     case ADJUST_ITEM_QTY: {
-      action.game.itemQuantity = action.qty;
-      return [ ...state ];
+      const filteredGames = state.filter((game) => {
+          return game.id !== action.game.id;
+        });
+        
+        return [ ...filteredGames, action.game ];
     }
     case REMOVE_FROM_CART: {
       const filteredGames = state.filter((game) => {
