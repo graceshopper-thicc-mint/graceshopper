@@ -5,8 +5,9 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import auth from './auth'
 import games from './games';
 import cart from './cart';
+import users from './users';
 
-const reducer = combineReducers({ auth, games, cart })
+const reducer = combineReducers({ auth, games, cart, users })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

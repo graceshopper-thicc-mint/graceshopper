@@ -53,10 +53,10 @@ async function logInFetchCart(userId) {
   });
 }
 
-export const authenticate = (username, password, method) => async dispatch => {
+export const authenticate = (info, method) => async dispatch => {
   try {
-    const res = await axios.post(`/auth/${method}`, {username, password})
-    console.log('authenticate, post res:', res);
+    console.log(info)
+    const res = await axios.post(`/auth/${method}`, info)
     // Create invoice for user upon sign-up
     let userId = (parseJwt(res.data.token)).id
     window.localStorage.setItem(TOKEN, res.data.token)
