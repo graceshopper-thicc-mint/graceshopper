@@ -132,6 +132,7 @@ export const removeFromCart = (game) => {
 export const fetchCart = () => {
   return async (dispatch) => {
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
+      console.log('fetch cart if token');
       const userId = (parseJwt(localStorage.token)).id;
       let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
       
@@ -154,9 +155,9 @@ export const fetchCart = () => {
         let guestGamesAwaiting = [];
         const mapOfGameIdsToQty = new Map(Object.entries(localStorage));
         mapOfGameIdsToQty.delete('token');
-        for(const gameId in mapOfGameIdsToQty) {
+        for(let [gameId, qty] of mapOfGameIdsToQty) {
           const { data: game } = await axios.get(`/api/games/${gameId}`);
-          game.itemQuantity = parseInt(mapOfGameIdsToQty[gameId], 10);
+          game.itemQuantity = parseInt(qty, 10);
           game.price = game.price / 100;
           guestGamesAwaiting.push(game);
         }
@@ -191,14 +192,17 @@ export const fetchCart = () => {
 
       dispatch(_fetchCart(gamesAwaited));
     } else {
+      console.log('fetch cart guest else');
       let gamesAwaiting = [];
       const mapOfGameIdsToQty = new Map(Object.entries(localStorage));
       mapOfGameIdsToQty.delete('token');
+      console.log('mapOfGameIdsToQty:', mapOfGameIdsToQty);
 
-      for(const gameId in mapOfGameIdsToQty) {
+      for(let [gameId, qty] of mapOfGameIdsToQty) {
         const { data: game } = await axios.get(`/api/games/${gameId}`);
-        game.itemQuantity = parseInt(mapOfGameIdsToQty[gameId], 10);
+        game.itemQuantity = parseInt(qty, 10);
         game.price = game.price / 100;
+        console.log('pushing a game', game.id);
         gamesAwaiting.push(game);  
       }
       
@@ -208,6 +212,7 @@ export const fetchCart = () => {
         console.log(err);
       });
       const gamesAwaited = await gamesPromise;
+      console.log('fetch cart else, gamesAwaited:', gamesAwaited);
 
       dispatch(_fetchCart(gamesAwaited));
     }
