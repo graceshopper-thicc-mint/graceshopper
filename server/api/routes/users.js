@@ -4,6 +4,7 @@ const {
 } = require("../../db");
 const { Op } = require("sequelize");
 const { requireToken, isAdmin } = require("../gatekeepingMiddleware");
+const sgMail = require("@sendgrid/mail");
 
 // GET ALL USERS
 // GET /api/users
@@ -36,7 +37,7 @@ router.get("/:userId", requireToken, isAdmin, async (req, res, next) => {
 
 // GET ALL ITEMS IN A USER'S CART (NOT PURCHASED!)
 // GET /api/users/:userId/cart
-router.get("/:userId/cart", requireToken, async (req, res, next) => {
+router.get("/:userId/cart", async (req, res, next) => {
   try {
     const userId = req.params.userId;
     const invoice = await Invoice.findOne({
@@ -93,139 +94,146 @@ router.post("/:userId/cart", async (req, res, next) => {
 
 // EDIT A SPECIFIC USER'S CART
 // PUT /api/users/:userId/cart/:gameId
-router.put(
-  "/:userId/cart/:gameId",
-  async (req, res, next) => {
-    try {
-      const userId = req.params.userId;
-      const gameId = req.params.gameId;
-      // Make get request to retrieve invoice associated with user
-      const invoice = await Invoice.findOne({
-        where: {
-          userId: userId,
-          datePurchased: null,
-        },
-      });
+router.put("/:userId/cart/:gameId", async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    const gameId = req.params.gameId;
+    // Make get request to retrieve invoice associated with user
+    const invoice = await Invoice.findOne({
+      where: {
+        userId: userId,
+        datePurchased: null,
+      },
+    });
 
-      // Use invoiceId and gameId to find specific game to update
-      const gameToUpdateInCart = await InvoiceLine.findOne({
-        where: {
-          gameId: gameId,
-          invoiceId: invoice.id,
-        },
-      });
-      console.log("gameToUpdateInCart: ", gameToUpdateInCart);
-      res.send(await gameToUpdateInCart.update(req.body));
-    } catch (error) {
-      next(error);
-    }
+    // Use invoiceId and gameId to find specific game to update
+    const gameToUpdateInCart = await InvoiceLine.findOne({
+      where: {
+        gameId: gameId,
+        invoiceId: invoice.id,
+      },
+    });
+    console.log("gameToUpdateInCart: ", gameToUpdateInCart);
+    res.send(await gameToUpdateInCart.update(req.body));
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 // DELETE A GAME/INVOICELINE FOR A SPECIFIC USER
 // DELETE /api/users/:userId/cart/:gameId
-router.delete(
-  "/:userId/cart/:gameId",
-  async (req, res, next) => {
-    try {
-      const gameId = req.params.gameId;
-      const userId = req.params.userId;
+router.delete("/:userId/cart/:gameId", async (req, res, next) => {
+  try {
+    const gameId = req.params.gameId;
+    const userId = req.params.userId;
 
-      const gameToDelete = await InvoiceLine.findOne({
+    const gameToDelete = await InvoiceLine.findOne({
+      where: {
+        gameId,
+      },
+      include: {
+        model: Invoice,
         where: {
-          gameId,
+          userId,
         },
-        include: {
-          model: Invoice,
-          where: {
-            userId,
-          },
-        },
-      });
+      },
+    });
 
-      if (gameToDelete === null) {
-        res.status(404).send("The game to be deleted doesnt exist");
-      } else {
-        await gameToDelete.destroy();
-        res.send(gameToDelete);
-      }
-    } catch (error) {
-      next(error);
+    if (gameToDelete === null) {
+      res.status(404).send("The game to be deleted doesnt exist");
+    } else {
+      await gameToDelete.destroy();
+      res.send(gameToDelete);
     }
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 // GET A USER'S INVOICE(S)
 // GET /api/users/:userId/invoice
-router.get(
-  "/:userId/invoice",
-  async (req, res, next) => {
-    try {
-      const response = await Invoice.findOne({
-        where: {
-          userId: req.params.userId,
-          datePurchased: null,
-        },
-      });
-      res.send(response);
-    } catch (error) {
-      next(error);
-    }
+router.get("/:userId/invoice", async (req, res, next) => {
+  try {
+    const response = await Invoice.findOne({
+      where: {
+        userId: req.params.userId,
+        datePurchased: null,
+      },
+    });
+    res.send(response);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 // CREATING A NEW INVOICE FOR A LOGGED IN CUSTOMER AS SOON AS THEY CHECKOUT SO THAT THEY WILL ALWAYS HAVE A CART, OR RIGHT AFTER THEY SIGN UP, WHEN GUESTS CHECK OUT.
 // POST /api/users/:userId/invoice
-router.post(
-  "/:userId/invoice",
-  async (req, res, next) => {
-    try {
-      const response = await Invoice.create(req.body);
-      res.status(201).send(response);
-    } catch (error) {
-      next(error);
-    }
+router.post("/:userId/invoice", async (req, res, next) => {
+  try {
+    const response = await Invoice.create(req.body);
+    res.status(201).send(response);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 // UPDATES A USER'S ACTIVE CART WITH DATEPURCHASED AND CONFIRMATION NUMBER THEREFORE MAKING IT AN INACTIVE CART
 // PUT /api/users/:userId/:invoiceId
-router.put(
-  "/:userId/:invoiceId",
-  async (req, res, next) => {
-    try {
-      const invoiceToUpdate = await Invoice.findOne({
-        where: {
-          userId: req.params.userId,
-          datePurchased: null,
-        },
+// use sendgrid here
+router.put("/:userId/:invoiceId", async (req, res, next) => {
+  try {
+    const { confirmationNumber } = req.body;
+    const userId = req.params.userId;
+
+    const user = await User.findByPk(userId);
+    const invoiceToUpdate = await Invoice.findOne({
+      where: {
+        userId,
+        datePurchased: null,
+      },
+    });
+
+    // extract information for the email
+    const { firstName, lastName, email } = user;
+
+    // construct your email
+    const msg = {
+      to: email,
+      from: "thicc.mint.FSA@gmail.com",
+      subject: "Thanks For Your Order",
+      text: `Hello ${firstName} ${lastName}. Thanks for your order! Your order confirmation number is ${confirmationNumber}. Love, The Thicc-Mint Fam <3`,
+    }; // send dat email
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log("Email sent");
+      })
+      .catch((error) => {
+        console.error(error);
       });
-      res.send(await invoiceToUpdate.update(req.body));
-    } catch (error) {
-      next(error);
-    }
+    // update the database
+    res.send(await invoiceToUpdate.update(req.body));
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 // GET USER'S PURCHASES IN DESCENDING ORDER
-router.get(
-  "/:userId/purchases",
-  async (req, res, next) => {
-    try {
-      const recentPurchase = await Invoice.findAll({
-        where: {
-          userId: req.params.userId,
-          datePurchased: {
-            [Op.not]: null,
-          },
+router.get("/:userId/purchases", async (req, res, next) => {
+  try {
+    const recentPurchase = await Invoice.findAll({
+      where: {
+        userId: req.params.userId,
+        datePurchased: {
+          [Op.not]: null,
         },
-        order: [["datePurchased", "DESC"]],
-      });
-      res.send(recentPurchase);
-    } catch (error) {
-      next(error);
-    }
+      },
+      order: [["datePurchased", "DESC"]],
+    });
+    res.send(recentPurchase);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 module.exports = router;

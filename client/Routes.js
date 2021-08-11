@@ -14,17 +14,18 @@ import EditGame from "./components/EditGame";
 import CreateGame from './components/CreateGame';
 import AdminUsers from './components/AdminUsers';
 import GuestOrderConfirmation from "./components/GuestOrderConfirmation";
+import Checkout from "./components/Checkout";
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    this.props.loadInitialData()
+    this.props.loadInitialData();
   }
 
   render() {
-    const {isLoggedIn, isAdmin} = this.props
+    const { isLoggedIn, isAdmin } = this.props;
 
     return (
       <div>
@@ -47,45 +48,50 @@ class Routes extends Component {
             <Route path="/cart" component={Cart}/>
             <Route exact path="/games" component={AllGames} />
             <Route path="/games/:gameId" component={SingleGame} />
-            <Route path="/users/:userId/confirmation" component={OrderConfirmation} />
+            <Route
+              path="/users/:userId/confirmation"
+              component={OrderConfirmation}
+            />
+            <Route path="/users/:userId/checkout" component={Checkout} />
             <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
-            <Route path='/' exact component={ Login } />
+            <Route path="/" exact component={Login} />
             <Route exact path="/games" component={AllGames} />
             <Route path="/games/:gameId" component={SingleGame} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/cart" component={Cart} />
             <Route path="/confirmation" component={GuestOrderConfirmation} />
+            <Route path="/users/:userId/checkout" component={Checkout} />
           </Switch>
         )}
       </div>
-    )
+    );
   }
 }
 
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
     isLoggedIn: !!state.auth.id,
-    isAdmin: !!state.auth.isAdmin
-  }
-}
+    isAdmin: !!state.auth.isAdmin,
+  };
+};
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     loadInitialData() {
-      dispatch(me())
-    }
-  }
-}
+      dispatch(me());
+    },
+  };
+};
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default withRouter(connect(mapState, mapDispatch)(Routes))
+export default withRouter(connect(mapState, mapDispatch)(Routes));
