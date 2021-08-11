@@ -20,10 +20,10 @@ class OrderConfirmation extends React.Component {
   }
   render() {
     return(
-      <div>
+      <div className="order-container">
         <h1>THANKS FOR YOUR ORDER</h1>
         <p>
-          Your confirmation number is {this.state.confirmationNumber}
+          Your confirmation number is {this.state.confirmationNumber}. You will receive an order confirmation email shortly.
         </p>
       </div>
     )

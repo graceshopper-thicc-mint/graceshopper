@@ -348,8 +348,8 @@ table, th, td {
 #text-on-image {
   z-index: 2;
   position: fixed;
-  left: 500px;
-  top: 200px;
+  height: 100vh;
+  width: 100vw;
   text-align: center;
 }
 
@@ -427,4 +427,9 @@ table, th, td {
 
 #how-many-items {
   font-size: 27px;
+}
+
+.order-container {
+  margin-top: 100px;
+  text-align: center;
 }
