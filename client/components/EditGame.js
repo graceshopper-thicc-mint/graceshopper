@@ -1,84 +1,102 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { fetchAllGames, fetchSingleGame, setSingleGame, updateGame } from '../store/games';
+import React from "react";
+import { connect } from "react-redux";
+import {
+  fetchAllGames,
+  fetchSingleGame,
+  setSingleGame,
+  updateGame,
+} from "../store/games";
 
 class EditGame extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      name: '',
+      name: "",
       price: 0,
-      maturityRating: '',
-    }
+      maturityRating: "",
+    };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount(){
-    const gameId = this.props.match.params.gameId
-    this.props.getSingleGame(gameId)
+  componentDidMount() {
+    const gameId = this.props.match.params.gameId;
+    this.props.getSingleGame(gameId);
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.props.clearGame();
   }
 
-  componentDidUpdate(prevProps){
-    console.log(prevProps);
-    if(prevProps.game.name !== this.props.game.name){
+  componentDidUpdate(prevProps) {
+    if (prevProps.game.name !== this.props.game.name) {
       this.setState({
         name: this.props.game.name,
         price: this.props.game.price,
-        maturityRating: this.props.game.maturityRating
-      })
+        maturityRating: this.props.game.maturityRating,
+      });
     }
   }
 
-  handleChange(event){
+  handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
-    })
+      [event.target.name]: event.target.value,
+    });
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
-    this.props.updateGame(this.props.match.params.gameId, {...this.state});
+    this.props.updateGame(this.props.match.params.gameId, { ...this.state });
   }
 
   render() {
-    return(
+    return (
       <form id="edit-game" onSubmit={this.handleSubmit}>
         <div>
-        <label htmlFor="name">Game Name: </label>
-        <input name="name" value={this.state.name} onChange={this.handleChange}></input>
+          <label htmlFor="name">Game Name: </label>
+          <input
+            name="name"
+            value={this.state.name}
+            onChange={this.handleChange}
+          ></input>
 
-        <label htmlFor="price">Price (in cents): </label>
-        <input name="price" value={this.state.price} onChange={this.handleChange}></input>
+          <label htmlFor="price">Price (in cents): </label>
+          <input
+            name="price"
+            value={this.state.price}
+            onChange={this.handleChange}
+          ></input>
 
-        <label htmlFor="maturityRating">Maturity Rating: </label>
-        <input name="maturityRating" value={this.state.maturityRating} onChange={this.handleChange}></input>
+          <label htmlFor="maturityRating">Maturity Rating: </label>
+          <input
+            name="maturityRating"
+            value={this.state.maturityRating}
+            onChange={this.handleChange}
+          ></input>
         </div>
 
         <button type="submit">Edit</button>
       </form>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => {
-  return{
+const mapStateToProps = (state) => {
+  return {
     game: state.games.singleGame,
-    allGames: state.games.allGames
-  }
-}
+    allGames: state.games.allGames,
+  };
+};
 
 const mapDispatchToProps = (dispatch, { history }) => {
-  return{
+  return {
     getSingleGame: (id) => dispatch(fetchSingleGame(id)),
     getAllGames: () => dispatch(fetchAllGames()),
-    clearGame: () => {dispatch(setSingleGame({}))},
+    clearGame: () => {
+      dispatch(setSingleGame({}));
+    },
     updateGame: (id, game) => dispatch(updateGame(id, game, history)),
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditGame);

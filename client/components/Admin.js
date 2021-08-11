@@ -1,10 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default class Admin extends React.Component {
   render() {
-    console.log('inside of admin')
-    return(
+    return (
       <div>
         <h1>Administration</h1>
         <Link to="admin/editGames">
@@ -17,6 +16,6 @@ export default class Admin extends React.Component {
           <button type="button">View Users</button>
         </Link>
       </div>
-    )
+    );
   }
 }

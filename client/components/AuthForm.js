@@ -1,14 +1,13 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {authenticate} from '../store'
+import React from "react";
+import { connect } from "react-redux";
+import { authenticate } from "../store";
 
 /**
  * COMPONENT
  */
-const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
-  return (
-    displayName === "Sign Up" ? (
+const AuthForm = (props) => {
+  const { name, displayName, handleSubmit, error } = props;
+  return displayName === "Sign Up" ? (
     <div id="signup-container">
       <form onSubmit={handleSubmit} name={name} id={name}>
         <h1>Create an Account</h1>
@@ -36,33 +35,36 @@ const AuthForm = props => {
           <label htmlFor="adminKey">
             <p>Admin Key</p>
           </label>
-          <input name="adminKey" type="password" placeholder="For admins only"/>
+          <input
+            name="adminKey"
+            type="password"
+            placeholder="For admins only"
+          />
         </div>
         <button type="submit">Create an Account</button>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
     </div>
-    ) : (
-      <div className="login-container">
-        <form onSubmit={handleSubmit} name={name} id={name}>
-          <h1>Sign-In</h1>
-          <div>
-            <label htmlFor="username">
-              <p>Username</p>
-            </label>
-            <input name="username" type="text" />
-            <label htmlFor="password">
-              <p>Password</p>
-            </label>
-            <input name="password" type="password" />
-          </div>
-          <button type="submit">Login</button>
-          {error && error.response && <div> {error.response.data} </div>}
-        </form>
-      </div>
-    )
-  )
-}
+  ) : (
+    <div className="login-container">
+      <form onSubmit={handleSubmit} name={name} id={name}>
+        <h1>Sign-In</h1>
+        <div>
+          <label htmlFor="username">
+            <p>Username</p>
+          </label>
+          <input name="username" type="text" />
+          <label htmlFor="password">
+            <p>Password</p>
+          </label>
+          <input name="password" type="password" />
+        </div>
+        <button type="submit">Login</button>
+        {error && error.response && <div> {error.response.data} </div>}
+      </form>
+    </div>
+  );
+};
 
 /**
  * CONTAINER
@@ -71,35 +73,33 @@ const AuthForm = props => {
  *   function, and share the same Component. This is a good example of how we
  *   can stay DRY with interfaces that are very similar to each other!
  */
-const mapLogin = state => {
+const mapLogin = (state) => {
   return {
-    name: 'login',
-    displayName: 'Login',
-    error: state.auth.error
-  }
-}
+    name: "login",
+    displayName: "Login",
+    error: state.auth.error,
+  };
+};
 
-const mapSignup = state => {
+const mapSignup = (state) => {
   return {
-    name: 'signup',
-    displayName: 'Sign Up',
-    error: state.auth.error
-  }
-}
+    name: "signup",
+    displayName: "Sign Up",
+    error: state.auth.error,
+  };
+};
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     handleSubmit(evt) {
-      evt.preventDefault()
-      console.log("handlesubmit is gonna run")
-      const formName = evt.target.name
-      console.log("formname", formName)
+      evt.preventDefault();
+      const formName = evt.target.name;
       if (formName === "login") {
         const info = {
           username: evt.target.username.value,
-          password: evt.target.password.value
-        }
-        dispatch(authenticate(info, formName))
+          password: evt.target.password.value,
+        };
+        dispatch(authenticate(info, formName));
       } else {
         const info = {
           username: evt.target.username.value,
@@ -107,13 +107,13 @@ const mapDispatch = dispatch => {
           firstName: evt.target.firstName.value,
           lastName: evt.target.lastName.value,
           email: evt.target.email.value,
-          isAdmin: evt.target.adminKey.value
-        }
-        dispatch(authenticate(info, formName))
+          isAdmin: evt.target.adminKey.value,
+        };
+        dispatch(authenticate(info, formName));
       }
-    }
-  }
-}
+    },
+  };
+};
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Login = connect(mapLogin, mapDispatch)(AuthForm);
+export const Signup = connect(mapSignup, mapDispatch)(AuthForm);
