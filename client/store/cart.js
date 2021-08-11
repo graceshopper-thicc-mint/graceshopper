@@ -152,9 +152,9 @@ export const fetchCart = () => {
   }
 }
 
-// Add in datePurchased and confirmationNumer for a logged in user
+// assign an invoice to be 'purchased'
 export const updateCartInvoice = (confirmationNumber, datePurchased) => {
-  return async (dispatch) => {
+  return async () => {
     try {
       const userId = (parseJwt(localStorage.token)).id;
       const { data } = await axios.get(`/api/users/${userId}/invoice`)
@@ -168,19 +168,9 @@ export const updateCartInvoice = (confirmationNumber, datePurchased) => {
   }
 }
 
-export const updateInvoiceGuest = (confirmationNumber, datePurchased) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.put()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
 // Assign a new cart for a user after their purchases
 export const createNewCart = () => {
-  return async (dispatch) => {
+  return async () => {
     try {
       const userId = (parseJwt(localStorage.token)).id
       await axios.post(`/api/users/${userId}/invoice`, {
@@ -191,20 +181,6 @@ export const createNewCart = () => {
     }
   }
 }
-
-/* Fetch a user's purchase history
-export const getOrders = () => {
-  return async (dispatch) => {
-    try {
-      const userId = (parseJwt(localStorage.token)).id
-      const { data } = await axios.get(`/api/users/${userId}/purchases`)
-      return data[0]
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}*/
-
 
 const cartReducer = (state = [], action) => {
   switch(action.type) {

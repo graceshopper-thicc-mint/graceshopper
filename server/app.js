@@ -4,8 +4,8 @@ const morgan = require("morgan");
 const app = express();
 module.exports = app;
 
-if (process.env.NODE_ENV !== "production") require("../secret");
-const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
+//if (process.env.NODE_ENV !== "production") require("../secret");
+//const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
 
 // logging middleware
 app.use(morgan("dev"));
