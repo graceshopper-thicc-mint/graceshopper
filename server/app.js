@@ -8,13 +8,13 @@ module.exports = app;
 if (process.env.NODE_ENV !== "production") require("../secret");
 const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
 
-app.use(cors);
 // logging middleware
 app.use(morgan("dev"));
 
 // body parsing middleware
 app.use(express.json());
 
+app.use(cors);
 // auth and api routes
 app.use("/auth", require("./auth"));
 app.use("/api", require("./api"));
