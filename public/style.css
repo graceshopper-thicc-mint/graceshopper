@@ -434,3 +434,20 @@ table, th, td {
   margin-top: 100px;
   text-align: center;
 }
+
+.in-cart-desc {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.in-cart-game-name {
+  font-size: 20px;
+  margin-bottom: 0px;
+  color: black
+}
+
+.in-cart-game-price {
+  color: black;
+  font-weight: bolder;
+}
