@@ -1,6 +1,8 @@
 import axios from 'axios';
 import atob from 'atob';
 
+const TOKEN = 'token';
+
 export const localStorage = window.localStorage;
 
 export const parseJwt = (token) => {
@@ -73,11 +75,11 @@ export const addToCart = (game) => { //params: game, user
           unitPrice: invoiceLine[0].unitPrice + game.price * 100
         });
       }
-      
+
     }
     console.log('game to be added:', game);
     dispatch(_addToCart(game));
-    
+
   }
 }
 
@@ -115,9 +117,14 @@ export const fetchCart = () => {
   return async (dispatch) => {
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
       const userId = (parseJwt(localStorage.token)).id;
-      let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
+      const token = window.localStorage.getItem(TOKEN)
+      let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`, {
+        headers: {
+          authorization: token
+        }
+      });
       console.log('this is cartDb inside fetchCart: ', cartDb);
-      
+
       const gamesAwaiting = cartDb.map(async (invoiceLine) => {
         let { data: gameToFetch } = await axios.get(`/api/games/${invoiceLine.gameId}`);
         gameToFetch.itemQuantity = invoiceLine.itemQuantity;
@@ -133,7 +140,7 @@ export const fetchCart = () => {
 
       dispatch(_fetchCart(gamesAwaited));
     }
-    
+
     // Append user cart to guest cart stored in local storage if it exists
     for(const key in localStorage) {
       if(key.length === 1) {
@@ -220,7 +227,7 @@ const cartReducer = (state = [], action) => {
       const filteredGames = state.filter((game) => {
           return game.id !== action.game.id;
         });
-        
+
         return [ ...filteredGames, action.game ];
     }
     case REMOVE_FROM_CART: {

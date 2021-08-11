@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { models: {Game} } = require('../../db');
+const { requireToken, isAdmin } = require('../gatekeepingMiddleware');
 
 // GET /api/games
 router.get('/', async (req, res, next) => {
@@ -23,7 +24,7 @@ router.get('/:gameId', async (req, res, next) => {
 })
 
 // POST /api/games
-router.post('/', async (req, res, next) => {
+router.post('/', requireToken, isAdmin, async (req, res, next) => {
   try{
     const newGame = await Game.create(req.body);
     res.send(newGame);
@@ -34,7 +35,7 @@ router.post('/', async (req, res, next) => {
 
 
 // PUT /api/games/:gameId
-router.put('/:gameId', async (req, res, next) => {
+router.put('/:gameId', requireToken, isAdmin, async (req, res, next) => {
   try {
     const gameToUpdate = await Game.findByPk(req.params.gameId);
     const updateGame = await gameToUpdate.update(req.body);
@@ -45,7 +46,7 @@ router.put('/:gameId', async (req, res, next) => {
 })
 
 // DELETE /api/games/:gameId
-router.delete('/:gameId', async(req, res, next) => {
+router.delete('/:gameId', requireToken, isAdmin, async(req, res, next) => {
   try {
     const gameToDelete = await Game.findByPk(req.params.gameId);
     await gameToDelete.destroy();

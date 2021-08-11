@@ -1,0 +1,1 @@
+process.env.STRIPE_API_KEY = "sk_test_51JMxQcJXQgV7ALNGukBjpxuCgvnYC0pFbdOy5WLn50arLj6N6Qqqpyqz5n3HwgYccu0Opy2fNh1Ws3GvnWmGZS6o00BOnzyXNN";
