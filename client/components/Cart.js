@@ -30,33 +30,39 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => 
   }, [cart, totalPrice, totalGames, setTotalPrice, setTotalGames]);
 
  async function handleCheckout() {
-    const orderConfNumber = Math.floor(Math.random() * 10000000);
-    const datePurchased = Date.now();
+    try {
+      const orderConfNumber = Math.floor(Math.random() * 10000000);
+      const datePurchased = Date.now();
 
-    // for guests
-    if (!localStorage.token) {
-      const { data } = await axios.post("/api/guests/invoice", {
-        confirmationNumber: orderConfNumber,
-        datePurchased,
-      });
-      const { confirmationNumber } = data
-      history.push({
-        pathname: `/confirmation`,
-        state: { confirmationNumber },
-      });
-    } // for logged-in users
-      else {
-      await updateCartInvoice(orderConfNumber, datePurchased);
-      for (let key in localStorage) {
-        if (key !== "token") {
-          localStorage.removeItem(key);
+      // for guests
+      if (!localStorage.token) {
+        const { data } = await axios.post("/api/guests/invoice", {
+          confirmationNumber: orderConfNumber,
+          datePurchased,
+        });
+        const { confirmationNumber } = data
+        history.push({
+          pathname: `/confirmation`,
+          state: { confirmationNumber },
+        });
+      } // for logged-in users
+        else {
+        await updateCartInvoice(orderConfNumber, datePurchased);
+        for (let key in localStorage) {
+          if (key !== "token") {
+            localStorage.removeItem(key);
+          }
         }
+        await createNewCart();
+        await fetchCart()
+        history.push({
+          pathname: `/users/${userId}/confirmation`,
+        });
       }
-      await createNewCart();
-      history.push({
-        pathname: `/users/${userId}/confirmation`,
-      });
+    } catch (error) {
+      console.log(error)
     }
+
   }
 
   if (cart.length > 0) {
