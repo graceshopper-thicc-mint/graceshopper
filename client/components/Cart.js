@@ -29,29 +29,24 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => 
     setTotalPrice(price);
   }, [cart, totalPrice, totalGames, setTotalPrice, setTotalGames]);
 
-  // what happens when you click checkout
-  // i want to create a order confirmation #, DONE
-  // save datepurchased as the time when clicked, DONE
-  // save all that to the database (update) DONE
-  // since we now have a datepurchased, we dont render that cart out anymore NEEDS WORK
-  // create a new invoice for the user DONE
-  // fetch that orderconfirmation number with the invoice id, I guess?
-  // render out the orderconfirmation page
-  async function handleCheckout() {
-    const orderConfirmationNumber = Math.floor(Math.random() * 10000000);
+ async function handleCheckout() {
+    const orderConfNumber = Math.floor(Math.random() * 10000000);
     const datePurchased = Date.now();
+
+    // for guests
     if (!localStorage.token) {
       const { data } = await axios.post("/api/guests/invoice", {
-        confirmationNumber: orderConfirmationNumber,
+        confirmationNumber: orderConfNumber,
         datePurchased,
       });
-      const confirmationNumber = data.confirmationNumber;
+      const { confirmationNumber } = data
       history.push({
         pathname: `/confirmation`,
-        state: { confirmationNumber: orderConfirmationNumber },
+        state: { confirmationNumber },
       });
-    } else {
-      await updateCartInvoice(orderConfirmationNumber, datePurchased);
+    } // for logged-in users
+      else {
+      await updateCartInvoice(orderConfNumber, datePurchased);
       for (let key in localStorage) {
         if (key !== "token") {
           localStorage.removeItem(key);
@@ -66,32 +61,34 @@ const Cart = ({ cart, fetchCart, updateCartInvoice, createNewCart, userId }) => 
 
   if (cart.length > 0) {
     return (
-    <div>
-      <h3>Cart</h3>
-      <div>
-        {cart.map((game) => {
-          return <CartSingleItem key={game.id} game={game} />;
-        })}
+      <div id="cart-container">
+        <div id="cart-games">
+          <h3 id="how-many-items">{totalGames} item(s) in your cart</h3>
+          <div id="cart-game">
+            {cart.map((game) => {
+              return <CartSingleItem key={game.id} game={game} />;
+            })}
+          </div>
+        </div>
+        <div id="cart-summary">
+          <p id="cart-summary-title">Cart Summary</p>
+          <p>{totalGames} game(s)</p>
+          <p>Total Price: $ {totalPrice}</p>
+          <button type="submit" onClick={handleCheckout}>
+            Checkout
+          </button>
+        </div>
       </div>
-      <div>
-        <h4>Cart Summary</h4>
-        <p>Total Games: {totalGames} games</p>
-        <p>Total Price: $ {totalPrice}</p>
-        <button type="submit" onClick={() => handleCheckout()}>
-          Checkout
-        </button>
-      </div>
-    </div>
-  )
+    )
   } else {
     return (
-      <div>
+      <div id="empty-cart">
         <h1>Your cart is empty.</h1>
+        <img src="sad-face.png" />
       </div>
     )
   }
 }
-
 
 const mapStateToProps = (state) => {
   return {

@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const SET_USERS = 'SET_USERS';
+const TOKEN = 'token';
 
 const setUsers = (users) => {
   return {
@@ -12,10 +13,14 @@ const setUsers = (users) => {
 export const fetchUsers = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/users/`)
-      console.log(data);
-      const action = setUsers(data);
-      dispatch(action);
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        const { data } = await axios.get(`/api/users/`, { headers: {
+          authorization: token
+        }})
+        const action = setUsers(data);
+        dispatch(action);
+      }
     } catch (error) {
       console.error(error);
     }
