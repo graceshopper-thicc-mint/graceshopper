@@ -1,12 +1,14 @@
 const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const app = express();
 module.exports = app;
 
 if (process.env.NODE_ENV !== "production") require("../secret");
 const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
 
+app.use(cors);
 // logging middleware
 app.use(morgan("dev"));
 
