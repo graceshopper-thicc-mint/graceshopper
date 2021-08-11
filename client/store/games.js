@@ -141,13 +141,6 @@ export default function(state = initialState, action) {
     case CREATE_GAME:
       return {...state, allGames: [...state.allGames, action.game]}
     case UPDATE_SINGLE_GAME:
-      // const newGames = state.allGames.map((game) => {
-      //   if(game.id === action.game.id){
-      //     return action.game;
-      //   } else {
-      //     return game;
-      //   }
-      // })
       return {...state, singleGame: action.game};
     case DELETE_GAME:
       return {...state, allGames: state.allGames.filter((game) =>
