@@ -31,6 +31,53 @@ export const me = () => async dispatch => {
   }
 }
 
+async function loadGuestCartIntoDB(userId) {
+  console.log('loadGuestCartIntoDB');
+  let { data: invoice } = await axios.get(`/api/users/${userId}/invoice`);
+  let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
+  
+  //Make a map with only the gameIds from localStorage
+  const mapOfGameIdsToQty = new Map(Object.entries(localStorage));
+  mapOfGameIdsToQty.delete('token');
+  
+  //Get each game
+  let gamesAwaiting = [];
+  for(let [gameId, qty] of mapOfGameIdsToQty) {
+    const { data: game } = await axios.get(`/api/games/${gameId}`);
+    game.price = game.price/100;
+    game.itemQuantity = parseInt(qty, 10);
+    gamesAwaiting.push(game);
+  }
+  const gamesPromise = Promise.all(gamesAwaiting).then((game) => {
+    return game;
+  }).catch(err => {
+    console.log(err)
+  });
+  let gamesAwaited = await gamesPromise;
+  console.log('loadGuestCartIntoDB, gamesAwaited:', gamesAwaited);
+
+  //Post or put each game to db
+  gamesAwaited.forEach(async (game) => {
+    const gameIdNotInCartDb = cartDb.map((invoiceLine) => invoiceLine.gameId).indexOf(game.id) === -1;
+    if(invoice && gameIdNotInCartDb) {
+      await axios.post(`/api/users/${userId}/cart`, {
+        gameId: game.id,
+        unitPrice: game.price * 100,
+        invoiceId: invoice.id,
+      });
+      game.itemQuantity = 1;
+    } else if(invoice) {
+      let { data: invoiceLine } = await axios.get(`/api/users/${userId}/cart/${game.id}`);
+      // game.itemQuantity = invoiceLine[0].itemQuantity + game.itemQuantity;
+      await axios.put(`/api/users/${userId}/cart/${game.id}`, {
+        itemQuantity: invoiceLine[0].itemQuantity + game.itemQuantity,
+        unitPrice: invoiceLine[0].unitPrice + game.price * 100
+      });
+    }
+  });
+  
+}
+
 async function logInFetchCart(userId) {
   let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
   
@@ -66,8 +113,9 @@ export const authenticate = (info, method) => async dispatch => {
       })
       dispatch(me());
     } else {
-      logInFetchCart(userId);
       dispatch(me());
+      loadGuestCartIntoDB(userId);
+      logInFetchCart(userId);
     }
   } catch (authError) {
     return dispatch(setAuth({error: authError}))
