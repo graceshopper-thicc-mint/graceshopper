@@ -9,7 +9,6 @@ import Cart from "./components/Cart";
 import SingleGame from "./components/SingleGame";
 import OrderConfirmation from "./components/OrderConfirmation";
 import GuestOrderConfirmation from "./components/GuestOrderConfirmation";
-import Checkout from "./components/Checkout";
 
 /**
  * COMPONENT
@@ -34,7 +33,6 @@ class Routes extends Component {
               path="/users/:userId/confirmation"
               component={OrderConfirmation}
             />
-            <Route path="/users/:userId/checkout" component={Checkout} />
             <Redirect to="/home" />
           </Switch>
         ) : (
@@ -46,7 +44,6 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
             <Route path="/cart" component={Cart} />
             <Route path="/confirmation" component={GuestOrderConfirmation} />
-            <Route path="/users/:userId/checkout" component={Checkout} />
           </Switch>
         )}
       </div>

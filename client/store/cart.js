@@ -73,11 +73,11 @@ export const addToCart = (game) => { //params: game, user
           unitPrice: invoiceLine[0].unitPrice + game.price * 100
         });
       }
-      
+
     }
     console.log('game to be added:', game);
     dispatch(_addToCart(game));
-    
+
   }
 }
 
@@ -117,7 +117,7 @@ export const fetchCart = () => {
       const userId = (parseJwt(localStorage.token)).id;
       let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
       console.log('this is cartDb inside fetchCart: ', cartDb);
-      
+
       const gamesAwaiting = cartDb.map(async (invoiceLine) => {
         let { data: gameToFetch } = await axios.get(`/api/games/${invoiceLine.gameId}`);
         gameToFetch.itemQuantity = invoiceLine.itemQuantity;
@@ -133,7 +133,7 @@ export const fetchCart = () => {
 
       dispatch(_fetchCart(gamesAwaited));
     }
-    
+
     // Append user cart to guest cart stored in local storage if it exists
     for(const key in localStorage) {
       if(key.length === 1) {
@@ -145,9 +145,9 @@ export const fetchCart = () => {
   }
 }
 
-// Add in datePurchased and confirmationNumer for a logged in user
+// assign an invoice to be 'purchased'
 export const updateCartInvoice = (confirmationNumber, datePurchased) => {
-  return async (dispatch) => {
+  return async () => {
     try {
       const userId = (parseJwt(localStorage.token)).id;
       const { data } = await axios.get(`/api/users/${userId}/invoice`)
@@ -161,19 +161,9 @@ export const updateCartInvoice = (confirmationNumber, datePurchased) => {
   }
 }
 
-export const updateInvoiceGuest = (confirmationNumber, datePurchased) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.put()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
 // Assign a new cart for a user after their purchases
 export const createNewCart = () => {
-  return async (dispatch) => {
+  return async () => {
     try {
       const userId = (parseJwt(localStorage.token)).id
       await axios.post(`/api/users/${userId}/invoice`, {
@@ -184,20 +174,6 @@ export const createNewCart = () => {
     }
   }
 }
-
-/* Fetch a user's purchase history
-export const getOrders = () => {
-  return async (dispatch) => {
-    try {
-      const userId = (parseJwt(localStorage.token)).id
-      const { data } = await axios.get(`/api/users/${userId}/purchases`)
-      return data[0]
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}*/
-
 
 const cartReducer = (state = [], action) => {
   switch(action.type) {
@@ -220,7 +196,7 @@ const cartReducer = (state = [], action) => {
       const filteredGames = state.filter((game) => {
           return game.id !== action.game.id;
         });
-        
+
         return [ ...filteredGames, action.game ];
     }
     case REMOVE_FROM_CART: {
