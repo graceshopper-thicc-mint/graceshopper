@@ -1,6 +1,8 @@
 import axios from 'axios';
 import atob from 'atob';
 
+const TOKEN = 'token';
+
 export const localStorage = window.localStorage;
 
 export const parseJwt = (token) => {
@@ -117,7 +119,12 @@ export const fetchCart = () => {
     // Fetch user cart on refresh
     if(Object.prototype.hasOwnProperty.call(localStorage, 'token')) {
       const userId = (parseJwt(localStorage.token)).id;
-      let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`);
+      const token = window.localStorage.getItem(TOKEN)
+      let { data: cartDb } = await axios.get(`/api/users/${userId}/cart`, {
+        headers: {
+          authorization: token
+        }
+      });
       console.log('this is cartDb inside fetchCart: ', cartDb);
       cartDb.forEach(async (game) => {
         let { data: gameToFetch } = await axios.get(`/api/games/${game.gameId}`);
@@ -251,7 +258,7 @@ const cartReducer = (state = [], action) => {
       return [ action.game ];
     }
     case SAVE_CART: {
-      
+
 
       return [ ...state ];
     }

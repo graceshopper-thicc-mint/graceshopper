@@ -13,7 +13,7 @@ router.get("/", requireToken, isAdmin, async (req, res, next) => {
       // explicitly select only the id and username fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ['id', 'username', 'email']
+      attributes: ['id', 'firstName', 'lastName', 'username', 'email']
     })
     res.json(users)
   } catch (err) {
@@ -82,7 +82,7 @@ router.get("/:userId/cart/:gameId", async (req, res, next) => {
 
 // ADD A NEW INVOICELINE INSTANCE FOR A USER WHEN "ADDED TO CART"
 // POST /api/users/:userId/cart
-router.post("/:userId/cart", requireToken, isAdmin, async (req, res, next) => {
+router.post("/:userId/cart", async (req, res, next) => {
   try {
     const response = await InvoiceLine.create(req.body);
     res.status(201).send(response);
@@ -95,8 +95,6 @@ router.post("/:userId/cart", requireToken, isAdmin, async (req, res, next) => {
 // PUT /api/users/:userId/cart/:gameId
 router.put(
   "/:userId/cart/:gameId",
-  requireToken,
-  isAdmin,
   async (req, res, next) => {
     try {
       const userId = req.params.userId;
@@ -128,8 +126,6 @@ router.put(
 // DELETE /api/users/:userId/cart/:gameId
 router.delete(
   "/:userId/cart/:gameId",
-  requireToken,
-  isAdmin,
   async (req, res, next) => {
     try {
       const gameId = req.params.gameId;
@@ -163,8 +159,6 @@ router.delete(
 // GET /api/users/:userId/invoice
 router.get(
   "/:userId/invoice",
-  requireToken,
-  isAdmin,
   async (req, res, next) => {
     try {
       const response = await Invoice.findOne({
@@ -184,8 +178,6 @@ router.get(
 // POST /api/users/:userId/invoice
 router.post(
   "/:userId/invoice",
-  requireToken,
-  isAdmin,
   async (req, res, next) => {
     try {
       const response = await Invoice.create(req.body);
@@ -200,8 +192,6 @@ router.post(
 // PUT /api/users/:userId/:invoiceId
 router.put(
   "/:userId/:invoiceId",
-  requireToken,
-  isAdmin,
   async (req, res, next) => {
     try {
       const invoiceToUpdate = await Invoice.findOne({
@@ -220,8 +210,6 @@ router.put(
 // GET USER'S PURCHASES IN DESCENDING ORDER
 router.get(
   "/:userId/purchases",
-  requireToken,
-  isAdmin,
   async (req, res, next) => {
     try {
       const recentPurchase = await Invoice.findAll({

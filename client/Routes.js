@@ -13,7 +13,7 @@ import AdminGames from "./components/AdminGames";
 import EditGame from "./components/EditGame";
 import CreateGame from './components/CreateGame';
 import AdminUsers from './components/AdminUsers';
-import GuestOrderConfirmation from "./components/GuestOrderConfirmation"
+import GuestOrderConfirmation from "./components/GuestOrderConfirmation";
 
 /**
  * COMPONENT
@@ -38,6 +38,10 @@ class Routes extends Component {
                 <Route exact path="/admin/editGames" component={AdminGames}/>
                 <Route exact path="/admin/editGames/:gameId" component={EditGame}/>
                 <Route path="/admin/createGame" component={CreateGame}/>
+                <Route path="/cart" component={Cart}/>
+                <Route exact path="/games" component={AllGames} />
+                <Route path="/games/:gameId" component={SingleGame} />
+                <Route path="/users/:userId/confirmation" component={OrderConfirmation} />
               </Switch>) : null
             }
             <Route path="/cart" component={Cart}/>

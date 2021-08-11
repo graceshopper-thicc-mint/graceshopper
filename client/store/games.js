@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const TOKEN = 'token';
+
 const initialState = {
   allGames: [],
   singleGame: {},
@@ -79,7 +81,12 @@ export const fetchSingleGame = (gameId) => {
 export const createGame = (game, history) => {
   return async (dispatch) => {
     try {
-      const{ data } = await axios.post('/api/games', game);
+      const token = window.localStorage.getItem(TOKEN);
+      const{ data } = await axios.post('/api/games', game, {
+        headers: {
+          authorization: token
+        }
+      });
       const action = _createGame(data);
       dispatch(action);
       history.push(`/admin`);
@@ -92,7 +99,12 @@ export const createGame = (game, history) => {
 export const updateGame = (gameId, game, history) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`/api/games/${gameId}`, game);
+      const token = window.localStorage.getItem(TOKEN);
+      const { data } = await axios.put(`/api/games/${gameId}`, game, {
+        headers: {
+          authorization: token
+        }
+      });
       const action = updateSingleGame(data);
       dispatch(action);
       history.push(`/admin/editGames`)
@@ -105,7 +117,10 @@ export const updateGame = (gameId, game, history) => {
 export const deleteGame = (gameId, history) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/games/${gameId}`);
+      const token = window.localStorage.getItem(TOKEN);
+      const { data } = await axios.delete(`/api/games/${gameId}`, {headers: {
+        authorization: token
+      }});
       const action = _deleteGame(data);
       dispatch(action);
       history.push(`/admin/editGames`);
