@@ -13,18 +13,18 @@ import AdminGames from "./components/AdminGames";
 import EditGame from "./components/EditGame";
 import CreateGame from './components/CreateGame';
 import AdminUsers from './components/AdminUsers';
-import GuestOrderConfirmation from "./components/GuestOrderConfirmation"
+import GuestOrderConfirmation from "./components/GuestOrderConfirmation";
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    this.props.loadInitialData()
+    this.props.loadInitialData();
   }
 
   render() {
-    const {isLoggedIn, isAdmin} = this.props
+    const { isLoggedIn, isAdmin } = this.props;
 
     return (
       <div>
@@ -38,17 +38,24 @@ class Routes extends Component {
                 <Route exact path="/admin/editGames" component={AdminGames}/>
                 <Route exact path="/admin/editGames/:gameId" component={EditGame}/>
                 <Route path="/admin/createGame" component={CreateGame}/>
+                <Route path="/cart" component={Cart}/>
+                <Route exact path="/games" component={AllGames} />
+                <Route path="/games/:gameId" component={SingleGame} />
+                <Route path="/users/:userId/confirmation" component={OrderConfirmation} />
               </Switch>) : null
             }
             <Route path="/cart" component={Cart}/>
             <Route exact path="/games" component={AllGames} />
             <Route path="/games/:gameId" component={SingleGame} />
-            <Route path="/users/:userId/confirmation" component={OrderConfirmation} />
+            <Route
+              path="/users/:userId/confirmation"
+              component={OrderConfirmation}
+            />
             <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
-            <Route path='/' exact component={ Login } />
+            <Route path="/" exact component={Login} />
             <Route exact path="/games" component={AllGames} />
             <Route path="/games/:gameId" component={SingleGame} />
             <Route path="/login" component={Login} />
@@ -58,30 +65,30 @@ class Routes extends Component {
           </Switch>
         )}
       </div>
-    )
+    );
   }
 }
 
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
     isLoggedIn: !!state.auth.id,
-    isAdmin: !!state.auth.isAdmin
-  }
-}
+    isAdmin: !!state.auth.isAdmin,
+  };
+};
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     loadInitialData() {
-      dispatch(me())
-    }
-  }
-}
+      dispatch(me());
+    },
+  };
+};
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default withRouter(connect(mapState, mapDispatch)(Routes))
+export default withRouter(connect(mapState, mapDispatch)(Routes));

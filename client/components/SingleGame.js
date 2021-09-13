@@ -13,21 +13,26 @@ class SingleGame extends React.Component {
   render() {
     const { game, addToCart } = this.props
     return (
-      <div id="single-game">
-        <h1>{game.name}</h1>
-        <p>Platforms: {game.platform}</p>
-        <p>Genre: {game.genre}</p>
-        <p>Publisher: {game.publisher}</p>
-        <p>Release Date: {game.releaseDate}</p>
-        <p>ESRB Rating: {game.maturityRating}</p>
+      <div className="single-game-container">
         <img src={game.imageUrl}/>
-        <p>{`$${game.price}`}</p>
-        <button value={game.id} onClick={() => addToCart(game)}>
-          Add To Cart
-          <i className="fas fa-cart-plus"></i>
-        </button>
-        <p>Overview:</p>
-        <p>{game.description}</p>
+        <div className="single-game-info">
+          <p className="sg-title">{game.name}</p>
+          <p className="sg-price">{`$${game.price/100}`}</p>
+          <button className="sg-add-button" value={game.id} onClick={() => addToCart(game)}>
+            Add To Cart
+            <i className="fas fa-cart-plus"></i>
+          </button>
+          <div className="sg-desc">
+            <p className="sg-overview">Overview:</p>
+            <p className="sg-game-desc">{game.description}</p>
+            <br />
+            <p className="sg-d">Platforms: {game.platform}</p>
+            <p className="sg-d">Genre: {game.genre}</p>
+            <p className="sg-d">Publisher: {game.publisher}</p>
+            <p className="sg-d">Release Date: {game.releaseDate}</p>
+            <p className="sg-d">ESRB Rating: {game.maturityRating}</p>
+          </div>
+        </div>
       </div>
     )
   }

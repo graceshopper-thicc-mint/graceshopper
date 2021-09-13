@@ -11,6 +11,7 @@ class CreateGame extends React.Component {
       genre: '',
       maturityRating: '',
       publisher: '',
+      imageUrl: '',
       description: '',
       releaseDate: new Date().toISOString().slice(0, 10),
     }
@@ -47,6 +48,9 @@ class CreateGame extends React.Component {
 
             <label htmlFor="publisher">Publisher</label>
             <input name="publisher" onChange={this.handleChange} value={this.publisher} />
+
+            <label htmlFor="imageIrl">imageUrl</label>
+            <input name="imageUrl" onChange={this.handleChange} value={this.imageUrl} />
 
             <label htmlFor="description">Description</label>
             <input name="description" onChange={this.handleChange} value={this.description} />
