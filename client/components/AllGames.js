@@ -17,9 +17,13 @@ class AllGames extends React.Component {
   }
 
   componentDidMount() {
-    // Use setTimeout to loadAllGames to state before rendering state
-    setTimeout(() => { return this.renderGames(); }, 100);
     this.props.loadAllGames();
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.allGames !== this.props.allGames) {
+      return this.renderGames();
+    }
   }
 
   renderGames() {
